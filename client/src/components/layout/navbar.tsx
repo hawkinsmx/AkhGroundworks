@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { COMPANY_LOGO } from "@/lib/constants";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -18,9 +19,15 @@ export function Navbar() {
   return (
     <nav className="fixed w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50 border-b">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           <Link href="/">
-            <a className="text-2xl font-bold text-primary">AKH Groundworks</a>
+            <a className="flex items-center space-x-2">
+              <img 
+                src={COMPANY_LOGO} 
+                alt="AKH Groundworks Logo" 
+                className="h-12 w-auto"
+              />
+            </a>
           </Link>
 
           {/* Desktop Navigation */}
