@@ -39,5 +39,5 @@ export const PORTFOLIO_IMAGES = [
   }
 ];
 
-export const COMPANY_LOGO = "/logo.jpg";
+export const COMPANY_LOGO = "/logo.png";
 export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653aa90e34e";
