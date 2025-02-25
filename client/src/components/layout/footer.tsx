@@ -39,9 +39,8 @@ export function Footer() {
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
-            <address className="text-muted-foreground not-italic space-y-2">
+            <address className="text-muted-foreground not-italic">
               <p>Email: info@akhgroundworks.co.uk</p>
-              <p>Phone: 07904 952238</p>
             </address>
           </div>
         </div>
