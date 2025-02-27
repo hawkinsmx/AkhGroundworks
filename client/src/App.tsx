@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { AnimatePresence } from "framer-motion";
 import Home from "@/pages/home";
 import Services from "@/pages/services";
-import Portfolio from "@/pages/portfolio";
+import Gallery from "@/pages/gallery";
 import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
 
@@ -19,7 +19,7 @@ function Router() {
       <Switch location={location} key={location}>
         <Route path="/" component={Home} />
         <Route path="/services" component={Services} />
-        <Route path="/portfolio" component={Portfolio} />
+        <Route path="/gallery" component={Gallery} />
         <Route path="/contact" component={Contact} />
         <Route component={NotFound} />
       </Switch>

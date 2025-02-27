@@ -1,5 +1,10 @@
 import { SERVICES } from "@/lib/constants";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { motion } from "framer-motion";
@@ -43,25 +48,29 @@ export default function Services() {
                   whileHover={{ y: -5 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Card className="overflow-hidden">
-                    <motion.div 
-                      className="h-48 overflow-hidden"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </motion.div>
-                    <CardHeader>
-                      <CardTitle>{service.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">{service.description}</p>
-                    </CardContent>
-                  </Card>
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value={`service-${index}`}>
+                      <div className="overflow-hidden rounded-t-lg">
+                        <motion.div 
+                          className="h-48 overflow-hidden"
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <img
+                            src={service.image}
+                            alt={service.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </motion.div>
+                      </div>
+                      <AccordionTrigger className="text-xl font-semibold px-4 py-3">
+                        {service.title}
+                      </AccordionTrigger>
+                      <AccordionContent className="px-4 py-3">
+                        <p className="text-muted-foreground">{service.description}</p>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </motion.div>
               </ScrollReveal>
             ))}
