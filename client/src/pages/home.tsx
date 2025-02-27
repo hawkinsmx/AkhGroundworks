@@ -121,30 +121,15 @@ export default function Home() {
                         whileHover={{ y: -5 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <div className="relative h-[400px] overflow-hidden rounded-lg cursor-pointer group">
-                          <motion.img
+                        <div className="relative h-48 overflow-hidden rounded-lg cursor-pointer group">
+                          <img
                             src={service.image}
                             alt={service.title}
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
-                          <motion.div 
-                            className="absolute inset-0 bg-black/50 flex items-end p-6"
-                            initial={{ opacity: 1 }}
-                            whileHover={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
+                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
                             <h3 className="text-xl font-semibold text-white">{service.title}</h3>
-                          </motion.div>
-                          
-                          <motion.div
-                            className="absolute inset-0 bg-background/95 backdrop-blur-sm p-6 flex flex-col"
-                            initial={{ opacity: 0 }}
-                            whileHover={{ opacity: 1 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <h3 className="text-xl font-semibold text-primary mb-4">{service.title}</h3>
-                            <p className="text-muted-foreground text-lg leading-relaxed">{service.description}</p>
-                          </motion.div>
+                          </div>
                         </div>
                       </motion.div>
                     ))}
