@@ -39,5 +39,26 @@ export const PORTFOLIO_IMAGES = [
   }
 ];
 
+export const TEAM_MEMBERS = [
+  {
+    name: "John Smith",
+    role: "Managing Director",
+    description: "With over 20 years of experience in groundworks and civil engineering, John leads our team with expertise and dedication.",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+  },
+  {
+    name: "Sarah Johnson",
+    role: "Project Manager",
+    description: "Sarah oversees our major projects, ensuring efficient execution and client satisfaction through every phase.",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+  },
+  {
+    name: "Mike Williams",
+    role: "Site Supervisor",
+    description: "Mike brings 15 years of hands-on experience, supervising our groundworks operations with precision and safety.",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
+  }
+];
+
 export const COMPANY_LOGO = "/logo.png";
 export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653aa90e34e";
