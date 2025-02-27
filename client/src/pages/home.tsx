@@ -1,14 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { HERO_IMAGE, SERVICES } from "@/lib/constants";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
 import { motion } from "framer-motion";
+import useEmblaCarousel from 'embla-carousel-react';
+import { useCallback, useEffect } from 'react';
 
 export default function Home() {
   const [, setLocation] = useLocation();
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
   return (
     <PageTransition>
@@ -58,33 +69,55 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Services Overview */}
+        {/* Services Carousel */}
         <section className="py-20 bg-background">
           <div className="container mx-auto px-4">
             <ScrollReveal>
               <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
             </ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {SERVICES.map((service, index) => (
-                <ScrollReveal key={index} delay={index * 0.2}>
-                  <motion.div
-                    className="group relative overflow-hidden rounded-lg cursor-pointer"
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.2 }}
-                    onClick={() => setLocation('/services')}
-                  >
-                    <motion.img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/60 p-6 flex items-end justify-center">
-                      <h3 className="text-xl font-semibold text-white text-center">{service.title}</h3>
-                    </div>
-                  </motion.div>
-                </ScrollReveal>
-              ))}
-            </div>
+
+            <ScrollReveal delay={0.2}>
+              <div className="relative">
+                <div className="overflow-hidden" ref={emblaRef}>
+                  <div className="flex">
+                    {SERVICES.map((service, index) => (
+                      <motion.div
+                        key={index}
+                        className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
+                        onClick={() => setLocation('/services')}
+                        whileHover={{ y: -5 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="relative h-64 overflow-hidden rounded-lg cursor-pointer group">
+                          <motion.img
+                            src={service.image}
+                            alt={service.title}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/60 p-6 flex items-end justify-center">
+                            <h3 className="text-xl font-semibold text-white text-center">{service.title}</h3>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
+                  onClick={scrollPrev}
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </button>
+
+                <button
+                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
+                  onClick={scrollNext}
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </button>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
