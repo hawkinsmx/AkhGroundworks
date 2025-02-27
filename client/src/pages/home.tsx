@@ -4,6 +4,7 @@ import { HERO_IMAGE, SERVICES } from "@/lib/constants";
 import { ArrowRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
+import { ScrollIndicator } from "@/components/ui/scroll-indicator";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -113,6 +114,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <ScrollIndicator />
       </div>
     </PageTransition>
   );
