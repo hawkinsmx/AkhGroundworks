@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { HERO_IMAGE, SERVICES } from "@/lib/constants";
 import { ArrowRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
@@ -7,6 +7,8 @@ import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { motion } from "framer-motion";
 
 export default function Home() {
+  const [, setLocation] = useLocation();
+
   return (
     <PageTransition>
       <div className="flex flex-col min-h-screen">
@@ -64,19 +66,21 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {SERVICES.map((service, index) => (
                 <ScrollReveal key={index} delay={index * 0.2}>
-                  <div className="group relative overflow-hidden rounded-lg">
+                  <motion.div
+                    className="group relative overflow-hidden rounded-lg cursor-pointer"
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={() => setLocation('/services')}
+                  >
                     <motion.img
                       src={service.image}
                       alt={service.title}
-                      className="w-full h-64 object-cover"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.3 }}
+                      className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-black/60 p-6 flex flex-col justify-end">
-                      <h3 className="text-xl font-semibold text-white mb-2">{service.title}</h3>
-                      <p className="text-gray-200">{service.description}</p>
+                    <div className="absolute inset-0 bg-black/60 p-6 flex items-end justify-center">
+                      <h3 className="text-xl font-semibold text-white text-center">{service.title}</h3>
                     </div>
-                  </div>
+                  </motion.div>
                 </ScrollReveal>
               ))}
             </div>
