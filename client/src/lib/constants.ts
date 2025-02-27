@@ -39,5 +39,29 @@ export const PORTFOLIO_IMAGES = [
   }
 ];
 
+export const TEAM_MEMBERS = [
+  {
+    name: "Alex King",
+    role: "Managing Director",
+    bio: "With over 20 years of experience in groundworks and civil engineering, Alex leads our team with expertise and dedication.",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+    specialties: ["Project Management", "Civil Engineering", "Business Development"]
+  },
+  {
+    name: "Sarah Thompson",
+    role: "Senior Civil Engineer",
+    bio: "Sarah brings 15 years of civil engineering expertise to our team, specializing in complex infrastructure projects.",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
+    specialties: ["Structural Design", "Site Planning", "Quality Control"]
+  },
+  {
+    name: "Mike Roberts",
+    role: "Operations Manager",
+    bio: "Mike ensures smooth operation of all our projects, coordinating teams and resources effectively.",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+    specialties: ["Operations Management", "Team Leadership", "Resource Planning"]
+  }
+];
+
 export const COMPANY_LOGO = "/logo.png";
 export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653aa90e34e";
