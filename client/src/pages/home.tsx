@@ -11,7 +11,21 @@ import { useCallback, useEffect } from 'react';
 
 export default function Home() {
   const [, setLocation] = useLocation();
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    dragFree: true
+  });
+
+  // Auto-rotation setup
+  useEffect(() => {
+    if (emblaApi) {
+      const intervalId = setInterval(() => {
+        emblaApi.scrollNext();
+      }, 3000); // Rotate every 3 seconds
+
+      return () => clearInterval(intervalId);
+    }
+  }, [emblaApi]);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -20,6 +34,25 @@ export default function Home() {
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
+
+  const detailedServices = [
+    ...SERVICES,
+    {
+      title: "Site Preparation",
+      description: "Comprehensive site preparation including clearing, leveling, and ground stabilization.",
+      image: "https://images.unsplash.com/photo-1482731215275-a1f151646268"
+    },
+    {
+      title: "Foundation Work",
+      description: "Expert foundation construction for all types of buildings and structures.",
+      image: "https://images.unsplash.com/photo-1495036019936-220b29b930ea"
+    },
+    {
+      title: "Infrastructure Development",
+      description: "Complete infrastructure solutions including roads, utilities, and drainage systems.",
+      image: "https://images.unsplash.com/photo-1429497419816-9ca5cfb4571a"
+    }
+  ];
 
   return (
     <PageTransition>
@@ -80,7 +113,7 @@ export default function Home() {
               <div className="relative">
                 <div className="overflow-hidden" ref={emblaRef}>
                   <div className="flex">
-                    {SERVICES.map((service, index) => (
+                    {detailedServices.map((service, index) => (
                       <motion.div
                         key={index}
                         className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
@@ -88,15 +121,30 @@ export default function Home() {
                         whileHover={{ y: -5 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <div className="relative h-64 overflow-hidden rounded-lg cursor-pointer group">
+                        <div className="relative h-[400px] overflow-hidden rounded-lg cursor-pointer group">
                           <motion.img
                             src={service.image}
                             alt={service.title}
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
-                          <div className="absolute inset-0 bg-black/60 p-6 flex items-end justify-center">
-                            <h3 className="text-xl font-semibold text-white text-center">{service.title}</h3>
-                          </div>
+                          <motion.div 
+                            className="absolute inset-0 bg-black/50 flex items-end p-6"
+                            initial={{ opacity: 1 }}
+                            whileHover={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <h3 className="text-xl font-semibold text-white">{service.title}</h3>
+                          </motion.div>
+                          
+                          <motion.div
+                            className="absolute inset-0 bg-background/95 backdrop-blur-sm p-6 flex flex-col"
+                            initial={{ opacity: 0 }}
+                            whileHover={{ opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <h3 className="text-xl font-semibold text-primary mb-4">{service.title}</h3>
+                            <p className="text-muted-foreground text-lg leading-relaxed">{service.description}</p>
+                          </motion.div>
                         </div>
                       </motion.div>
                     ))}
