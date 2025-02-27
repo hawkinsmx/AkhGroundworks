@@ -9,7 +9,6 @@ import Home from "@/pages/home";
 import Services from "@/pages/services";
 import Portfolio from "@/pages/portfolio";
 import Contact from "@/pages/contact";
-import Team from "@/pages/team";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,7 +20,6 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/services" component={Services} />
         <Route path="/portfolio" component={Portfolio} />
-        <Route path="/team" component={Team} />
         <Route path="/contact" component={Contact} />
         <Route component={NotFound} />
       </Switch>
