@@ -27,6 +27,22 @@ interface JobApplicationEmail {
   }>;
 }
 
+interface StarterFormEmail {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  otherRole?: string;
+  qualifications: Array<{
+    type: string;
+    qualification: string;
+    registrationNumber: string;
+    expiryDate: string;
+  }>;
+  cisNumber: string;
+  bankDetails: string;
+}
+
 export async function sendContactFormEmail(data: ContactFormEmail): Promise<boolean> {
   try {
     await mailService.send({
@@ -94,6 +110,61 @@ ${qualificationsText}
     </li>
   `).join('')}
 </ul>
+      `,
+    });
+    return true;
+  } catch (error) {
+    console.error('SendGrid email error:', error);
+    return false;
+  }
+}
+
+export async function sendStarterFormEmail(data: StarterFormEmail): Promise<boolean> {
+  try {
+    const qualificationsText = data.qualifications
+      .map(q => `- ${q.type}: ${q.qualification} (Reg: ${q.registrationNumber}, Expires: ${new Date(q.expiryDate).toLocaleDateString()})`)
+      .join('\n');
+
+    await mailService.send({
+      to: "info@akhgroundworks.co.uk",
+      from: "website@akhgroundworks.co.uk",
+      subject: `New Starter Form Submission from ${data.name}`,
+      text: `
+New Starter Form Submission
+
+Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone}
+Role: ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}
+
+Qualifications:
+${qualificationsText}
+
+Payment Details:
+CIS Number: ${data.cisNumber}
+Bank Details: ${data.bankDetails}
+      `,
+      html: `
+<h2>New Starter Form Submission</h2>
+<p><strong>Name:</strong> ${data.name}</p>
+<p><strong>Email:</strong> ${data.email}</p>
+<p><strong>Phone:</strong> ${data.phone}</p>
+<p><strong>Role:</strong> ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}</p>
+
+<h3>Qualifications:</h3>
+<ul>
+  ${data.qualifications.map(q => `
+    <li>
+      <strong>${q.type}:</strong> ${q.qualification}<br>
+      <strong>Registration Number:</strong> ${q.registrationNumber}<br>
+      <em>Expires: ${new Date(q.expiryDate).toLocaleDateString()}</em>
+    </li>
+  `).join('')}
+</ul>
+
+<h3>Payment Details:</h3>
+<p><strong>CIS Number:</strong> ${data.cisNumber}</p>
+<p><strong>Bank Details:</strong> ${data.bankDetails}</p>
       `,
     });
     return true;

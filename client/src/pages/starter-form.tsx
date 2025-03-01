@@ -30,6 +30,7 @@ export default function StarterForm() {
     name: "",
     email: "",
     phone: "",
+    niNumber: "",
     role: "",
     otherRole: "",
     qualifications: [{ 
@@ -162,6 +163,20 @@ export default function StarterForm() {
                         type="tel"
                         value={formData.phone}
                         onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="niNumber" className="flex gap-1">
+                        National Insurance Number
+                        <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="niNumber"
+                        name="niNumber"
+                        value={formData.niNumber}
+                        onChange={handleInputChange}
+                        placeholder="e.g. QQ123456C"
                         required
                       />
                     </div>

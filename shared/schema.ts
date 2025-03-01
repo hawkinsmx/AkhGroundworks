@@ -25,7 +25,6 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages).pi
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 export type ContactMessage = typeof contactMessages.$inferSelect;
 
-
 export const jobApplications = pgTable("job_applications", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -61,3 +60,22 @@ export const qualifications = pgTable("qualifications", {
   qualification: text("qualification").notNull(),
   expiryDate: date("expiry_date").notNull(),
 });
+
+export const starterFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
+  role: z.enum(["Groundworker", "Plant Operator", "Supervisor", "Other"]),
+  otherRole: z.string().optional(),
+  qualifications: z.array(z.object({
+    type: z.string().min(1, "Qualification type is required"),
+    qualification: z.string().min(1, "Qualification is required"),
+    registrationNumber: z.string().min(1, "Registration number is required"),
+    expiryDate: z.string().min(1, "Expiry date is required"),
+    photo: z.any().optional() 
+  })),
+  cisNumber: z.string().min(1, "CIS number is required"),
+  bankDetails: z.string().min(1, "Bank details are required")
+});
+
+export type StarterFormData = z.infer<typeof starterFormSchema>;
