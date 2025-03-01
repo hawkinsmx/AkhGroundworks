@@ -23,8 +23,13 @@ export const SERVICES = [
     images: ["/images/IMG_0041.png", "/images/IMG_2065.jpg", "/images/403187A5-72AA-4D68-9FC2-208F416E0DFD.jpg", "/images/IMG_3893.jpg"]
   },
   {
-    title: "Drainage",
-    description: "Expert drainage solutions and installations for all types of properties.",
+    title: "Deep Drainage",
+    description: "With years of specialized experience in deep drainage systems, our expert team delivers comprehensive underground drainage solutions. We combine advanced technical knowledge with precise execution to ensure optimal performance and longevity. Our methodical approach and attention to detail guarantee that every installation meets the highest industry standards, providing reliable and efficient drainage systems that stand the test of time.",
+    services: [
+      "Deep Drainage",
+      "Manhole Installation",
+      "Benching"
+    ],
     images: ["https://images.unsplash.com/photo-1526385604508-05e4e7f0bc61"]
   }
 ];
@@ -53,7 +58,7 @@ export const PORTFOLIO_IMAGES = [
 ];
 
 export const COMPANY_LOGO = "/logo.png";
-export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653aa90e34e";
+export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354604-1653aa90e34e";
 
 export const COMPANY_COLLABORATIONS = [
   {
