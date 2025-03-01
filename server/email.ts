@@ -14,11 +14,22 @@ interface ContactFormEmail {
   message: string;
 }
 
+interface JobApplicationEmail {
+  name: string;
+  role: string;
+  otherRole?: string;
+  qualifications: Array<{
+    type: string;
+    qualification: string;
+    expiryDate: string;
+  }>;
+}
+
 export async function sendContactFormEmail(data: ContactFormEmail): Promise<boolean> {
   try {
     await mailService.send({
       to: "info@akhgroundworks.co.uk",
-      from: "website@akhgroundworks.co.uk", // This should be a verified sender
+      from: "website@akhgroundworks.co.uk",
       subject: `New Contact Form Submission from ${data.name}`,
       text: `
 Name: ${data.name}
@@ -35,6 +46,48 @@ ${data.message}
 <p><strong>Phone:</strong> ${data.phone}</p>
 <h3>Message:</h3>
 <p>${data.message}</p>
+      `,
+    });
+    return true;
+  } catch (error) {
+    console.error('SendGrid email error:', error);
+    return false;
+  }
+}
+
+export async function sendJobApplicationEmail(data: JobApplicationEmail): Promise<boolean> {
+  try {
+    const qualificationsText = data.qualifications
+      .map(q => `- ${q.type}: ${q.qualification} (Expires: ${new Date(q.expiryDate).toLocaleDateString()})`)
+      .join('\n');
+
+    await mailService.send({
+      to: "info@akhgroundworks.co.uk",
+      from: "website@akhgroundworks.co.uk",
+      subject: `New Job Application from ${data.name}`,
+      text: `
+New Job Application Received
+
+Name: ${data.name}
+Role: ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}
+
+Qualifications:
+${qualificationsText}
+      `,
+      html: `
+<h2>New Job Application</h2>
+<p><strong>Name:</strong> ${data.name}</p>
+<p><strong>Role:</strong> ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}</p>
+
+<h3>Qualifications:</h3>
+<ul>
+  ${data.qualifications.map(q => `
+    <li>
+      <strong>${q.type}:</strong> ${q.qualification}<br>
+      <em>Expires: ${new Date(q.expiryDate).toLocaleDateString()}</em>
+    </li>
+  `).join('')}
+</ul>
       `,
     });
     return true;
