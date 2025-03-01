@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { COMPANY_LOGO } from "@/lib/constants";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -60,25 +61,49 @@ export function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <a
-                  className={cn(
-                    "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                    location === item.href
-                      ? "text-foreground"
-                      : "text-muted-foreground"
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </a>
-              </Link>
-            ))}
-          </div>
-        )}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              className="md:hidden"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              <motion.div 
+                className="py-4 space-y-2"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2, delay: 0.1 }}
+              >
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.2, delay: index * 0.1 }}
+                  >
+                    <Link href={item.href}>
+                      <a
+                        className={cn(
+                          "block py-2 text-sm font-medium transition-colors hover:text-primary",
+                          location === item.href
+                            ? "text-foreground"
+                            : "text-muted-foreground"
+                        )}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
