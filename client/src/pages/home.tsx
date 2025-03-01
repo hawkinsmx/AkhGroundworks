@@ -176,7 +176,7 @@ export default function Home() {
           >
             {COMPANY_COLLABORATIONS.map((company, index) => {
               const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
-              const yPos = 40;
+              const yPos = 50; // Adjusted yPos for vertical centering
 
               return (
                 <motion.div
@@ -189,7 +189,7 @@ export default function Home() {
                     transform: 'translate(-50%, -50%)',
                     scale: calculateScale({ 
                       x: (xPos / 100) * (window.innerWidth * 0.8), 
-                      y: 40 
+                      y: yPos 
                     })
                   }}
                   whileHover={{ 
