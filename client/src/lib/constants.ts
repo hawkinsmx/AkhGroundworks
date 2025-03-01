@@ -49,18 +49,18 @@ export const COMPANY_COLLABORATIONS = [
   },
   {
     name: "Persimmon",
-    logo: "/assets/persimmon.png",
+    logo: "/assets/Persimmon_plc-Logo.wine.png",
   },
   {
     name: "Bellway",
-    logo: "/assets/bellway.png",
+    logo: "/assets/Bellway_logo.svg.png",
   },
   {
     name: "Redrow",
-    logo: "/assets/redrow.png",
+    logo: "/assets/Redrow_plc_Logo.svg.png",
   },
   {
     name: "Bloor Homes",
-    logo: "/assets/bloor-homes.png",
+    logo: "/assets/bloor-homes-transparent-logo.png",
   },
 ];
