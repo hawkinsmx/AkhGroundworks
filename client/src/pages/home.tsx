@@ -5,9 +5,9 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -35,23 +35,39 @@ export default function Home() {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  // Mouse position state for logo scaling
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    mouseX.set(x);
-    mouseY.set(y);
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    });
+  };
+
+  const calculateScale = (logoPosition: { x: number, y: number }) => {
+    const distance = Math.sqrt(
+      Math.pow(mousePosition.x - logoPosition.x, 2) + 
+      Math.pow(mousePosition.y - logoPosition.y, 2)
+    );
+
+    // Convert distance to scale (closer = larger)
+    const maxDistance = 300; // Maximum distance to consider
+    const minScale = 0.8; // Minimum scale when far
+    const maxScale = 1.5; // Maximum scale when close
+
+    if (distance > maxDistance) return minScale;
+
+    const scale = maxScale - ((distance / maxDistance) * (maxScale - minScale));
+    return scale;
   };
 
   return (
     <PageTransition>
-      <div className="flex flex-col min-h-screen">
-        {/* Hero Section */}
-        <section className="relative h-[80vh] flex items-center">
-          <motion.div
+      {/* Hero Section remains unchanged */}
+      <section className="relative h-[80vh] flex items-center">
+        <motion.div
             className="absolute inset-0 z-0"
             initial={{ scale: 1.1, opacity: 0.5 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -92,150 +108,135 @@ export default function Home() {
               </Link>
             </motion.div>
           </div>
-        </section>
+      </section>
 
-        {/* Services Carousel */}
-        <section className="py-20 bg-background">
-          <div className="container mx-auto px-4">
-            <ScrollReveal>
-              <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
-            </ScrollReveal>
+      {/* Services Carousel remains unchanged */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <ScrollReveal>
+            <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
+          </ScrollReveal>
 
-            <ScrollReveal delay={0.2}>
-              <div className="relative">
-                <div className="overflow-hidden" ref={emblaRef}>
-                  <div className="flex">
-                    {detailedServices.map((service, index) => (
-                      <motion.div
-                        key={index}
-                        className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
-                        onClick={() => setLocation('/services')}
-                        whileHover={{ y: -5 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <div className="relative h-48 overflow-hidden rounded-lg cursor-pointer group">
-                          <img
-                            src={service.image}
-                            alt={service.title}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <h3 className="text-xl font-semibold text-white">{service.title}</h3>
-                          </div>
+          <ScrollReveal delay={0.2}>
+            <div className="relative">
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
+                  {detailedServices.map((service, index) => (
+                    <motion.div
+                      key={index}
+                      className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
+                      onClick={() => setLocation('/services')}
+                      whileHover={{ y: -5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="relative h-48 overflow-hidden rounded-lg cursor-pointer group">
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                          <h3 className="text-xl font-semibold text-white">{service.title}</h3>
                         </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
-
-                <button
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
-                  onClick={scrollPrev}
-                >
-                  <ChevronLeft className="h-6 w-6" />
-                </button>
-
-                <button
-                  className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
-                  onClick={scrollNext}
-                >
-                  <ChevronRight className="h-6 w-6" />
-                </button>
               </div>
-            </ScrollReveal>
-          </div>
-        </section>
 
-        {/* Companies We've Worked With */}
-        <section className="py-20 bg-muted overflow-hidden">
-          <div className="container mx-auto px-4">
-            <ScrollReveal>
-              <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
-            </ScrollReveal>
-            <motion.div 
-              className="relative h-[200px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
-              onMouseMove={handleMouseMove}
-              whileHover={{ scale: 1.02 }}
-            >
-              {COMPANY_COLLABORATIONS.map((company, index) => {
-                // Create unique spring animations for each logo
-                const x = useSpring(useMotionValue(Math.random() * 80 - 40), { 
-                  stiffness: 100,
-                  damping: 30
-                });
-                const y = useSpring(useMotionValue(Math.random() * 80 - 40), {
-                  stiffness: 100,
-                  damping: 30
-                });
+              <button
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
+                onClick={scrollPrev}
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
 
-                // Create motion values that respond to mouse position
-                const rotateZ = useTransform(mouseX, [0, 1000], [-5, 5]);
-                const scale = useTransform(mouseY, [0, 200], [0.8, 1.2]);
-
-                return (
-                  <motion.div
-                    key={index}
-                    className="absolute cursor-pointer"
-                    style={{
-                      x,
-                      y,
-                      rotateZ,
-                      left: `${(100 / COMPANY_COLLABORATIONS.length) * (index + 0.5)}%`,
-                      top: '50%',
-                      translateX: '-50%',
-                      translateY: '-50%',
-                    }}
-                    whileHover={{ 
-                      scale: 1.2,
-                      zIndex: 10,
-                      transition: { duration: 0.2 }
-                    }}
-                    animate={{
-                      x: mouseX.get() ? x : 0,
-                      y: mouseY.get() ? y : 0,
-                    }}
-                  >
-                    <img
-                      src={company.logo}
-                      alt={`${company.name} logo`}
-                      className="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300"
-                    />
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Why Choose Us */}
-        <section className="py-20 bg-muted">
-          <div className="container mx-auto px-4">
-            <ScrollReveal>
-              <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
-            </ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                "25+ Years Experience",
-                "Qualified Professionals",
-                "Quality Guaranteed",
-                "Competitive Pricing"
-              ].map((item, index) => (
-                <ScrollReveal key={index} delay={index * 0.2}>
-                  <motion.div
-                    className="text-center p-6 bg-background rounded-lg shadow-sm"
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <h3 className="text-xl font-semibold mb-2">{item}</h3>
-                  </motion.div>
-                </ScrollReveal>
-              ))}
+              <button
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
+                onClick={scrollNext}
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
             </div>
-          </div>
-        </section>
+          </ScrollReveal>
+        </div>
+      </section>
 
-        <ScrollIndicator />
-      </div>
+      {/* Companies We've Worked With */}
+      <section className="py-20 bg-muted overflow-hidden">
+        <div className="container mx-auto px-4">
+          <ScrollReveal>
+            <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
+          </ScrollReveal>
+          <motion.div 
+            className="relative h-[200px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
+            onMouseMove={handleMouseMove}
+            whileHover={{ scale: 1.02 }}
+          >
+            {COMPANY_COLLABORATIONS.map((company, index) => {
+              const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
+              const yPos = 50;
+
+              return (
+                <motion.div
+                  key={index}
+                  className="absolute cursor-pointer"
+                  style={{
+                    left: `${xPos}%`,
+                    top: `${yPos}%`,
+                    translateX: '-50%',
+                    translateY: '-50%',
+                    scale: calculateScale({ 
+                      x: (xPos / 100) * (window.innerWidth * 0.8), 
+                      y: 100 
+                    })
+                  }}
+                  whileHover={{ 
+                    scale: 1.2,
+                    zIndex: 10,
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  <img
+                    src={company.logo}
+                    alt={`${company.name} logo`}
+                    className="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300"
+                  />
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-20 bg-muted">
+        <div className="container mx-auto px-4">
+          <ScrollReveal>
+            <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              "25+ Years Experience",
+              "Qualified Professionals",
+              "Quality Guaranteed",
+              "Competitive Pricing"
+            ].map((item, index) => (
+              <ScrollReveal key={index} delay={index * 0.2}>
+                <motion.div
+                  className="text-center p-6 bg-background rounded-lg shadow-sm"
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <h3 className="text-xl font-semibold mb-2">{item}</h3>
+                </motion.div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <ScrollIndicator />
     </PageTransition>
   );
 }
