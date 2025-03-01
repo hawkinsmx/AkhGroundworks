@@ -45,7 +45,7 @@ export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653a
 export const COMPANY_COLLABORATIONS = [
   {
     name: "Taylor Wimpey",
-    logo: "/attached_assets/download.png",
+    logo: "/assets/taylor-wimpey.png",
   },
   {
     name: "BuildTech Solutions",
