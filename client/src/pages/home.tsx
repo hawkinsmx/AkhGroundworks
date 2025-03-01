@@ -169,7 +169,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
           </ScrollReveal>
           <motion.div 
-            className="relative h-[200px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
+            className="relative h-[150px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
             onMouseMove={handleMouseMove}
             whileHover={{ scale: 1.02 }}
           >
@@ -200,7 +200,7 @@ export default function Home() {
                   <img
                     src={company.logo}
                     alt={`${company.name} logo`}
-                    className="w-48 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+                    className="w-24 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
                     style={{
                       filter: 'brightness(1.1) contrast(1.1)'
                     }}
