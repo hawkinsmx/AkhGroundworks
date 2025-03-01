@@ -20,7 +20,7 @@ export const SERVICES = [
       "Balancing Ponds",
       "Pumping Stations"
     ],
-    images: ["/images/IMG_0041.png", "/images/IMG_3893.jpg"]
+    images: ["/images/IMG_3893.jpg"]
   },
   {
     title: "Deep Drainage",
@@ -30,7 +30,7 @@ export const SERVICES = [
       "Manhole Installation",
       "Benching"
     ],
-    images: ["/images/IMG_0127.png", "/images/IMG_0041.png"]
+    images: []
   },
   {
     title: "Site Preparation",
@@ -79,12 +79,12 @@ export const PORTFOLIO_IMAGES = [
     title: "Infrastructure Development"
   },
   {
-    src: "/images/IMG_0127.png",
-    alt: "Deep drainage installation",
-    title: "Deep Drainage Systems"
+    src: "/images/IMG_3137.jpg",
+    alt: "Foundation work",
+    title: "Foundation Excellence"
   },
   {
-    src: "/images/IMG_0041.png",
+    src: "/images/IMG_3893.jpg",
     alt: "Civil engineering work",
     title: "Civil Engineering Excellence"
   }
