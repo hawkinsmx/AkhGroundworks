@@ -56,15 +56,11 @@ export const COMPANY_COLLABORATIONS = [
     logo: "/assets/bellway.png",
   },
   {
-    name: "Development Group",
-    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+4",
+    name: "Redrow",
+    logo: "/assets/redrow.png",
   },
   {
-    name: "Engineering Partners",
-    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+5",
-  },
-  {
-    name: "Project Management Ltd",
-    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+6",
+    name: "Bloor Homes",
+    logo: "/assets/bloor-homes.png",
   },
 ];

@@ -174,7 +174,8 @@ export default function Home() {
             whileHover={{ scale: 1.02 }}
           >
             {COMPANY_COLLABORATIONS.map((company, index) => {
-              const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
+              // Adjust the position calculation for 5 logos
+              const xPos = (100 / (COMPANY_COLLABORATIONS.length)) * (index + 0.5);
               const yPos = 50;
 
               return (
@@ -188,7 +189,7 @@ export default function Home() {
                     translateY: '-50%',
                     scale: calculateScale({ 
                       x: (xPos / 100) * (window.innerWidth * 0.8), 
-                      y: 100 
+                      y: 75 
                     })
                   }}
                   whileHover={{ 
