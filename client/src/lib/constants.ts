@@ -20,7 +20,7 @@ export const SERVICES = [
       "Balancing Ponds",
       "Pumping Stations"
     ],
-    images: ["https://images.unsplash.com/photo-1490775696818-7832285c7240"]
+    images: ["/images/IMG_0041.png", "/images/IMG_2065.jpg", "/images/403187A5-72AA-4D68-9FC2-208F416E0DFD.jpg", "/images/IMG_3893.jpg"]
   },
   {
     title: "Drainage",
