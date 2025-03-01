@@ -9,7 +9,7 @@ export const SERVICES = [
       "Oversites",
       "External Drainage"
     ],
-    images: ["images/IMG_7998.jpg", "images/IMG_3137.jpg", "images/IMG_3322.jpg", "images/IMG_3319.jpg"]
+    images: ["/images/IMG_7998.jpg", "/images/IMG_3137.jpg", "/images/IMG_3322.jpg", "/images/IMG_3319.jpg"]
   },
   {
     title: "Civil Engineering",
@@ -20,7 +20,7 @@ export const SERVICES = [
       "Balancing Ponds",
       "Pumping Stations"
     ],
-    images: ["images/IMG_0041.png", "images/IMG_2065.jpg", "images/403187A5-72AA-4D68-9FC2-208F416E0DFD.jpg", "images/IMG_3893.jpg"]
+    images: ["/images/IMG_0041.png", "/images/IMG_2065.jpg", "/images/403187A5-72AA-4D68-9FC2-208F416E0DFD.jpg", "/images/IMG_3893.jpg"]
   },
   {
     title: "Drainage",
