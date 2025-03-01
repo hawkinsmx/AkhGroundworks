@@ -13,7 +13,13 @@ export const SERVICES = [
   },
   {
     title: "Civil Engineering",
-    description: "Professional civil engineering services for commercial and residential projects.",
+    description: "Safety is at the heart of everything we do. Our civil engineering team combines technical excellence with unwavering commitment to health and safety standards. Every project is meticulously planned and executed with comprehensive risk assessments, ensuring the wellbeing of our workforce, clients, and the public. We maintain strict compliance with all safety regulations while delivering outstanding results.",
+    services: [
+      "Culverts",
+      "Attenuation Tanks",
+      "Balancing Ponds",
+      "Pumping Stations"
+    ],
     images: ["https://images.unsplash.com/photo-1490775696818-7832285c7240"]
   },
   {
