@@ -52,7 +52,7 @@ export default function Home() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5 }}
           style={{
-            backgroundImage: `url(/attached_assets/spliced_26980x7400.png)`,
+            backgroundImage: `url(/attached_assets/image_1740872557533.png)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
