@@ -36,33 +36,7 @@ export default function Home() {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  // Mouse position state for logo scaling
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
-
-  const calculateScale = (logoPosition: { x: number, y: number }) => {
-    const distance = Math.sqrt(
-      Math.pow(mousePosition.x - logoPosition.x, 2) + 
-      Math.pow(mousePosition.y - logoPosition.y, 2)
-    );
-
-    // Convert distance to scale (closer = larger)
-    const maxDistance = 300; // Maximum distance to consider
-    const minScale = 1; // Minimum scale when far
-    const maxScale = 1.2; // Maximum scale when close
-
-    if (distance > maxDistance) return minScale;
-
-    const scale = maxScale - ((distance / maxDistance) * (maxScale - minScale));
-    return scale;
-  };
+  // Mouse position state for logo scaling (removed since we're using flexbox)
 
   return (
     <PageTransition>
@@ -170,28 +144,14 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
           </ScrollReveal>
           <motion.div 
-            className="relative h-[80px] bg-background/50 backdrop-blur-sm rounded-xl p-6 flex items-center justify-around"
-            onMouseMove={handleMouseMove}
+            className="relative h-[80px] bg-background/50 backdrop-blur-sm rounded-xl p-6"
             whileHover={{ scale: 1.02 }}
           >
-            {COMPANY_COLLABORATIONS.map((company, index) => {
-              const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
-              const yPos = 50; // Center vertically
-
-              return (
+            <div className="flex items-center justify-between h-full">
+              {COMPANY_COLLABORATIONS.map((company, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-center justify-center"
-                  style={{
-                    position: 'absolute',
-                    left: `${xPos}%`,
-                    top: `${yPos}%`,
-                    transform: 'translate(-50%, -50%)',
-                    scale: calculateScale({ 
-                      x: (xPos / 100) * (window.innerWidth * 0.8), 
-                      y: yPos 
-                    })
-                  }}
+                  className="flex items-center justify-center px-4"
                   whileHover={{ 
                     scale: 1.2,
                     zIndex: 10,
@@ -201,7 +161,7 @@ export default function Home() {
                   <img
                     src={company.logo}
                     alt={`${company.name} logo`}
-                    className={`max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300`}
+                    className="max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
                     style={{
                       objectFit: 'contain',
                       maxHeight: '40px',
@@ -211,8 +171,8 @@ export default function Home() {
                     }}
                   />
                 </motion.div>
-              );
-            })}
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
