@@ -48,7 +48,7 @@ export const SERVICES = [
     description: "Expert foundation construction for all types of buildings and structures. We provide reliable and durable foundation solutions that form the bedrock of your construction project.",
     services: [
       "Concrete Foundations",
-      "Piling preparation",
+      "Piling Preparation",
       "Underpinning",
       "Foundation Repair"
     ],
