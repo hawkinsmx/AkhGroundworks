@@ -35,50 +35,45 @@ export default function Services() {
             </p>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="space-y-16">
             {detailedServices.map((service, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <motion.div
-                  className="relative h-[400px] overflow-hidden rounded-lg group"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.2 }}
-                >
+                <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center`}>
                   <motion.div
-                    initial={{ opacity: 1 }}
-                    className="absolute inset-0"
+                    className="w-full md:w-1/2"
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <motion.img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <motion.div 
-                      className="absolute inset-0 bg-black/50 flex items-end p-6"
-                      initial={{ opacity: 1 }}
-                      whileHover={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h3 className="text-xl font-semibold text-white">{service.title}</h3>
-                    </motion.div>
+                    <div className="relative h-[400px] overflow-hidden rounded-lg">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-black/50 flex items-end p-6">
+                        <h3 className="text-2xl font-semibold text-white">{service.title}</h3>
+                      </div>
+                    </div>
                   </motion.div>
 
                   <motion.div
-                    className="absolute inset-0 bg-background/95 backdrop-blur-sm p-6 flex flex-col"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+                    className="w-full md:w-1/2 p-6 bg-card rounded-lg"
+                    initial={{ opacity: 0, x: index % 2 === 0 ? 20 : -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
                   >
-                    <h3 className="text-xl font-semibold text-primary mb-4">{service.title}</h3>
+                    <h3 className="text-2xl font-semibold text-primary mb-4">{service.title}</h3>
                     <p className="text-muted-foreground text-lg leading-relaxed mb-4">{service.description}</p>
                     {service.services && (
-                      <ul className="list-disc pl-6 text-muted-foreground space-y-1">
+                      <ul className="list-disc pl-6 text-muted-foreground space-y-2">
                         {service.services.map((item, idx) => (
-                          <li key={idx}>{item}</li>
+                          <li key={idx} className="text-lg">{item}</li>
                         ))}
                       </ul>
                     )}
                   </motion.div>
-                </motion.div>
+                </div>
               </ScrollReveal>
             ))}
           </div>
