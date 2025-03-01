@@ -30,7 +30,7 @@ export const SERVICES = [
       "Manhole Installation",
       "Benching"
     ],
-    images: ["/images/IMG_0041.png", "/images/IMG_0127.png", "/images/IMG_1391.jpg", "/images/46ED5F4B-1ED0-4F22-A41A-691919DD2391.jpg", "/images/IMG_6563.jpg"]
+    images: []
   },
   {
     title: "Site Preparation",
@@ -79,14 +79,14 @@ export const PORTFOLIO_IMAGES = [
     title: "Infrastructure Development"
   },
   {
-    src: "/images/IMG_0127.png",
-    alt: "Deep drainage installation",
-    title: "Deep Drainage Excellence"
+    src: "/images/IMG_3137.jpg",
+    alt: "Foundation work",
+    title: "Foundation Excellence"
   },
   {
-    src: "/images/IMG_1391.jpg",
-    alt: "Manhole installation",
-    title: "Underground Infrastructure"
+    src: "/images/IMG_3893.jpg",
+    alt: "Civil engineering project",
+    title: "Civil Engineering Excellence"
   }
 ];
 
