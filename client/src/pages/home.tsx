@@ -5,7 +5,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -169,13 +169,11 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
           </ScrollReveal>
           <motion.div 
-            className="relative h-[150px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
-            onMouseMove={handleMouseMove}
+            className="relative h-[100px] bg-background/50 backdrop-blur-sm rounded-xl p-4"
             whileHover={{ scale: 1.02 }}
           >
             {COMPANY_COLLABORATIONS.map((company, index) => {
-              // Adjust the position calculation for 5 logos
-              const xPos = (100 / (COMPANY_COLLABORATIONS.length)) * (index + 0.5);
+              const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
               const yPos = 50;
 
               return (
@@ -185,12 +183,7 @@ export default function Home() {
                   style={{
                     left: `${xPos}%`,
                     top: `${yPos}%`,
-                    translateX: '-50%',
-                    translateY: '-50%',
-                    scale: calculateScale({ 
-                      x: (xPos / 100) * (window.innerWidth * 0.8), 
-                      y: 75 
-                    })
+                    transform: 'translate(-50%, -50%)',
                   }}
                   whileHover={{ 
                     scale: 1.2,
@@ -201,11 +194,11 @@ export default function Home() {
                   <img
                     src={company.logo}
                     alt={`${company.name} logo`}
-                    className="w-24 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+                    className="max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
                     style={{
-                      filter: 'brightness(1.1) contrast(1.1)',
                       objectFit: 'contain',
-                      maxHeight: '40px'
+                      maxHeight: '30px',
+                      width: 'auto'
                     }}
                   />
                 </motion.div>
