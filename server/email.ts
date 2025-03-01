@@ -16,6 +16,7 @@ interface ContactFormEmail {
 
 interface JobApplicationEmail {
   name: string;
+  email: string;
   role: string;
   otherRole?: string;
   qualifications: Array<{
@@ -69,6 +70,7 @@ export async function sendJobApplicationEmail(data: JobApplicationEmail): Promis
 New Job Application Received
 
 Name: ${data.name}
+Email: ${data.email}
 Role: ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}
 
 Qualifications:
@@ -77,6 +79,7 @@ ${qualificationsText}
       html: `
 <h2>New Job Application</h2>
 <p><strong>Name:</strong> ${data.name}</p>
+<p><strong>Email:</strong> ${data.email}</p>
 <p><strong>Role:</strong> ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}</p>
 
 <h3>Qualifications:</h3>

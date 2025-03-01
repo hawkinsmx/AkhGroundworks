@@ -29,17 +29,10 @@ export type ContactMessage = typeof contactMessages.$inferSelect;
 export const jobApplications = pgTable("job_applications", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  email: text("email").notNull(),
   role: text("role").notNull(),
   otherRole: text("other_role"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
-export const qualifications = pgTable("qualifications", {
-  id: serial("id").primaryKey(),
-  applicationId: serial("application_id").references(() => jobApplications.id),
-  type: text("type").notNull(),
-  qualification: text("qualification").notNull(),
-  expiryDate: date("expiry_date").notNull(),
 });
 
 export const insertJobApplicationSchema = createInsertSchema(jobApplications).extend({
@@ -50,6 +43,7 @@ export const insertJobApplicationSchema = createInsertSchema(jobApplications).ex
       expiryDate: z.string().min(1, "Expiry date is required"),
     })
   ),
+  email: z.string().email("Please enter a valid email address"),
   role: z.enum(["Groundworker", "Plant Operator", "Supervisor", "Other"]),
   otherRole: z.string().optional(),
 });
@@ -57,3 +51,11 @@ export const insertJobApplicationSchema = createInsertSchema(jobApplications).ex
 export type InsertJobApplication = z.infer<typeof insertJobApplicationSchema>;
 export type JobApplication = typeof jobApplications.$inferSelect;
 export type Qualification = typeof qualifications.$inferSelect;
+
+export const qualifications = pgTable("qualifications", {
+  id: serial("id").primaryKey(),
+  applicationId: serial("application_id").references(() => jobApplications.id),
+  type: text("type").notNull(),
+  qualification: text("qualification").notNull(),
+  expiryDate: date("expiry_date").notNull(),
+});
