@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Link } from "wouter";
 import { PageTransition } from "@/components/animations/page-transition";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -378,9 +378,14 @@ export default function StarterForm() {
               className="text-center space-y-4"
             >
               <h2 className="text-2xl font-bold">Thank You!</h2>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground mb-8">
                 We're processing your details and will be in touch shortly.
               </p>
+              <Link href="/">
+                <Button className="mx-auto">
+                  Return to Home
+                </Button>
+              </Link>
             </motion.div>
           )}
         </div>
