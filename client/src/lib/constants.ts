@@ -45,22 +45,22 @@ export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653a
 export const COMPANY_COLLABORATIONS = [
   {
     name: "Taylor Wimpey",
-    logo: "/assets/Logo_Taylor_Wimpey.svg.png",
+    logo: "./attached_assets/Logo_Taylor_Wimpey.svg.png",
   },
   {
     name: "Persimmon",
-    logo: "/assets/Persimmon_plc-Logo.wine.png",
+    logo: "./attached_assets/Persimmon_plc-Logo.wine.png",
   },
   {
     name: "Bellway",
-    logo: "/assets/Bellway_logo.svg.png",
+    logo: "./attached_assets/Bellway_logo.svg.png",
   },
   {
     name: "Redrow",
-    logo: "/assets/Redrow_plc_Logo.svg.png",
+    logo: "./attached_assets/Redrow_plc_Logo.svg.png",
   },
   {
     name: "Bloor Homes",
-    logo: "/assets/bloor-homes-transparent-logo.png",
+    logo: "./attached_assets/bloor-homes-transparent-logo.png",
   },
 ];
