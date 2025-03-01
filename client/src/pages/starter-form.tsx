@@ -14,7 +14,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { CalendarIcon, Plus, Trash2 } from "lucide-react";
+import { CalendarIcon, Plus, Trash2, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 
 const roles = [
@@ -32,7 +32,13 @@ export default function StarterForm() {
     phone: "",
     role: "",
     otherRole: "",
-    qualifications: [{ type: "", qualification: "", expiryDate: "" }],
+    qualifications: [{ 
+      type: "", 
+      qualification: "", 
+      registrationNumber: "",
+      expiryDate: "",
+      photo: null 
+    }],
     cisNumber: "",
     bankDetails: "",
   });
@@ -62,7 +68,13 @@ export default function StarterForm() {
   const addQualification = () => {
     setFormData((prev) => ({
       ...prev,
-      qualifications: [...prev.qualifications, { type: "", qualification: "", expiryDate: "" }],
+      qualifications: [...prev.qualifications, { 
+        type: "", 
+        qualification: "", 
+        registrationNumber: "",
+        expiryDate: "", 
+        photo: null 
+      }],
     }));
   };
 
@@ -73,13 +85,18 @@ export default function StarterForm() {
     }));
   };
 
-  const updateQualification = (index: number, field: string, value: string) => {
+  const updateQualification = (index: number, field: string, value: string | File | null) => {
     setFormData((prev) => ({
       ...prev,
       qualifications: prev.qualifications.map((q, i) =>
         i === index ? { ...q, [field]: value } : q
       ),
     }));
+  };
+
+  const handlePhotoChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    updateQualification(index, "photo", file);
   };
 
   return (
@@ -236,6 +253,15 @@ export default function StarterForm() {
                           </div>
 
                           <div className="space-y-2">
+                            <Label>Registration Number</Label>
+                            <Input
+                              value={qual.registrationNumber}
+                              onChange={(e) => updateQualification(index, "registrationNumber", e.target.value)}
+                              placeholder="Enter registration number"
+                            />
+                          </div>
+
+                          <div className="space-y-2">
                             <Label>Expiry Date</Label>
                             <Popover>
                               <PopoverTrigger asChild>
@@ -265,6 +291,31 @@ export default function StarterForm() {
                                 />
                               </PopoverContent>
                             </Popover>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label>Photo</Label>
+                            <div className="flex items-center gap-2">
+                              <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handlePhotoChange(index, e)}
+                                className="hidden"
+                                id={`photo-${index}`}
+                              />
+                              <Label
+                                htmlFor={`photo-${index}`}
+                                className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-md cursor-pointer"
+                              >
+                                <Upload className="h-4 w-4" />
+                                {qual.photo ? 'Change Photo' : 'Upload Photo'}
+                              </Label>
+                              {qual.photo && (
+                                <span className="text-sm text-muted-foreground">
+                                  {(qual.photo as File).name}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       ))}
