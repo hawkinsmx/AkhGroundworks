@@ -10,6 +10,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { 
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon, Plus, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const roles = [
@@ -28,7 +40,8 @@ export default function StarterForm() {
     email: "",
     phone: "",
     role: "",
-    qualifications: "",
+    otherRole: "",
+    qualifications: [{ type: "", qualification: "", expiryDate: "" }],
     cisNumber: "",
     bankDetails: "",
   });
@@ -49,6 +62,29 @@ export default function StarterForm() {
     }
   };
 
+  const addQualification = () => {
+    setFormData((prev) => ({
+      ...prev,
+      qualifications: [...prev.qualifications, { type: "", qualification: "", expiryDate: "" }],
+    }));
+  };
+
+  const removeQualification = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      qualifications: prev.qualifications.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateQualification = (index: number, field: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      qualifications: prev.qualifications.map((q, i) =>
+        i === index ? { ...q, [field]: value } : q
+      ),
+    }));
+  };
+
   return (
     <PageTransition>
       <div className="min-h-screen pt-20">
@@ -66,7 +102,7 @@ export default function StarterForm() {
                 ))}
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <Form onSubmit={handleSubmit}>
                 {step === 1 && (
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
@@ -134,17 +170,98 @@ export default function StarterForm() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="qualifications">
-                        Qualifications & Experience
-                      </Label>
-                      <Input
-                        id="qualifications"
-                        name="qualifications"
-                        value={formData.qualifications}
-                        onChange={handleInputChange}
-                        required
-                      />
+
+                    {formData.role === "Other" && (
+                      <div className="space-y-2">
+                        <Label>Specify Role</Label>
+                        <Input
+                          name="otherRole"
+                          value={formData.otherRole}
+                          onChange={handleInputChange}
+                          placeholder="Enter the role you're applying for"
+                        />
+                      </div>
+                    )}
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold">Qualifications</h3>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={addQualification}
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          Add Qualification
+                        </Button>
+                      </div>
+
+                      {formData.qualifications.map((qual, index) => (
+                        <div key={index} className="space-y-4 p-4 border rounded-lg relative">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="absolute right-2 top-2"
+                            onClick={() => removeQualification(index)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label>Type</Label>
+                              <Input
+                                value={qual.type}
+                                onChange={(e) => updateQualification(index, "type", e.target.value)}
+                                placeholder="e.g. CSCS, NPORS"
+                              />
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label>Qualification</Label>
+                              <Input
+                                value={qual.qualification}
+                                onChange={(e) => updateQualification(index, "qualification", e.target.value)}
+                                placeholder="e.g. Dumper, Roller, Excavator"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label>Expiry Date</Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  className={`w-full pl-3 text-left font-normal ${
+                                    !qual.expiryDate && "text-muted-foreground"
+                                  }`}
+                                >
+                                  {qual.expiryDate ? (
+                                    format(new Date(qual.expiryDate), "PPP")
+                                  ) : (
+                                    <span>Pick a date</span>
+                                  )}
+                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                  mode="single"
+                                  selected={qual.expiryDate ? new Date(qual.expiryDate) : undefined}
+                                  onSelect={(date) =>
+                                    updateQualification(index, "expiryDate", date ? date.toISOString() : "")
+                                  }
+                                  disabled={(date) => date < new Date()}
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </motion.div>
                 )}
@@ -184,7 +301,7 @@ export default function StarterForm() {
                     {step === 3 ? "Finish" : "Continue"}
                   </Button>
                 </div>
-              </form>
+              </Form>
             </div>
           ) : (
             <motion.div
