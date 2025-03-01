@@ -55,6 +55,9 @@ export default function Home() {
             backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(/attached_assets/spliced_26980x7400.png)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            width: '100%',
+            height: '100%'
           }}
         />
         <div className="container mx-auto px-4 relative z-10">
