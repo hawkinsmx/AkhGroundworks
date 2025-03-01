@@ -176,7 +176,7 @@ export default function Home() {
           >
             {COMPANY_COLLABORATIONS.map((company, index) => {
               const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
-              const yPos = 50; // Adjusted yPos for vertical centering
+              const yPos = 50; // Center vertically
 
               return (
                 <motion.div
