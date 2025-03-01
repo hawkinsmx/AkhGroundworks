@@ -201,11 +201,13 @@ export default function Home() {
                   <img
                     src={company.logo}
                     alt={`${company.name} logo`}
-                    className="max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+                    className={`max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300`}
                     style={{
                       objectFit: 'contain',
                       maxHeight: '30px',
-                      width: 'auto'
+                      width: 'auto',
+                      filter: company.name === "Persimmon" ? 'brightness(1) contrast(0.8)' : 'none',
+                      backgroundColor: company.name === "Persimmon" ? 'transparent' : 'transparent'
                     }}
                   />
                 </motion.div>
