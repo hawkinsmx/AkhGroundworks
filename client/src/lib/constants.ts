@@ -31,6 +31,39 @@ export const SERVICES = [
       "Benching"
     ],
     images: ["/images/IMG_0127.png", "/images/IMG_1391.jpg", "/images/IMG_0041.png", "/images/46ED5F4B-1ED0-4F22-A41A-691919DD2391.jpg", "/images/IMG_6590.jpg"]
+  },
+  {
+    title: "Site Preparation",
+    description: "Comprehensive site preparation including clearing, leveling, and ground stabilization. Our expert team ensures your site is properly prepared for construction, using state-of-the-art equipment and proven techniques.",
+    services: [
+      "Site Clearance",
+      "Ground Leveling",
+      "Soil Stabilization",
+      "Environmental Protection"
+    ],
+    images: ["/images/IMG_7998.jpg"]
+  },
+  {
+    title: "Foundation Work",
+    description: "Expert foundation construction for all types of buildings and structures. We provide reliable and durable foundation solutions that form the bedrock of your construction project.",
+    services: [
+      "Concrete Foundations",
+      "Piling",
+      "Underpinning",
+      "Foundation Repair"
+    ],
+    images: ["/images/IMG_3137.jpg"]
+  },
+  {
+    title: "Infrastructure Development",
+    description: "Complete infrastructure solutions including roads, utilities, and drainage systems. Our comprehensive approach ensures seamless integration of all essential infrastructure components.",
+    services: [
+      "Road Construction",
+      "Utility Installation",
+      "Drainage Systems",
+      "Public Works"
+    ],
+    images: ["/images/IMG_3893.jpg"]
   }
 ];
 
