@@ -20,7 +20,7 @@ export const SERVICES = [
       "Balancing Ponds",
       "Pumping Stations"
     ],
-    images: []
+    images: ["/images/IMG_6655.jpg", "/images/IMG_3893.jpg", "/images/403187A5-72AA-4D68-9FC2-208F416E0DFD.jpg", "/images/IMG_2065.jpg"]
   },
   {
     title: "Deep Drainage",
@@ -87,6 +87,11 @@ export const PORTFOLIO_IMAGES = [
     src: "/images/46ED5F4B-1ED0-4F22-A41A-691919DD2391.jpg",
     alt: "Deep drainage installation",
     title: "Deep Drainage Systems"
+  },
+  {
+    src: "/images/IMG_6655.jpg",
+    alt: "Civil engineering project",
+    title: "Civil Engineering Excellence"
   }
 ];
 
