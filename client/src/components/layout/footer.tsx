@@ -24,9 +24,9 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/portfolio">
+                <Link href="/gallery">
                   <a className="text-muted-foreground hover:text-primary transition-colors">
-                    Portfolio
+                    Gallery
                   </a>
                 </Link>
               </li>
@@ -60,7 +60,7 @@ export function Footer() {
                 <Linkedin className="h-6 w-6" />
               </a>
               <a 
-                href="#" 
+                href="https://www.facebook.com/profile.php?id=100026704721265" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
@@ -69,7 +69,7 @@ export function Footer() {
                 <Facebook className="h-6 w-6" />
               </a>
               <a 
-                href="#" 
+                href="https://uk.indeed.com/cmp/Akh-Groundworks-Ltd/jobs" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
