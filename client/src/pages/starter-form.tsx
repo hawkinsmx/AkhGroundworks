@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { PageTransition } from "@/components/animations/page-transition";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,14 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { 
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
@@ -102,7 +95,7 @@ export default function StarterForm() {
                 ))}
               </div>
 
-              <Form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {step === 1 && (
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
@@ -301,7 +294,7 @@ export default function StarterForm() {
                     {step === 3 ? "Finish" : "Continue"}
                   </Button>
                 </div>
-              </Form>
+              </form>
             </div>
           ) : (
             <motion.div
