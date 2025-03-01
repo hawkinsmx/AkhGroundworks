@@ -24,11 +24,11 @@ export default function Services() {
           <div className="flex">
             {images.map((image, idx) => (
               <div key={idx} className="flex-[0_0_100%] min-w-0">
-                <div className="relative aspect-[4/3] max-h-[600px]">
+                <div className="relative min-h-[300px] max-h-[500px] flex items-center justify-center">
                   <img
                     src={image}
                     alt="Service demonstration"
-                    className="w-full h-full object-contain"
+                    className="w-full h-auto max-h-[500px] object-contain"
                     onError={(e) => {
                       console.error(`Failed to load image: ${image}`);
                       e.currentTarget.src = '/placeholder.jpg';
