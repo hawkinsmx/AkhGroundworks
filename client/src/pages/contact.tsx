@@ -60,7 +60,7 @@ export default function Contact() {
             <ScrollReveal>
               <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
               <p className="text-lg text-muted-foreground mb-8">
-                Get in touch with us for any inquiries about our services or to discuss
+                Get in touch with us for any enquiries about our services or to discuss
                 your project requirements.
               </p>
             </ScrollReveal>
