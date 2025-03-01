@@ -63,7 +63,7 @@ export const SERVICES = [
       "Drainage Systems",
       "Public Works"
     ],
-    images: ["/images/IMG_3893.jpg"]
+    images: ["/images/698C53A0-5177-49D6-8AE7-4572754DE6C5.jpg", "/images/614289E3-D42D-4E47-92B2-7CB0C6373D7F.jpg", "/images/IMG_2320.jpg"]
   }
 ];
 
@@ -74,8 +74,8 @@ export const PORTFOLIO_IMAGES = [
     title: "Commercial Groundworks"
   },
   {
-    src: "/images/IMG_3893.jpg",
-    alt: "Civil engineering project",
+    src: "/images/698C53A0-5177-49D6-8AE7-4572754DE6C5.jpg",
+    alt: "Road construction project",
     title: "Infrastructure Development"
   },
   {
