@@ -20,7 +20,7 @@ export const SERVICES = [
       "Balancing Ponds",
       "Pumping Stations"
     ],
-    images: ["/images/IMG_0041.png", "/images/IMG_2065.jpg", "/images/403187A5-72AA-4D68-9FC2-208F416E0DFD.jpg", "/images/IMG_3893.jpg"]
+    images: ["/images/IMG_0041.png", "/images/IMG_3893.jpg"]
   },
   {
     title: "Deep Drainage",
@@ -30,7 +30,7 @@ export const SERVICES = [
       "Manhole Installation",
       "Benching"
     ],
-    images: ["/images/IMG_0127.png", "/images/IMG_1391.jpg", "/images/IMG_0041.png", "/images/46ED5F4B-1ED0-4F22-A41A-691919DD2391.jpg", "/images/IMG_6590.jpg"]
+    images: ["/images/IMG_0127.png", "/images/IMG_0041.png"]
   },
   {
     title: "Site Preparation",
@@ -69,24 +69,24 @@ export const SERVICES = [
 
 export const PORTFOLIO_IMAGES = [
   {
-    src: "https://images.unsplash.com/photo-1625722723669-389a6feb52f2",
-    alt: "Completed foundation work",
-    title: "Commercial Foundation Project"
+    src: "/images/IMG_7998.jpg",
+    alt: "Groundworks project",
+    title: "Commercial Groundworks"
   },
   {
-    src: "https://images.unsplash.com/photo-1533780898421-b118c81ac26b",
-    alt: "Road construction",
-    title: "Road Infrastructure Development"
+    src: "/images/IMG_3893.jpg",
+    alt: "Civil engineering project",
+    title: "Infrastructure Development"
   },
   {
-    src: "https://images.unsplash.com/photo-1699200746675-8e4de41b9e08",
-    alt: "Residential groundwork",
-    title: "Residential Development"
+    src: "/images/IMG_0127.png",
+    alt: "Deep drainage installation",
+    title: "Deep Drainage Systems"
   },
   {
-    src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40",
-    alt: "Construction site",
-    title: "Industrial Site Preparation"
+    src: "/images/IMG_0041.png",
+    alt: "Civil engineering work",
+    title: "Civil Engineering Excellence"
   }
 ];
 
