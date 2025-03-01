@@ -9,7 +9,7 @@ export const SERVICES = [
       "Oversites",
       "External Drainage"
     ],
-    images: ["/images/IMG_7998.jpg", "/images/IMG_3137.jpg", "/images/IMG_3322.jpg", "/images/IMG_3319.jpg"]
+    images: ["/images/IMG_7998.jpg"]
   },
   {
     title: "Civil Engineering",
@@ -41,7 +41,7 @@ export const SERVICES = [
       "Soil Stabilization",
       "Environmental Protection"
     ],
-    images: ["/images/IMG_7998.jpg"]
+    images: []
   },
   {
     title: "Foundation Work",
@@ -52,7 +52,7 @@ export const SERVICES = [
       "Underpinning",
       "Foundation Repair"
     ],
-    images: ["/images/IMG_3137.jpg"]
+    images: []
   },
   {
     title: "Infrastructure Development",
@@ -77,11 +77,6 @@ export const PORTFOLIO_IMAGES = [
     src: "/images/698C53A0-5177-49D6-8AE7-4572754DE6C5.jpg",
     alt: "Road construction project",
     title: "Infrastructure Development"
-  },
-  {
-    src: "/images/IMG_3137.jpg",
-    alt: "Foundation work",
-    title: "Foundation Excellence"
   },
   {
     src: "/images/46ED5F4B-1ED0-4F22-A41A-691919DD2391.jpg",
