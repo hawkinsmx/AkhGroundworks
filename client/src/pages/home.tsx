@@ -153,24 +153,32 @@ export default function Home() {
               <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
             </ScrollReveal>
             <motion.div 
-              className="relative h-[200px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
+              className="relative h-[300px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
               onMouseMove={handleMouseMove}
               whileHover={{ scale: 1.02 }}
             >
               {COMPANY_COLLABORATIONS.map((company, index) => {
-                // Create unique spring animations for each logo
-                const x = useSpring(useMotionValue(Math.random() * 80 - 40), { 
-                  stiffness: 100,
-                  damping: 30
+                // Create random initial positions
+                const randomX = Math.random() * 80 - 40;
+                const randomY = Math.random() * 160 - 80;
+
+                // Create spring animations with more fluid movement
+                const x = useSpring(useMotionValue(randomX), { 
+                  stiffness: 50,
+                  damping: 20
                 });
-                const y = useSpring(useMotionValue(Math.random() * 80 - 40), {
-                  stiffness: 100,
-                  damping: 30
+                const y = useSpring(useMotionValue(randomY), {
+                  stiffness: 50,
+                  damping: 20
                 });
 
                 // Create motion values that respond to mouse position
-                const rotateZ = useTransform(mouseX, [0, 1000], [-5, 5]);
-                const scale = useTransform(mouseY, [0, 200], [0.8, 1.2]);
+                const rotateZ = useTransform(mouseX, [0, 1000], [-10, 10]);
+                const scale = useTransform(mouseY, [0, 300], [0.8, 1.2]);
+
+                // Calculate scattered positions
+                const scatterX = (index % 3 * 33 + Math.random() * 20) + '%';
+                const scatterY = (Math.floor(index / 3) * 33 + Math.random() * 20) + '%';
 
                 return (
                   <motion.div
@@ -180,19 +188,17 @@ export default function Home() {
                       x,
                       y,
                       rotateZ,
-                      left: `${(100 / COMPANY_COLLABORATIONS.length) * (index + 0.5)}%`,
-                      top: '50%',
-                      translateX: '-50%',
-                      translateY: '-50%',
+                      left: scatterX,
+                      top: scatterY,
                     }}
                     whileHover={{ 
                       scale: 1.2,
                       zIndex: 10,
-                      transition: { duration: 0.2 }
+                      transition: { duration: 0.3 }
                     }}
                     animate={{
-                      x: mouseX.get() ? x : 0,
-                      y: mouseY.get() ? y : 0,
+                      x: mouseX.get() ? x : randomX,
+                      y: mouseY.get() ? y : randomY,
                     }}
                   >
                     <img
