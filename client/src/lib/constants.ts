@@ -20,7 +20,7 @@ export const SERVICES = [
       "Balancing Ponds",
       "Pumping Stations"
     ],
-    images: ["/images/IMG_3893.jpg"]
+    images: []
   },
   {
     title: "Deep Drainage",
@@ -84,9 +84,9 @@ export const PORTFOLIO_IMAGES = [
     title: "Foundation Excellence"
   },
   {
-    src: "/images/IMG_3893.jpg",
-    alt: "Civil engineering project",
-    title: "Civil Engineering Excellence"
+    src: "/images/IMG_3319.jpg",
+    alt: "Groundworks project",
+    title: "Site Development"
   }
 ];
 
