@@ -170,7 +170,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
           </ScrollReveal>
           <motion.div 
-            className="relative h-[100px] bg-background/50 backdrop-blur-sm rounded-xl p-4"
+            className="relative h-[60px] bg-background/50 backdrop-blur-sm rounded-xl p-4 flex items-center justify-around"
             onMouseMove={handleMouseMove}
             whileHover={{ scale: 1.02 }}
           >
@@ -181,8 +181,9 @@ export default function Home() {
               return (
                 <motion.div
                   key={index}
-                  className="absolute cursor-pointer"
+                  className="flex items-center justify-center"
                   style={{
+                    position: 'absolute',
                     left: `${xPos}%`,
                     top: `${yPos}%`,
                     transform: 'translate(-50%, -50%)',
