@@ -30,7 +30,7 @@ export const SERVICES = [
       "Manhole Installation",
       "Benching"
     ],
-    images: ["https://images.unsplash.com/photo-1526385604508-05e4e7f0bc61"]
+    images: ["/images/IMG_0127.png", "/images/IMG_1391.jpg", "/images/IMG_0041.png", "/images/46ED5F4B-1ED0-4F22-A41A-691919DD2391.jpg", "/images/IMG_6590.jpg"]
   }
 ];
 
