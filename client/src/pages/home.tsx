@@ -203,7 +203,9 @@ export default function Home() {
                     alt={`${company.name} logo`}
                     className="w-24 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
                     style={{
-                      filter: 'brightness(1.1) contrast(1.1)'
+                      filter: 'brightness(1.1) contrast(1.1)',
+                      objectFit: 'contain',
+                      maxHeight: '40px'
                     }}
                   />
                 </motion.div>

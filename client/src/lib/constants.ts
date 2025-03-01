@@ -45,7 +45,7 @@ export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653a
 export const COMPANY_COLLABORATIONS = [
   {
     name: "Taylor Wimpey",
-    logo: "/assets/taylor-wimpey.png",
+    logo: "/assets/Logo_Taylor_Wimpey.svg.png",
   },
   {
     name: "Persimmon",
