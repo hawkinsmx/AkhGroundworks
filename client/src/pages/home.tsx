@@ -170,13 +170,13 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
           </ScrollReveal>
           <motion.div 
-            className="relative h-[60px] bg-background/50 backdrop-blur-sm rounded-xl p-4 flex items-center justify-around"
+            className="relative h-[80px] bg-background/50 backdrop-blur-sm rounded-xl p-6 flex items-center justify-around"
             onMouseMove={handleMouseMove}
             whileHover={{ scale: 1.02 }}
           >
             {COMPANY_COLLABORATIONS.map((company, index) => {
               const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
-              const yPos = 30;
+              const yPos = 40;
 
               return (
                 <motion.div
@@ -189,7 +189,7 @@ export default function Home() {
                     transform: 'translate(-50%, -50%)',
                     scale: calculateScale({ 
                       x: (xPos / 100) * (window.innerWidth * 0.8), 
-                      y: 30 
+                      y: 40 
                     })
                   }}
                   whileHover={{ 
@@ -204,7 +204,7 @@ export default function Home() {
                     className={`max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300`}
                     style={{
                       objectFit: 'contain',
-                      maxHeight: '30px',
+                      maxHeight: '40px',
                       width: 'auto',
                       filter: company.name === "Persimmon" ? 'brightness(1) contrast(0.8)' : 'none',
                       backgroundColor: company.name === "Persimmon" ? 'transparent' : 'transparent'
