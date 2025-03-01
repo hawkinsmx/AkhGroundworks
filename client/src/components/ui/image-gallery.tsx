@@ -22,17 +22,14 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
         {images.map((image, index) => (
           <div
             key={index}
-            className="relative group cursor-pointer overflow-hidden rounded-lg"
+            className="relative overflow-hidden rounded-lg"
             onClick={() => setSelectedImage(image)}
           >
             <img
               src={image.src}
               alt={image.alt}
-              className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-auto object-contain"
             />
-            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <h3 className="text-white text-xl font-semibold">{image.title}</h3>
-            </div>
           </div>
         ))}
       </div>
@@ -40,11 +37,11 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
         {selectedImage && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
-            <div className="relative max-w-4xl w-full">
+            <div className="relative max-w-6xl w-full">
               <img
                 src={selectedImage.src}
                 alt={selectedImage.alt}
-                className="w-full h-auto rounded-lg"
+                className="w-full h-auto"
               />
               <button
                 onClick={() => setSelectedImage(null)}
