@@ -9,17 +9,17 @@ export const SERVICES = [
       "Oversites",
       "External Drainage"
     ],
-    image: "/IMG_7998.jpg"
+    images: ["/IMG_7998.jpg"] // This will be an array of images
   },
   {
     title: "Civil Engineering",
     description: "Professional civil engineering services for commercial and residential projects.",
-    image: "https://images.unsplash.com/photo-1490775696818-7832285c7240"
+    images: ["https://images.unsplash.com/photo-1490775696818-7832285c7240"]
   },
   {
     title: "Drainage",
     description: "Expert drainage solutions and installations for all types of properties.",
-    image: "https://images.unsplash.com/photo-1526385604508-05e4e7f0bc61"
+    images: ["https://images.unsplash.com/photo-1526385604508-05e4e7f0bc61"]
   }
 ];
 

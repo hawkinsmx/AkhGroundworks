@@ -2,6 +2,9 @@ import { SERVICES } from "@/lib/constants";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { motion } from "framer-motion";
+import useEmblaCarousel from 'embla-carousel-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback } from "react";
 
 export default function Services() {
   const detailedServices = [
@@ -9,19 +12,67 @@ export default function Services() {
     {
       title: "Site Preparation",
       description: "Comprehensive site preparation including clearing, leveling, and ground stabilization.",
-      image: "https://images.unsplash.com/photo-1482731215275-a1f151646268"
+      images: ["https://images.unsplash.com/photo-1482731215275-a1f151646268"]
     },
     {
       title: "Foundation Work",
       description: "Expert foundation construction for all types of buildings and structures.",
-      image: "https://images.unsplash.com/photo-1495036019936-220b29b930ea"
+      images: ["https://images.unsplash.com/photo-1495036019936-220b29b930ea"]
     },
     {
       title: "Infrastructure Development",
       description: "Complete infrastructure solutions including roads, utilities, and drainage systems.",
-      image: "https://images.unsplash.com/photo-1429497419816-9ca5cfb4571a"
+      images: ["https://images.unsplash.com/photo-1429497419816-9ca5cfb4571a"]
     }
   ];
+
+  const ServiceImageCarousel = ({ images }: { images: string[] }) => {
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+
+    const scrollPrev = useCallback(() => {
+      if (emblaApi) emblaApi.scrollPrev();
+    }, [emblaApi]);
+
+    const scrollNext = useCallback(() => {
+      if (emblaApi) emblaApi.scrollNext();
+    }, [emblaApi]);
+
+    return (
+      <div className="relative">
+        <div className="overflow-hidden rounded-lg" ref={emblaRef}>
+          <div className="flex">
+            {images.map((image, idx) => (
+              <div key={idx} className="flex-[0_0_100%] min-w-0">
+                <div className="relative h-[400px]">
+                  <img
+                    src={image}
+                    alt="Service image"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={scrollPrev}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors z-10"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              onClick={scrollNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors z-10"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </>
+        )}
+      </div>
+    );
+  };
 
   return (
     <PageTransition>
@@ -44,16 +95,7 @@ export default function Services() {
                     whileHover={{ y: -5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="relative h-[400px] overflow-hidden rounded-lg">
-                      <img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/50 flex items-end p-6">
-                        <h3 className="text-2xl font-semibold text-white">{service.title}</h3>
-                      </div>
-                    </div>
+                    <ServiceImageCarousel images={service.images} />
                   </motion.div>
 
                   <motion.div
