@@ -79,36 +79,36 @@ export default function Home() {
               backgroundPosition: 'center',
             }}
           />
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.h1 
-              className="text-4xl md:text-6xl font-bold text-white mb-6"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              Professional Groundworks <br />& Civil Engineering
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-gray-200 mb-8 max-w-2xl"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            >
-              Expert solutions for all your construction needs, delivered with precision and excellence.
-            </motion.p>
-            <motion.div
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-            >
-              <Link href="/contact">
-                <Button size="lg" className="text-lg">
-                  Get in Touch
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold text-white mb-6"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            Professional Groundworks <br />& Civil Engineering
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-gray-200 mb-8 max-w-2xl"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            Expert solutions for all your construction needs, delivered with precision and excellence.
+          </motion.p>
+          <motion.div
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            <Link href="/contact">
+              <Button size="lg" className="text-lg">
+                Get in Touch
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
       </section>
 
       {/* Services Carousel */}
@@ -204,7 +204,8 @@ export default function Home() {
                     style={{
                       objectFit: 'contain',
                       maxHeight: '30px',
-                      width: 'auto'
+                      width: 'auto',
+                      filter: company.name === "Persimmon" ? 'invert(1) brightness(0.3)' : 'none'
                     }}
                   />
                 </motion.div>
