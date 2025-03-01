@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 const roles = [
   "Groundworker",
   "Plant Operator",
+  "Supervisor",
   "Other",
 ];
 
