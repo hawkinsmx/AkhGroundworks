@@ -37,6 +37,13 @@ export function Footer() {
                   </a>
                 </Link>
               </li>
+              <li>
+                <Link href="/starter-form">
+                  <a className="text-muted-foreground hover:text-primary transition-colors">
+                    Starter Form
+                  </a>
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

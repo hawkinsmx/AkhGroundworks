@@ -11,6 +11,7 @@ import Gallery from "@/pages/gallery";
 import Apply from "@/pages/apply";
 import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
+import StarterForm from "@/pages/starter-form";
 
 function Router() {
   const [location] = useLocation();
@@ -23,6 +24,7 @@ function Router() {
         <Route path="/gallery" component={Gallery} />
         <Route path="/apply" component={Apply} />
         <Route path="/contact" component={Contact} />
+        <Route path="/starter-form" component={StarterForm} />
         <Route component={NotFound} />
       </Switch>
     </AnimatePresence>
