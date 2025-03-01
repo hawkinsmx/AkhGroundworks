@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { HERO_IMAGE, SERVICES, COMPANY_COLLABORATIONS } from "@/lib/constants";
@@ -8,7 +8,6 @@ import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
 import { motion } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
-import { useCallback, useEffect } from 'react';
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -36,23 +35,28 @@ export default function Home() {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  // Mouse position state for logo scaling (removed since we're using flexbox)
+  // Companies carousel for mobile
+  const [companiesRef, companiesApi] = useEmblaCarousel({
+    loop: true,
+    dragFree: true,
+    containScroll: 'trimSnaps'
+  });
 
   return (
     <PageTransition>
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <motion.div
-            className="absolute inset-0 z-0"
-            initial={{ scale: 1.1, opacity: 0.5 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.5 }}
-            style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(${HERO_IMAGE})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
+          className="absolute inset-0 z-0"
+          initial={{ scale: 1.1, opacity: 0.5 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url(${HERO_IMAGE})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
         <div className="container mx-auto px-4 relative z-10">
           <motion.h1 
             className="text-4xl md:text-6xl font-bold text-white mb-6"
@@ -143,8 +147,9 @@ export default function Home() {
           <ScrollReveal>
             <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
           </ScrollReveal>
+          {/* Desktop View */}
           <motion.div 
-            className="relative h-[80px] bg-background/50 backdrop-blur-sm rounded-xl p-6"
+            className="relative h-[80px] bg-background/50 backdrop-blur-sm rounded-xl p-6 hidden md:block"
           >
             <div className="flex items-center justify-between h-full">
               {COMPANY_COLLABORATIONS.map((company, index) => (
@@ -173,6 +178,34 @@ export default function Home() {
               ))}
             </div>
           </motion.div>
+          {/* Mobile View */}
+          <div className="md:hidden">
+            <div className="overflow-hidden" ref={companiesRef}>
+              <div className="flex">
+                {COMPANY_COLLABORATIONS.map((company, index) => (
+                  <div
+                    key={index}
+                    className="flex-[0_0_50%] min-w-0 px-4 flex items-center justify-center"
+                  >
+                    <div className="bg-background/50 backdrop-blur-sm rounded-xl p-4 w-full flex items-center justify-center">
+                      <img
+                        src={company.logo}
+                        alt={`${company.name} logo`}
+                        className="max-w-full h-auto"
+                        style={{
+                          objectFit: 'contain',
+                          maxHeight: '30px',
+                          width: 'auto',
+                          filter: company.name === "Persimmon" ? 'brightness(1) contrast(0.8)' : 'none',
+                          backgroundColor: company.name === "Persimmon" ? 'transparent' : 'transparent'
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
