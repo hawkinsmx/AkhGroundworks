@@ -176,7 +176,7 @@ export default function Home() {
           >
             {COMPANY_COLLABORATIONS.map((company, index) => {
               const xPos = (100 / COMPANY_COLLABORATIONS.length) * (index + 0.5);
-              const yPos = 50;
+              const yPos = 30;
 
               return (
                 <motion.div
@@ -189,7 +189,7 @@ export default function Home() {
                     transform: 'translate(-50%, -50%)',
                     scale: calculateScale({ 
                       x: (xPos / 100) * (window.innerWidth * 0.8), 
-                      y: 50 
+                      y: 30 
                     })
                   }}
                   whileHover={{ 
