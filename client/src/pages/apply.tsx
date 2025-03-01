@@ -40,7 +40,8 @@ export default function Apply() {
     resolver: zodResolver(insertJobApplicationSchema),
     defaultValues: {
       name: "",
-      email:"",
+      email: "",
+      phone: "", // Added phone field
       role: "Groundworker",
       otherRole: "",
       qualifications: [{ type: "", qualification: "", expiryDate: "" }],
@@ -125,6 +126,28 @@ export default function Apply() {
                           <Input 
                             type="email" 
                             placeholder="Enter your email address" 
+                            {...field}
+                            required
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex gap-1">
+                          Phone Number
+                          <span className="text-destructive">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="tel" 
+                            placeholder="Enter your phone number" 
                             {...field}
                             required
                           />

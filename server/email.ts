@@ -17,6 +17,7 @@ interface ContactFormEmail {
 interface JobApplicationEmail {
   name: string;
   email: string;
+  phone: string;
   role: string;
   otherRole?: string;
   qualifications: Array<{
@@ -71,6 +72,7 @@ New Job Application Received
 
 Name: ${data.name}
 Email: ${data.email}
+Phone: ${data.phone}
 Role: ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}
 
 Qualifications:
@@ -80,6 +82,7 @@ ${qualificationsText}
 <h2>New Job Application</h2>
 <p><strong>Name:</strong> ${data.name}</p>
 <p><strong>Email:</strong> ${data.email}</p>
+<p><strong>Phone:</strong> ${data.phone}</p>
 <p><strong>Role:</strong> ${data.role}${data.otherRole ? ` (${data.otherRole})` : ''}</p>
 
 <h3>Qualifications:</h3>

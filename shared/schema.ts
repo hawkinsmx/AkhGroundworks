@@ -30,6 +30,7 @@ export const jobApplications = pgTable("job_applications", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull(),
+  phone: text("phone").notNull(),
   role: text("role").notNull(),
   otherRole: text("other_role"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -44,6 +45,7 @@ export const insertJobApplicationSchema = createInsertSchema(jobApplications).ex
     })
   ),
   email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
   role: z.enum(["Groundworker", "Plant Operator", "Supervisor", "Other"]),
   otherRole: z.string().optional(),
 });
