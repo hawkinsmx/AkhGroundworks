@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, date } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -24,3 +24,36 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages).pi
 
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
 export type ContactMessage = typeof contactMessages.$inferSelect;
+
+
+export const jobApplications = pgTable("job_applications", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  otherRole: text("other_role"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const qualifications = pgTable("qualifications", {
+  id: serial("id").primaryKey(),
+  applicationId: serial("application_id").references(() => jobApplications.id),
+  type: text("type").notNull(),
+  qualification: text("qualification").notNull(),
+  expiryDate: date("expiry_date").notNull(),
+});
+
+export const insertJobApplicationSchema = createInsertSchema(jobApplications).extend({
+  qualifications: z.array(
+    z.object({
+      type: z.string().min(1, "Qualification type is required"),
+      qualification: z.string().min(1, "Qualification details are required"),
+      expiryDate: z.string().min(1, "Expiry date is required"),
+    })
+  ),
+  role: z.enum(["Groundworker", "Plant Operator", "Supervisor", "Other"]),
+  otherRole: z.string().optional(),
+});
+
+export type InsertJobApplication = z.infer<typeof insertJobApplicationSchema>;
+export type JobApplication = typeof jobApplications.$inferSelect;
+export type Qualification = typeof qualifications.$inferSelect;
