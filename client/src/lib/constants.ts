@@ -9,7 +9,7 @@ export const SERVICES = [
       "Oversites",
       "External Drainage"
     ],
-    images: ["/IMG_7998.jpg"] // This will be an array of images
+    images: ["/IMG_7998.jpg", "/IMG_3137.jpg", "/IMG_3322.jpg", "/IMG_3319.jpg"] // Added new images
   },
   {
     title: "Civil Engineering",
