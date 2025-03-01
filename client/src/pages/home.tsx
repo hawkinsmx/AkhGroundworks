@@ -65,7 +65,7 @@ export default function Home() {
 
   return (
     <PageTransition>
-      {/* Hero Section remains unchanged */}
+      {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <motion.div
             className="absolute inset-0 z-0"
@@ -110,7 +110,7 @@ export default function Home() {
           </div>
       </section>
 
-      {/* Services Carousel remains unchanged */}
+      {/* Services Carousel */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <ScrollReveal>
@@ -200,7 +200,10 @@ export default function Home() {
                   <img
                     src={company.logo}
                     alt={`${company.name} logo`}
-                    className="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300"
+                    className="w-48 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      filter: 'brightness(1.1) contrast(1.1)'
+                    }}
                   />
                 </motion.div>
               );
