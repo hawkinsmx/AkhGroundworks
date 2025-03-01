@@ -1,7 +1,14 @@
 export const SERVICES = [
   {
     title: "Groundworks",
-    description: "Complete groundwork solutions including excavation, foundations, and site preparation.",
+    description: "Our dedicated team of groundwork professionals combines friendly service with unmatched expertise. Known for our hard work, professionalism, and commitment to maintaining the highest quality standards, we ensure every project is completed to perfection. Our experienced crew takes pride in delivering exceptional results while maintaining clear communication throughout the process.",
+    services: [
+      "External Finishes",
+      "Hard Landscaping",
+      "Retaining Walls",
+      "Oversites",
+      "External Drainage"
+    ],
     image: "https://images.unsplash.com/photo-1623199971727-c59b8c11fdfd"
   },
   {
