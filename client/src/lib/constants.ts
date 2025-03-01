@@ -49,7 +49,7 @@ export const COMPANY_COLLABORATIONS = [
   },
   {
     name: "Persimmon",
-    logo: "/company-logos/Persimmon_plc-Logo.wine.png",
+    logo: "/company-logos/Persimmon-Homes-White.png",
   },
   {
     name: "Bellway",
