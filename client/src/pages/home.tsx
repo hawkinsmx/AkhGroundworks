@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { HERO_IMAGE, SERVICES, COMPANY_COLLABORATIONS } from "@/lib/constants";
+import { SERVICES, COMPANY_COLLABORATIONS } from "@/lib/constants";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
