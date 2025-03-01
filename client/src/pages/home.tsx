@@ -145,7 +145,6 @@ export default function Home() {
           </ScrollReveal>
           <motion.div 
             className="relative h-[80px] bg-background/50 backdrop-blur-sm rounded-xl p-6"
-            whileHover={{ scale: 1.02 }}
           >
             <div className="flex items-center justify-between h-full">
               {COMPANY_COLLABORATIONS.map((company, index) => (
