@@ -7,25 +7,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback } from "react";
 
 export default function Services() {
-  const detailedServices = [
-    ...SERVICES,
-    {
-      title: "Site Preparation",
-      description: "Comprehensive site preparation including clearing, leveling, and ground stabilization.",
-      images: ["https://images.unsplash.com/photo-1482731215275-a1f151646268"]
-    },
-    {
-      title: "Foundation Work",
-      description: "Expert foundation construction for all types of buildings and structures.",
-      images: ["https://images.unsplash.com/photo-1495036019936-220b29b930ea"]
-    },
-    {
-      title: "Infrastructure Development",
-      description: "Complete infrastructure solutions including roads, utilities, and drainage systems.",
-      images: ["https://images.unsplash.com/photo-1429497419816-9ca5cfb4571a"]
-    }
-  ];
-
   const ServiceImageCarousel = ({ images }: { images: string[] }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
@@ -46,8 +27,12 @@ export default function Services() {
                 <div className="relative h-[400px]">
                   <img
                     src={image}
-                    alt="Service image"
+                    alt="Service demonstration"
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      console.error(`Failed to load image: ${image}`);
+                      e.currentTarget.src = '/placeholder.jpg';
+                    }}
                   />
                 </div>
               </div>
@@ -87,7 +72,7 @@ export default function Services() {
           </ScrollReveal>
 
           <div className="space-y-16">
-            {detailedServices.map((service, index) => (
+            {SERVICES.map((service, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
                 <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center`}>
                   <motion.div
