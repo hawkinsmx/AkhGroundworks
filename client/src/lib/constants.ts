@@ -44,8 +44,8 @@ export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653a
 
 export const COMPANY_COLLABORATIONS = [
   {
-    name: "Construction Co Ltd",
-    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+1",
+    name: "Taylor Wimpey",
+    logo: "/attached_assets/download.png",
   },
   {
     name: "BuildTech Solutions",
