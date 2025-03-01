@@ -96,9 +96,16 @@ export default function Apply() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel className="flex gap-1">
+                          Full Name
+                          <span className="text-destructive">*</span>
+                        </FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your full name" {...field} />
+                          <Input 
+                            placeholder="Enter your full name" 
+                            {...field} 
+                            required
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -110,9 +117,17 @@ export default function Apply() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel className="flex gap-1">
+                          Email
+                          <span className="text-destructive">*</span>
+                        </FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Enter your email address" {...field} />
+                          <Input 
+                            type="email" 
+                            placeholder="Enter your email address" 
+                            {...field}
+                            required
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -124,13 +139,17 @@ export default function Apply() {
                     name="role"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Role</FormLabel>
+                        <FormLabel className="flex gap-1">
+                          Role
+                          <span className="text-destructive">*</span>
+                        </FormLabel>
                         <Select
                           onValueChange={(value) => {
                             field.onChange(value);
                             setSelectedRole(value);
                           }}
                           defaultValue={field.value}
+                          required
                         >
                           <FormControl>
                             <SelectTrigger>
