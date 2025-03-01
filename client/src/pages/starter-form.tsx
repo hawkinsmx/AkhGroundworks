@@ -19,10 +19,7 @@ import { motion } from "framer-motion";
 
 const roles = [
   "Groundworker",
-  "Machine Operator",
-  "Site Supervisor",
-  "Project Manager",
-  "Civil Engineer",
+  "Plant Operator",
   "Other",
 ];
 
@@ -52,6 +49,12 @@ export default function StarterForm() {
     e.preventDefault();
     if (step < 4) {
       setStep(step + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (step > 1) {
+      setStep(step - 1);
     }
   };
 
@@ -104,7 +107,10 @@ export default function StarterForm() {
                   >
                     <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
                     <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
+                      <Label htmlFor="name" className="flex gap-1">
+                        Full Name
+                        <span className="text-destructive">*</span>
+                      </Label>
                       <Input
                         id="name"
                         name="name"
@@ -114,7 +120,10 @@ export default function StarterForm() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
+                      <Label htmlFor="email" className="flex gap-1">
+                        Email Address
+                        <span className="text-destructive">*</span>
+                      </Label>
                       <Input
                         id="email"
                         name="email"
@@ -125,7 +134,10 @@ export default function StarterForm() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone" className="flex gap-1">
+                        Phone Number
+                        <span className="text-destructive">*</span>
+                      </Label>
                       <Input
                         id="phone"
                         name="phone"
@@ -267,7 +279,10 @@ export default function StarterForm() {
                   >
                     <h2 className="text-2xl font-bold mb-6">Payment Details</h2>
                     <div className="space-y-2">
-                      <Label htmlFor="cisNumber">CIS Number</Label>
+                      <Label htmlFor="cisNumber" className="flex gap-1">
+                        CIS Number
+                        <span className="text-destructive">*</span>
+                      </Label>
                       <Input
                         id="cisNumber"
                         name="cisNumber"
@@ -277,7 +292,10 @@ export default function StarterForm() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="bankDetails">Bank Details</Label>
+                      <Label htmlFor="bankDetails" className="flex gap-1">
+                        Bank Details
+                        <span className="text-destructive">*</span>
+                      </Label>
                       <Input
                         id="bankDetails"
                         name="bankDetails"
@@ -289,8 +307,13 @@ export default function StarterForm() {
                   </motion.div>
                 )}
 
-                <div className="flex justify-end pt-6">
-                  <Button type="submit">
+                <div className="flex justify-between pt-6">
+                  {step > 1 && (
+                    <Button type="button" variant="outline" onClick={handleBack}>
+                      Back
+                    </Button>
+                  )}
+                  <Button type="submit" className={step === 1 ? 'w-full' : ''}>
                     {step === 3 ? "Finish" : "Continue"}
                   </Button>
                 </div>
