@@ -5,9 +5,9 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -35,24 +35,16 @@ export default function Home() {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-  const detailedServices = [
-    ...SERVICES,
-    {
-      title: "Site Preparation",
-      description: "Comprehensive site preparation including clearing, leveling, and ground stabilization.",
-      image: "https://images.unsplash.com/photo-1482731215275-a1f151646268"
-    },
-    {
-      title: "Foundation Work",
-      description: "Expert foundation construction for all types of buildings and structures.",
-      image: "https://images.unsplash.com/photo-1495036019936-220b29b930ea"
-    },
-    {
-      title: "Infrastructure Development",
-      description: "Complete infrastructure solutions including roads, utilities, and drainage systems.",
-      image: "https://images.unsplash.com/photo-1429497419816-9ca5cfb4571a"
-    }
-  ];
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
 
   return (
     <PageTransition>
@@ -155,28 +147,63 @@ export default function Home() {
         </section>
 
         {/* Companies We've Worked With */}
-        <section className="py-20 bg-muted">
+        <section className="py-20 bg-muted overflow-hidden">
           <div className="container mx-auto px-4">
             <ScrollReveal>
               <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
             </ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-              {COMPANY_COLLABORATIONS.map((company, index) => (
-                <ScrollReveal key={index} delay={index * 0.1}>
+            <motion.div 
+              className="relative h-[200px] bg-background/50 backdrop-blur-sm rounded-xl p-8"
+              onMouseMove={handleMouseMove}
+              whileHover={{ scale: 1.02 }}
+            >
+              {COMPANY_COLLABORATIONS.map((company, index) => {
+                // Create unique spring animations for each logo
+                const x = useSpring(useMotionValue(Math.random() * 80 - 40), { 
+                  stiffness: 100,
+                  damping: 30
+                });
+                const y = useSpring(useMotionValue(Math.random() * 80 - 40), {
+                  stiffness: 100,
+                  damping: 30
+                });
+
+                // Create motion values that respond to mouse position
+                const rotateZ = useTransform(mouseX, [0, 1000], [-5, 5]);
+                const scale = useTransform(mouseY, [0, 200], [0.8, 1.2]);
+
+                return (
                   <motion.div
-                    className="flex items-center justify-center p-4 bg-background rounded-lg"
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.2 }}
+                    key={index}
+                    className="absolute cursor-pointer"
+                    style={{
+                      x,
+                      y,
+                      rotateZ,
+                      left: `${(100 / COMPANY_COLLABORATIONS.length) * (index + 0.5)}%`,
+                      top: '50%',
+                      translateX: '-50%',
+                      translateY: '-50%',
+                    }}
+                    whileHover={{ 
+                      scale: 1.2,
+                      zIndex: 10,
+                      transition: { duration: 0.2 }
+                    }}
+                    animate={{
+                      x: mouseX.get() ? x : 0,
+                      y: mouseY.get() ? y : 0,
+                    }}
                   >
                     <img
                       src={company.logo}
                       alt={`${company.name} logo`}
-                      className="w-full h-auto opacity-75 hover:opacity-100 transition-opacity duration-300"
+                      className="w-32 h-auto opacity-75 hover:opacity-100 transition-opacity duration-300"
                     />
                   </motion.div>
-                </ScrollReveal>
-              ))}
-            </div>
+                );
+              })}
+            </motion.div>
           </div>
         </section>
 
@@ -212,3 +239,22 @@ export default function Home() {
     </PageTransition>
   );
 }
+
+const detailedServices = [
+  ...SERVICES,
+  {
+    title: "Site Preparation",
+    description: "Comprehensive site preparation including clearing, leveling, and ground stabilization.",
+    image: "https://images.unsplash.com/photo-1482731215275-a1f151646268"
+  },
+  {
+    title: "Foundation Work",
+    description: "Expert foundation construction for all types of buildings and structures.",
+    image: "https://images.unsplash.com/photo-1495036019936-220b29b930ea"
+  },
+  {
+    title: "Infrastructure Development",
+    description: "Complete infrastructure solutions including roads, utilities, and drainage systems.",
+    image: "https://images.unsplash.com/photo-1429497419816-9ca5cfb4571a"
+  }
+];
