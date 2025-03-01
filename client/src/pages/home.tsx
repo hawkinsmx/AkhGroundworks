@@ -205,8 +205,7 @@ export default function Home() {
                     style={{
                       objectFit: 'contain',
                       maxHeight: '30px',
-                      width: 'auto',
-                      filter: company.name === "Persimmon" ? 'brightness(0.3)' : 'none'
+                      width: 'auto'
                     }}
                   />
                 </motion.div>
