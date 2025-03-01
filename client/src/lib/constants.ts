@@ -41,3 +41,30 @@ export const PORTFOLIO_IMAGES = [
 
 export const COMPANY_LOGO = "/logo.png";
 export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354504-1653aa90e34e";
+
+export const COMPANY_COLLABORATIONS = [
+  {
+    name: "Construction Co Ltd",
+    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+1",
+  },
+  {
+    name: "BuildTech Solutions",
+    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+2",
+  },
+  {
+    name: "Infrastructure Inc",
+    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+3",
+  },
+  {
+    name: "Development Group",
+    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+4",
+  },
+  {
+    name: "Engineering Partners",
+    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+5",
+  },
+  {
+    name: "Project Management Ltd",
+    logo: "https://placehold.co/200x100/2a2a2a/ffffff?text=Company+6",
+  },
+];

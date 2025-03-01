@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
-import { HERO_IMAGE, SERVICES } from "@/lib/constants";
+import { HERO_IMAGE, SERVICES, COMPANY_COLLABORATIONS } from "@/lib/constants";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
@@ -151,6 +151,32 @@ export default function Home() {
                 </button>
               </div>
             </ScrollReveal>
+          </div>
+        </section>
+
+        {/* Companies We've Worked With */}
+        <section className="py-20 bg-muted">
+          <div className="container mx-auto px-4">
+            <ScrollReveal>
+              <h2 className="text-3xl font-bold text-center mb-12">Companies We've Worked With</h2>
+            </ScrollReveal>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+              {COMPANY_COLLABORATIONS.map((company, index) => (
+                <ScrollReveal key={index} delay={index * 0.1}>
+                  <motion.div
+                    className="flex items-center justify-center p-4 bg-background rounded-lg"
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <img
+                      src={company.logo}
+                      alt={`${company.name} logo`}
+                      className="w-full h-auto opacity-75 hover:opacity-100 transition-opacity duration-300"
+                    />
+                  </motion.div>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
         </section>
 
