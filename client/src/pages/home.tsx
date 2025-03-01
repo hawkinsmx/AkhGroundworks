@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { HERO_IMAGE, SERVICES, COMPANY_COLLABORATIONS } from "@/lib/constants";
@@ -7,7 +8,7 @@ import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
 import { motion } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -54,8 +55,8 @@ export default function Home() {
 
     // Convert distance to scale (closer = larger)
     const maxDistance = 300; // Maximum distance to consider
-    const minScale = 0.8; // Minimum scale when far
-    const maxScale = 1.5; // Maximum scale when close
+    const minScale = 1; // Minimum scale when far
+    const maxScale = 1.2; // Maximum scale when close
 
     if (distance > maxDistance) return minScale;
 
@@ -170,6 +171,7 @@ export default function Home() {
           </ScrollReveal>
           <motion.div 
             className="relative h-[100px] bg-background/50 backdrop-blur-sm rounded-xl p-4"
+            onMouseMove={handleMouseMove}
             whileHover={{ scale: 1.02 }}
           >
             {COMPANY_COLLABORATIONS.map((company, index) => {
@@ -184,6 +186,10 @@ export default function Home() {
                     left: `${xPos}%`,
                     top: `${yPos}%`,
                     transform: 'translate(-50%, -50%)',
+                    scale: calculateScale({ 
+                      x: (xPos / 100) * (window.innerWidth * 0.8), 
+                      y: 50 
+                    })
                   }}
                   whileHover={{ 
                     scale: 1.2,
