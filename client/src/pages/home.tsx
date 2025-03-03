@@ -52,7 +52,7 @@ export default function Home() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5 }}
           style={{
-            backgroundImage: `url(/attached_assets/image_2025-03-01_234708394.png)`,
+            backgroundImage: `url(/attached_assets/spliced_26980x7400.png)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -60,7 +60,7 @@ export default function Home() {
             height: '100%'
           }}
         />
-        <div className="absolute inset-0 bg-black/50 z-[1]" /> {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/50 z-[1]" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.h1 
             className="text-4xl md:text-6xl font-bold text-white mb-6"
