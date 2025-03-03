@@ -64,22 +64,39 @@ export default function StarterForm() {
   });
 
   const handleNext = async () => {
-    let isValid = false;
+    try {
+      let fieldsToValidate: string[] = [];
 
-    switch (step) {
-      case 1:
-        isValid = await form.trigger(['name', 'email', 'phone']);
-        break;
-      case 2:
-        isValid = await form.trigger(['role', 'qualifications']);
-        break;
-      case 3:
-        isValid = await form.trigger(['cisNumber', 'accountName', 'sortCode', 'accountNumber']);
-        break;
-    }
+      switch (step) {
+        case 1:
+          fieldsToValidate = ['name', 'email', 'phone'];
+          break;
+        case 2:
+          fieldsToValidate = ['role', 'qualifications'];
+          break;
+        case 3:
+          fieldsToValidate = ['cisNumber', 'accountName', 'sortCode', 'accountNumber'];
+          break;
+      }
 
-    if (isValid) {
-      setStep(step + 1);
+      const isValid = await form.trigger(fieldsToValidate);
+
+      if (isValid) {
+        setStep(step + 1);
+      } else {
+        toast({
+          title: "Validation Error",
+          description: "Please fill in all required fields correctly.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error during form validation:', error);
+      toast({
+        title: "Error",
+        description: "An error occurred while validating the form.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -90,6 +107,11 @@ export default function StarterForm() {
   };
 
   const onSubmit = async (data: StarterFormData) => {
+    if (step < 3) {
+      await handleNext();
+      return;
+    }
+
     try {
       console.log('Submitting form data:', { ...data, accountNumber: '****' });
 
@@ -164,7 +186,7 @@ export default function StarterForm() {
                   ))}
                 </div>
 
-                <form onSubmit={form.handleSubmit(step === 3 ? onSubmit : handleNext)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   {step === 1 && (
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
@@ -500,7 +522,8 @@ export default function StarterForm() {
                       </Button>
                     )}
                     <Button 
-                      type="submit"
+                      type="button"
+                      onClick={step === 3 ? form.handleSubmit(onSubmit) : handleNext}
                       className={step === 1 ? 'w-full' : ''}
                     >
                       {step === 3 ? "Submit" : "Continue"}
