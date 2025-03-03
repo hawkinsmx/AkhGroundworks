@@ -36,19 +36,19 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
 
       <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
         {selectedImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
-            <div className="relative max-w-6xl w-full">
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
+            onClick={() => setSelectedImage(null)} // Close on overlay click
+          >
+            <div 
+              className="relative max-w-6xl w-full"
+              onClick={(e) => e.stopPropagation()} // Prevent click from bubbling up
+            >
               <img
                 src={selectedImage.src}
                 alt={selectedImage.alt}
                 className="w-full h-auto"
               />
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 text-white hover:text-gray-300"
-              >
-                Close
-              </button>
             </div>
           </div>
         )}
