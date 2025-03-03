@@ -40,7 +40,9 @@ interface StarterFormEmail {
     expiryDate: string;
   }>;
   cisNumber: string;
-  bankDetails: string;
+  accountName: string;
+  sortCode: string;
+  accountNumber: string;
 }
 
 export async function sendContactFormEmail(data: ContactFormEmail): Promise<boolean> {
@@ -141,8 +143,10 @@ Qualifications:
 ${qualificationsText}
 
 Payment Details:
-CIS Number: ${data.cisNumber}
-Bank Details: ${data.bankDetails}
+UTR Number: ${data.cisNumber}
+Name on Account: ${data.accountName}
+Sort Code: ${data.sortCode}
+Account Number: ${data.accountNumber}
       `,
       html: `
 <h2>New Starter Form Submission</h2>
@@ -163,8 +167,10 @@ Bank Details: ${data.bankDetails}
 </ul>
 
 <h3>Payment Details:</h3>
-<p><strong>CIS Number:</strong> ${data.cisNumber}</p>
-<p><strong>Bank Details:</strong> ${data.bankDetails}</p>
+<p><strong>UTR Number:</strong> ${data.cisNumber}</p>
+<p><strong>Name on Account:</strong> ${data.accountName}</p>
+<p><strong>Sort Code:</strong> ${data.sortCode}</p>
+<p><strong>Account Number:</strong> ${data.accountNumber}</p>
       `,
     });
     return true;

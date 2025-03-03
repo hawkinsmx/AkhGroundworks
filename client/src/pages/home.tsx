@@ -46,11 +46,10 @@ export default function Home() {
     <PageTransition>
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url(/attached_assets/spliced_26980x7400.png)`,
-          }}
+        <img 
+          src="/attached_assets/spliced_26980x7400.png"
+          alt="Hero background"
+          className="absolute inset-0 w-full h-full object-cover z-0"
         />
         <div className="absolute inset-0 bg-black/50 z-[1]" />
         <div className="container mx-auto px-4 relative z-10">
