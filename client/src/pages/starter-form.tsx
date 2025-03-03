@@ -58,17 +58,23 @@ export default function StarterForm() {
     },
   });
 
-  const handleSubmit = async (data: StarterFormData) => {
-    if (step < 4) {
-      // Move to next step if form is valid for current step
-      const isValid = await form.trigger();
-      if (isValid) {
-        setStep(step + 1);
-        return;
-      }
-      return;
-    }
+  const handleNext = async () => {
+    // Define fields to validate for each step
+    const fieldsToValidate = {
+      1: ["name", "email", "phone", "niNumber"],
+      2: ["role", "qualifications"],
+      3: ["cisNumber", "accountName", "sortCode", "accountNumber"]
+    };
 
+    // Validate only the fields for the current step
+    const isValid = await form.trigger(fieldsToValidate[step as keyof typeof fieldsToValidate]);
+
+    if (isValid) {
+      setStep(step + 1);
+    }
+  };
+
+  const handleSubmit = async (data: StarterFormData) => {
     try {
       console.log('Submitting form data:', { ...data, accountNumber: '****' });
 
@@ -149,7 +155,10 @@ export default function StarterForm() {
                   ))}
                 </div>
 
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                <form
+                  onSubmit={form.handleSubmit((data) => step === 3 ? handleSubmit(data) : handleNext())}
+                  className="space-y-6"
+                >
                   {step === 1 && (
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
@@ -405,13 +414,13 @@ export default function StarterForm() {
                                       className="hidden"
                                       id={`photo-${index}`}
                                     />
-                                    <Label
+                                    <label
                                       htmlFor={`photo-${index}`}
                                       className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-md cursor-pointer"
                                     >
                                       <Upload className="h-4 w-4" />
                                       {field.value ? 'Change Photo' : 'Upload Photo'}
-                                    </Label>
+                                    </label>
                                     {field.value && (
                                       <span className="text-sm text-muted-foreground">
                                         {(field.value as File).name}
