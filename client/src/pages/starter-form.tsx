@@ -42,19 +42,18 @@ export default function StarterForm() {
       phone: "",
       role: "Groundworker",
       otherRole: "",
-      qualifications: [
-        {
-          type: "",
-          qualification: "",
-          registrationNumber: "",
-          expiryDate: "",
-          photo: null,
-        },
-      ],
+      qualifications: [{
+        type: "",
+        qualification: "",
+        registrationNumber: "",
+        expiryDate: "",
+        photo: null,
+      }],
       cisNumber: "",
       accountName: "",
       sortCode: "",
       accountNumber: "",
+      niNumber: "", // Added NI number field
     },
   });
 
@@ -72,10 +71,10 @@ export default function StarterForm() {
           fieldsToValidate = ['name', 'email', 'phone'];
           break;
         case 2:
-          fieldsToValidate = ['role', 'qualifications'];
+          fieldsToValidate = ['role']; // Only validate role, qualifications are optional
           break;
         case 3:
-          fieldsToValidate = ['cisNumber', 'accountName', 'sortCode', 'accountNumber'];
+          fieldsToValidate = ['cisNumber', 'accountName', 'sortCode', 'accountNumber', 'niNumber'];
           break;
       }
 
@@ -438,6 +437,27 @@ export default function StarterForm() {
                       className="space-y-4"
                     >
                       <h2 className="text-2xl font-bold mb-6">Payment Details</h2>
+
+                      <FormField
+                        control={form.control}
+                        name="niNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="niNumber" className="flex gap-1">
+                              National Insurance Number
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="e.g. QQ123456C"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <FormField
                         control={form.control}
                         name="cisNumber"
@@ -447,15 +467,17 @@ export default function StarterForm() {
                               UTR Number
                               <span className="text-destructive">*</span>
                             </FormLabel>
-                            <Input
-                              id="cisNumber"
-                              {...field}
-                              required
-                            />
+                            <FormControl>
+                              <Input
+                                {...field}
+                                placeholder="Enter your UTR number"
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
                         name="accountName"

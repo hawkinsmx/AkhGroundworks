@@ -68,16 +68,17 @@ export const starterFormSchema = z.object({
   role: z.enum(["Groundworker", "Plant Operator", "Supervisor", "Other"]),
   otherRole: z.string().optional(),
   qualifications: z.array(z.object({
-    type: z.string().min(1, "Qualification type is required"),
-    qualification: z.string().min(1, "Qualification is required"),
-    registrationNumber: z.string().min(1, "Registration number is required"),
-    expiryDate: z.string().min(1, "Expiry date is required"),
+    type: z.string().optional(),
+    qualification: z.string().optional(),
+    registrationNumber: z.string().optional(),
+    expiryDate: z.string().optional(),
     photo: z.any().optional()
-  })),
+  })).optional().default([]),
   cisNumber: z.string().min(1, "UTR number is required"),
   accountName: z.string().min(1, "Account name is required"),
   sortCode: z.string().min(1, "Sort code is required"),
-  accountNumber: z.string().min(1, "Account number is required")
+  accountNumber: z.string().min(1, "Account number is required"),
+  niNumber: z.string().min(1, "National Insurance Number is required")
 });
 
 export type StarterFormData = z.infer<typeof starterFormSchema>;
