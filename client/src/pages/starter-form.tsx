@@ -1,9 +1,20 @@
 import { useState } from "react";
 import { Link } from "wouter";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { starterFormSchema, type StarterFormData } from "@shared/schema";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { PageTransition } from "@/components/animations/page-transition";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -17,91 +28,72 @@ import { format } from "date-fns";
 import { CalendarIcon, Plus, Trash2, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 
-const roles = [
-  "Groundworker",
-  "Plant Operator",
-  "Supervisor",
-  "Other",
-];
+const roles = ["Groundworker", "Plant Operator", "Supervisor", "Other"] as const;
 
 export default function StarterForm() {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    niNumber: "",
-    role: "",
-    otherRole: "",
-    qualifications: [{ 
-      type: "", 
-      qualification: "", 
-      registrationNumber: "",
-      expiryDate: "",
-      photo: null 
-    }],
-    cisNumber: "", 
-    accountName: "",
-    sortCode: "",
-    accountNumber: "",
+  const { toast } = useToast();
+
+  const form = useForm<StarterFormData>({
+    resolver: zodResolver(starterFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      role: "Groundworker",
+      otherRole: "",
+      qualifications: [
+        {
+          type: "",
+          qualification: "",
+          registrationNumber: "",
+          expiryDate: "",
+          photo: null,
+        },
+      ],
+      cisNumber: "",
+      accountName: "",
+      sortCode: "",
+      accountNumber: "",
+    },
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, role: value }));
-  };
-
-  // Add more detailed error handling and feedback
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (step < 4) {
+  const handleSubmit = async (data: StarterFormData) => {
+    if (step < 3) {
       setStep(step + 1);
-    } else {
-      try {
-        console.log('Submitting form data:', { ...formData, accountNumber: '****' });
+      return;
+    }
 
-        const response = await fetch('/api/starter-form', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
+    try {
+      console.log('Submitting form data:', { ...data, accountNumber: '****' });
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Failed to submit form');
-        }
+      const response = await fetch('/api/starter-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-        // Reset form and show success message
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          niNumber: "",
-          role: "",
-          otherRole: "",
-          qualifications: [{ 
-            type: "", 
-            qualification: "", 
-            registrationNumber: "",
-            expiryDate: "",
-            photo: null 
-          }],
-          cisNumber: "", 
-          accountName: "",
-          sortCode: "",
-          accountNumber: "",
-        });
-        setStep(4); // Show success message
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        alert(error instanceof Error ? error.message : 'Failed to submit form. Please try again.');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit form');
       }
+
+      toast({
+        title: "Success",
+        description: "Your form has been submitted successfully.",
+      });
+
+      form.reset();
+      setStep(4);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : 'Failed to submit form. Please try again.',
+        variant: "destructive",
+      });
     }
   };
 
@@ -112,32 +104,21 @@ export default function StarterForm() {
   };
 
   const addQualification = () => {
-    setFormData((prev) => ({
-      ...prev,
-      qualifications: [...prev.qualifications, { 
-        type: "", 
-        qualification: "", 
-        registrationNumber: "",
-        expiryDate: "", 
-        photo: null 
-      }],
-    }));
+    form.setValue("qualifications", [...form.getValues("qualifications"), {
+      type: "",
+      qualification: "",
+      registrationNumber: "",
+      expiryDate: "",
+      photo: null,
+    }]);
   };
 
   const removeQualification = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      qualifications: prev.qualifications.filter((_, i) => i !== index),
-    }));
+    form.setValue("qualifications", form.getValues("qualifications").filter((_, i) => i !== index));
   };
 
   const updateQualification = (index: number, field: string, value: string | File | null) => {
-    setFormData((prev) => ({
-      ...prev,
-      qualifications: prev.qualifications.map((q, i) =>
-        i === index ? { ...q, [field]: value } : q
-      ),
-    }));
+    form.setValue(`qualifications.${index}.${field}`, value);
   };
 
   const handlePhotoChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,315 +131,395 @@ export default function StarterForm() {
       <div className="min-h-screen pt-20">
         <div className="container mx-auto px-4 py-12 max-w-2xl">
           {step < 4 ? (
-            <div className="space-y-8">
-              <div className="flex justify-between items-center mb-8">
-                {[1, 2, 3].map((s) => (
-                  <div
-                    key={s}
-                    className={`h-3 w-3 rounded-full ${
-                      s <= step ? "bg-primary" : "bg-muted"
-                    }`}
-                  />
-                ))}
-              </div>
+            <Form {...form}>
+              <div className="space-y-8">
+                <div className="flex justify-between items-center mb-8">
+                  {[1, 2, 3].map((s) => (
+                    <div
+                      key={s}
+                      className={`h-3 w-3 rounded-full ${
+                        s <= step ? "bg-primary" : "bg-muted"
+                      }`}
+                    />
+                  ))}
+                </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {step === 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-4"
-                  >
-                    <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="flex gap-1">
-                        Full Name
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="name"
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                  {step === 1 && (
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="space-y-4"
+                    >
+                      <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+                      <FormField
+                        control={form.control}
                         name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="name" className="flex gap-1">
+                              Full Name
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="name"
+                              {...field}
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="flex gap-1">
-                        Email Address
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="email"
+                      <FormField
+                        control={form.control}
                         name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="email" className="flex gap-1">
+                              Email Address
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="email"
+                              type="email"
+                              {...field}
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="flex gap-1">
-                        Phone Number
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="phone"
+                      <FormField
+                        control={form.control}
                         name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        required
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="phone" className="flex gap-1">
+                              Phone Number
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="phone"
+                              type="tel"
+                              {...field}
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="niNumber" className="flex gap-1">
-                        National Insurance Number
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="niNumber"
+                      <FormField
+                        control={form.control}
                         name="niNumber"
-                        value={formData.niNumber}
-                        onChange={handleInputChange}
-                        placeholder="e.g. QQ123456C"
-                        required
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="niNumber" className="flex gap-1">
+                              National Insurance Number
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="niNumber"
+                              {...field}
+                              placeholder="e.g. QQ123456C"
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                  </motion.div>
-                )}
+                    </motion.div>
+                  )}
 
-                {step === 2 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-4"
-                  >
-                    <h2 className="text-2xl font-bold mb-6">Role & Qualifications</h2>
-                    <div className="space-y-2">
-                      <Label htmlFor="role">Select Role</Label>
-                      <Select
-                        value={formData.role}
-                        onValueChange={handleSelectChange}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a role" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {roles.map((role) => (
-                            <SelectItem key={role} value={role}>
-                              {role}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                  {step === 2 && (
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="space-y-4"
+                    >
+                      <h2 className="text-2xl font-bold mb-6">Role & Qualifications</h2>
+                      <FormField
+                        control={form.control}
+                        name="role"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="role">Select Role</FormLabel>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a role" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {roles.map((role) => (
+                                  <SelectItem key={role} value={role}>
+                                    {role}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    {formData.role === "Other" && (
-                      <div className="space-y-2">
-                        <Label>Specify Role</Label>
-                        <Input
+                      {form.watch("role") === "Other" && (
+                        <FormField
+                          control={form.control}
                           name="otherRole"
-                          value={formData.otherRole}
-                          onChange={handleInputChange}
-                          placeholder="Enter the role you're applying for"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Specify Role</FormLabel>
+                              <Input
+                                {...field}
+                                placeholder="Enter the role you're applying for"
+                              />
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
-                    )}
+                      )}
 
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold">Qualifications</h3>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={addQualification}
-                        >
-                          <Plus className="h-4 w-4 mr-2" />
-                          Add Qualification
-                        </Button>
-                      </div>
-
-                      {formData.qualifications.map((qual, index) => (
-                        <div key={index} className="space-y-4 p-4 border rounded-lg relative">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold">Qualifications</h3>
                           <Button
                             type="button"
-                            variant="ghost"
-                            size="icon"
-                            className="absolute right-2 top-2"
-                            onClick={() => removeQualification(index)}
+                            variant="outline"
+                            size="sm"
+                            onClick={addQualification}
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Qualification
                           </Button>
+                        </div>
 
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <Label>Type</Label>
-                              <Input
-                                value={qual.type}
-                                onChange={(e) => updateQualification(index, "type", e.target.value)}
-                                placeholder="e.g. CSCS, NPORS"
+                        {form.watch("qualifications").map((qual, index) => (
+                          <div key={index} className="space-y-4 p-4 border rounded-lg relative">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-2 top-2"
+                              onClick={() => removeQualification(index)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+
+                            <div className="grid grid-cols-2 gap-4">
+                              <FormField
+                                control={form.control}
+                                name={`qualifications.${index}.type`}
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Type</FormLabel>
+                                    <Input
+                                      {...field}
+                                      placeholder="e.g. CSCS, NPORS"
+                                    />
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <FormField
+                                control={form.control}
+                                name={`qualifications.${index}.qualification`}
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Qualification</FormLabel>
+                                    <Input
+                                      {...field}
+                                      placeholder="e.g. Dumper, Roller, Excavator"
+                                    />
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
                               />
                             </div>
 
-                            <div className="space-y-2">
-                              <Label>Qualification</Label>
-                              <Input
-                                value={qual.qualification}
-                                onChange={(e) => updateQualification(index, "qualification", e.target.value)}
-                                placeholder="e.g. Dumper, Roller, Excavator"
-                              />
-                            </div>
-                          </div>
+                            <FormField
+                              control={form.control}
+                              name={`qualifications.${index}.registrationNumber`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Registration Number</FormLabel>
+                                  <Input {...field} placeholder="Enter registration number" />
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
 
-                          <div className="space-y-2">
-                            <Label>Registration Number</Label>
-                            <Input
-                              value={qual.registrationNumber}
-                              onChange={(e) => updateQualification(index, "registrationNumber", e.target.value)}
-                              placeholder="Enter registration number"
+                            <FormField
+                              control={form.control}
+                              name={`qualifications.${index}.expiryDate`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Expiry Date</FormLabel>
+                                  <Popover>
+                                    <PopoverTrigger asChild>
+                                      <Button
+                                        variant="outline"
+                                        className={`w-full pl-3 text-left font-normal ${
+                                          !field.value && "text-muted-foreground"
+                                        }`}
+                                      >
+                                        {field.value ? (
+                                          format(new Date(field.value), "PPP")
+                                        ) : (
+                                          <span>Pick a date</span>
+                                        )}
+                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                      </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                      <Calendar
+                                        mode="single"
+                                        selected={field.value ? new Date(field.value) : undefined}
+                                        onSelect={(date) => field.onChange(date ? date.toISOString() : "")}
+                                        disabled={(date) => date < new Date()}
+                                        initialFocus
+                                      />
+                                    </PopoverContent>
+                                  </Popover>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name={`qualifications.${index}.photo`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Photo</FormLabel>
+                                  <div className="flex items-center gap-2">
+                                    <Input
+                                      type="file"
+                                      accept="image/*"
+                                      {...field}
+                                      className="hidden"
+                                      id={`photo-${index}`}
+                                    />
+                                    <Label
+                                      htmlFor={`photo-${index}`}
+                                      className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-md cursor-pointer"
+                                    >
+                                      <Upload className="h-4 w-4" />
+                                      {field.value ? 'Change Photo' : 'Upload Photo'}
+                                    </Label>
+                                    {field.value && (
+                                      <span className="text-sm text-muted-foreground">
+                                        {(field.value as File).name}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
                             />
                           </div>
-
-                          <div className="space-y-2">
-                            <Label>Expiry Date</Label>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  className={`w-full pl-3 text-left font-normal ${
-                                    !qual.expiryDate && "text-muted-foreground"
-                                  }`}
-                                >
-                                  {qual.expiryDate ? (
-                                    format(new Date(qual.expiryDate), "PPP")
-                                  ) : (
-                                    <span>Pick a date</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                  mode="single"
-                                  selected={qual.expiryDate ? new Date(qual.expiryDate) : undefined}
-                                  onSelect={(date) =>
-                                    updateQualification(index, "expiryDate", date ? date.toISOString() : "")
-                                  }
-                                  disabled={(date) => date < new Date()}
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
-                          </div>
-
-                          <div className="space-y-2">
-                            <Label>Photo</Label>
-                            <div className="flex items-center gap-2">
-                              <Input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handlePhotoChange(index, e)}
-                                className="hidden"
-                                id={`photo-${index}`}
-                              />
-                              <Label
-                                htmlFor={`photo-${index}`}
-                                className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-md cursor-pointer"
-                              >
-                                <Upload className="h-4 w-4" />
-                                {qual.photo ? 'Change Photo' : 'Upload Photo'}
-                              </Label>
-                              {qual.photo && (
-                                <span className="text-sm text-muted-foreground">
-                                  {(qual.photo as File).name}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {step === 3 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-4"
-                  >
-                    <h2 className="text-2xl font-bold mb-6">Payment Details</h2>
-                    <div className="space-y-2">
-                      <Label htmlFor="cisNumber" className="flex gap-1">
-                        UTR Number
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="cisNumber"
-                        name="cisNumber"
-                        value={formData.cisNumber}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="accountName" className="flex gap-1">
-                        Name on Account
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="accountName"
-                        name="accountName"
-                        value={formData.accountName}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="sortCode" className="flex gap-1">
-                        Sort Code
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="sortCode"
-                        name="sortCode"
-                        value={formData.sortCode}
-                        onChange={handleInputChange}
-                        placeholder="XX-XX-XX"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="accountNumber" className="flex gap-1">
-                        Account Number
-                        <span className="text-destructive">*</span>
-                      </Label>
-                      <Input
-                        id="accountNumber"
-                        name="accountNumber"
-                        value={formData.accountNumber}
-                        onChange={handleInputChange}
-                        placeholder="8 digits"
-                        required
-                      />
-                    </div>
-                  </motion.div>
-                )}
-
-                <div className="flex justify-between pt-6">
-                  {step > 1 && (
-                    <Button type="button" variant="outline" onClick={handleBack}>
-                      Back
-                    </Button>
+                        ))}
+                      </div>
+                    </motion.div>
                   )}
-                  <Button type="submit" className={step === 1 ? 'w-full' : ''}>
-                    {step === 3 ? "Finish" : "Continue"}
-                  </Button>
-                </div>
-              </form>
-            </div>
+
+                  {step === 3 && (
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="space-y-4"
+                    >
+                      <h2 className="text-2xl font-bold mb-6">Payment Details</h2>
+                      <FormField
+                        control={form.control}
+                        name="cisNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="cisNumber" className="flex gap-1">
+                              UTR Number
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="cisNumber"
+                              {...field}
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="accountName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="accountName" className="flex gap-1">
+                              Name on Account
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="accountName"
+                              {...field}
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="sortCode"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="sortCode" className="flex gap-1">
+                              Sort Code
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="sortCode"
+                              {...field}
+                              placeholder="XX-XX-XX"
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="accountNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="accountNumber" className="flex gap-1">
+                              Account Number
+                              <span className="text-destructive">*</span>
+                            </FormLabel>
+                            <Input
+                              id="accountNumber"
+                              {...field}
+                              placeholder="8 digits"
+                              required
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </motion.div>
+                  )}
+
+                  <div className="flex justify-between pt-6">
+                    {step > 1 && (
+                      <Button type="button" variant="outline" onClick={handleBack}>
+                        Back
+                      </Button>
+                    )}
+                    <Button type="submit" className={step === 1 ? 'w-full' : ''}>
+                      {step === 3 ? "Finish" : "Continue"}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </Form>
           ) : (
             <motion.div
               initial={{ opacity: 0, y: 20 }}

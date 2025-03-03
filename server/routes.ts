@@ -57,9 +57,15 @@ export async function registerRoutes(app: Express) {
 
   app.post("/api/starter-form", async (req, res) => {
     try {
+      console.log('Received starter form data:', { ...req.body, accountNumber: '****' });
+
       const data = starterFormSchema.parse(req.body);
+      console.log('Data parsed successfully with schema');
+
       // Send email notification
       const emailSent = await sendStarterFormEmail(data);
+      console.log('Email sending attempt completed, result:', emailSent);
+
       if (!emailSent) {
         console.error("Failed to send email notification");
         return res.status(500).json({ message: "Failed to send email notification" });
@@ -67,9 +73,13 @@ export async function registerRoutes(app: Express) {
 
       res.json({ message: "Starter form submitted successfully" });
     } catch (error) {
+      console.error('Error processing starter form:', error);
+
       if (error instanceof ZodError) {
+        const validationError = fromZodError(error);
+        console.error('Validation error:', validationError);
         res.status(400).json({
-          message: fromZodError(error).message,
+          message: validationError.message,
         });
       } else {
         console.error('Server error:', error);
