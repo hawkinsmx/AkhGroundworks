@@ -59,15 +59,19 @@ export default function StarterForm() {
   });
 
   const handleNext = async () => {
-    // Define fields to validate for each step
-    const fieldsToValidate = {
-      1: ["name", "email", "phone", "niNumber"],
-      2: ["role", "qualifications"],
-      3: ["cisNumber", "accountName", "sortCode", "accountNumber"]
-    };
+    let isValid = false;
 
-    // Validate only the fields for the current step
-    const isValid = await form.trigger(fieldsToValidate[step as keyof typeof fieldsToValidate]);
+    switch (step) {
+      case 1:
+        isValid = await form.trigger(['name', 'email', 'phone']);
+        break;
+      case 2:
+        isValid = await form.trigger(['role', 'qualifications']);
+        break;
+      case 3:
+        isValid = await form.trigger(['cisNumber', 'accountName', 'sortCode', 'accountNumber']);
+        break;
+    }
 
     if (isValid) {
       setStep(step + 1);
@@ -115,17 +119,25 @@ export default function StarterForm() {
   };
 
   const addQualification = () => {
-    form.setValue("qualifications", [...form.getValues("qualifications"), {
-      type: "",
-      qualification: "",
-      registrationNumber: "",
-      expiryDate: "",
-      photo: null,
-    }]);
+    const currentQualifications = form.getValues("qualifications");
+    form.setValue("qualifications", [
+      ...currentQualifications,
+      {
+        type: "",
+        qualification: "",
+        registrationNumber: "",
+        expiryDate: "",
+        photo: null,
+      }
+    ]);
   };
 
   const removeQualification = (index: number) => {
-    form.setValue("qualifications", form.getValues("qualifications").filter((_, i) => i !== index));
+    const currentQualifications = form.getValues("qualifications");
+    form.setValue(
+      "qualifications",
+      currentQualifications.filter((_, i) => i !== index)
+    );
   };
 
   const updateQualification = (index: number, field: string, value: string | File | null) => {
@@ -175,11 +187,13 @@ export default function StarterForm() {
                               Full Name
                               <span className="text-destructive">*</span>
                             </FormLabel>
-                            <Input
-                              id="name"
-                              {...field}
-                              required
-                            />
+                            <FormControl>
+                              <Input
+                                id="name"
+                                {...field}
+                                required
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -193,12 +207,14 @@ export default function StarterForm() {
                               Email Address
                               <span className="text-destructive">*</span>
                             </FormLabel>
-                            <Input
-                              id="email"
-                              type="email"
-                              {...field}
-                              required
-                            />
+                            <FormControl>
+                              <Input
+                                id="email"
+                                type="email"
+                                {...field}
+                                required
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -212,31 +228,14 @@ export default function StarterForm() {
                               Phone Number
                               <span className="text-destructive">*</span>
                             </FormLabel>
-                            <Input
-                              id="phone"
-                              type="tel"
-                              {...field}
-                              required
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="niNumber"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel htmlFor="niNumber" className="flex gap-1">
-                              National Insurance Number
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
-                            <Input
-                              id="niNumber"
-                              {...field}
-                              placeholder="e.g. QQ123456C"
-                              required
-                            />
+                            <FormControl>
+                              <Input
+                                id="phone"
+                                type="tel"
+                                {...field}
+                                required
+                              />
+                            </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -527,7 +526,10 @@ export default function StarterForm() {
                         Back
                       </Button>
                     )}
-                    <Button type="submit" className={step === 1 ? 'w-full' : ''}>
+                    <Button 
+                      type="submit" 
+                      className={step === 1 ? 'w-full' : ''}
+                    >
                       {step === 3 ? "Submit" : "Continue"}
                     </Button>
                   </div>
