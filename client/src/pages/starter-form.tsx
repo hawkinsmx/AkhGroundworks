@@ -59,8 +59,13 @@ export default function StarterForm() {
   });
 
   const handleSubmit = async (data: StarterFormData) => {
-    if (step < 3) {
-      setStep(step + 1);
+    if (step < 4) {
+      // Move to next step if form is valid for current step
+      const isValid = await form.trigger();
+      if (isValid) {
+        setStep(step + 1);
+        return;
+      }
       return;
     }
 
@@ -514,7 +519,7 @@ export default function StarterForm() {
                       </Button>
                     )}
                     <Button type="submit" className={step === 1 ? 'w-full' : ''}>
-                      {step === 3 ? "Finish" : "Continue"}
+                      {step === 3 ? "Submit" : "Continue"}
                     </Button>
                   </div>
                 </form>
