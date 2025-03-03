@@ -40,8 +40,10 @@ export default function StarterForm() {
       expiryDate: "",
       photo: null 
     }],
-    cisNumber: "",
-    bankDetails: "",
+    cisNumber: "", 
+    accountName: "",
+    sortCode: "",
+    accountNumber: "",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -347,7 +349,7 @@ export default function StarterForm() {
                     <h2 className="text-2xl font-bold mb-6">Payment Details</h2>
                     <div className="space-y-2">
                       <Label htmlFor="cisNumber" className="flex gap-1">
-                        CIS Number
+                        UTR Number
                         <span className="text-destructive">*</span>
                       </Label>
                       <Input
@@ -359,15 +361,43 @@ export default function StarterForm() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="bankDetails" className="flex gap-1">
-                        Bank Details
+                      <Label htmlFor="accountName" className="flex gap-1">
+                        Name on Account
                         <span className="text-destructive">*</span>
                       </Label>
                       <Input
-                        id="bankDetails"
-                        name="bankDetails"
-                        value={formData.bankDetails}
+                        id="accountName"
+                        name="accountName"
+                        value={formData.accountName}
                         onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="sortCode" className="flex gap-1">
+                        Sort Code
+                        <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="sortCode"
+                        name="sortCode"
+                        value={formData.sortCode}
+                        onChange={handleInputChange}
+                        placeholder="XX-XX-XX"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="accountNumber" className="flex gap-1">
+                        Account Number
+                        <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="accountNumber"
+                        name="accountNumber"
+                        value={formData.accountNumber}
+                        onChange={handleInputChange}
+                        placeholder="8 digits"
                         required
                       />
                     </div>
