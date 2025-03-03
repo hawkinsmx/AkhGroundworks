@@ -46,11 +46,8 @@ export default function Home() {
     <PageTransition>
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
-        <motion.div
+        <div 
           className="absolute inset-0 z-0"
-          initial={{ scale: 1.1, opacity: 0.5 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5 }}
           style={{
             backgroundImage: `url(/attached_assets/spliced_26980x7400.png)`,
             backgroundSize: 'cover',
