@@ -22,13 +22,13 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
         {images.map((image, index) => (
           <div
             key={index}
-            className="relative overflow-hidden rounded-lg"
+            className="relative overflow-hidden rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
             onClick={() => setSelectedImage(image)}
           >
             <img
               src={image.src}
               alt={image.alt}
-              className="w-full h-auto object-contain"
+              className="w-full h-64 object-cover"
             />
           </div>
         ))}
@@ -38,16 +38,16 @@ export function ImageGallery({ images, className }: ImageGalleryProps) {
         {selectedImage && (
           <div 
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80"
-            onClick={() => setSelectedImage(null)} // Close on overlay click
+            onClick={() => setSelectedImage(null)}
           >
             <div 
-              className="relative max-w-6xl w-full"
-              onClick={(e) => e.stopPropagation()} // Prevent click from bubbling up
+              className="relative max-w-4xl w-full max-h-[85vh] flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={selectedImage.src}
                 alt={selectedImage.alt}
-                className="w-full h-auto"
+                className="max-w-full max-h-[85vh] object-contain rounded-lg"
               />
             </div>
           </div>
