@@ -123,6 +123,8 @@ ${qualificationsText}
 
 export async function sendStarterFormEmail(data: StarterFormEmail): Promise<boolean> {
   try {
+    console.log('Attempting to send starter form email with data:', { ...data, accountNumber: '****' });
+
     const qualificationsText = data.qualifications
       .map(q => `- ${q.type}: ${q.qualification} (Reg: ${q.registrationNumber}, Expires: ${new Date(q.expiryDate).toLocaleDateString()})`)
       .join('\n');
@@ -173,6 +175,7 @@ Account Number: ${data.accountNumber}
 <p><strong>Account Number:</strong> ${data.accountNumber}</p>
       `,
     });
+    console.log('Successfully sent starter form email');
     return true;
   } catch (error) {
     console.error('SendGrid email error:', error);

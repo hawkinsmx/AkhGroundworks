@@ -72,10 +72,12 @@ export const starterFormSchema = z.object({
     qualification: z.string().min(1, "Qualification is required"),
     registrationNumber: z.string().min(1, "Registration number is required"),
     expiryDate: z.string().min(1, "Expiry date is required"),
-    photo: z.any().optional() 
+    photo: z.any().optional()
   })),
-  cisNumber: z.string().min(1, "CIS number is required"),
-  bankDetails: z.string().min(1, "Bank details are required")
+  cisNumber: z.string().min(1, "UTR number is required"),
+  accountName: z.string().min(1, "Account name is required"),
+  sortCode: z.string().min(1, "Sort code is required"),
+  accountNumber: z.string().min(1, "Account number is required")
 });
 
 export type StarterFormData = z.infer<typeof starterFormSchema>;

@@ -55,12 +55,15 @@ export default function StarterForm() {
     setFormData((prev) => ({ ...prev, role: value }));
   };
 
+  // Add more detailed error handling and feedback
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step < 4) {
       setStep(step + 1);
     } else {
       try {
+        console.log('Submitting form data:', { ...formData, accountNumber: '****' });
+
         const response = await fetch('/api/starter-form', {
           method: 'POST',
           headers: {
@@ -70,7 +73,8 @@ export default function StarterForm() {
         });
 
         if (!response.ok) {
-          throw new Error('Failed to submit form');
+          const error = await response.json();
+          throw new Error(error.message || 'Failed to submit form');
         }
 
         // Reset form and show success message
@@ -96,8 +100,7 @@ export default function StarterForm() {
         setStep(4); // Show success message
       } catch (error) {
         console.error('Error submitting form:', error);
-        // Show error message to user
-        alert('Failed to submit form. Please try again.');
+        alert(error instanceof Error ? error.message : 'Failed to submit form. Please try again.');
       }
     }
   };
