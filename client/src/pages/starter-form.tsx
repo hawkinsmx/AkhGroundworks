@@ -55,10 +55,50 @@ export default function StarterForm() {
     setFormData((prev) => ({ ...prev, role: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step < 4) {
       setStep(step + 1);
+    } else {
+      try {
+        const response = await fetch('/api/starter-form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to submit form');
+        }
+
+        // Reset form and show success message
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          niNumber: "",
+          role: "",
+          otherRole: "",
+          qualifications: [{ 
+            type: "", 
+            qualification: "", 
+            registrationNumber: "",
+            expiryDate: "",
+            photo: null 
+          }],
+          cisNumber: "", 
+          accountName: "",
+          sortCode: "",
+          accountNumber: "",
+        });
+        setStep(4); // Show success message
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        // Show error message to user
+        alert('Failed to submit form. Please try again.');
+      }
     }
   };
 

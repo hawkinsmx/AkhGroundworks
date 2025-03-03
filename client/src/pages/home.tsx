@@ -47,11 +47,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <img 
-          src="/spliced_26980x7400.png"
+          src="spliced_26980x7400.png"
           alt="Hero background"
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => {
             console.error(`Failed to load image: ${e.currentTarget.src}`);
+            e.currentTarget.src = '/placeholder.jpg';
           }}
         />
         <div className="absolute inset-0 bg-black/50 z-[1]" />

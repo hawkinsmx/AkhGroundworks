@@ -1,10 +1,10 @@
 import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
-import { insertContactMessageSchema, insertJobApplicationSchema } from "@shared/schema";
+import { insertContactMessageSchema, insertJobApplicationSchema, starterFormSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
-import { sendContactFormEmail, sendJobApplicationEmail } from "./email";
+import { sendContactFormEmail, sendJobApplicationEmail, sendStarterFormEmail } from "./email";
 
 export async function registerRoutes(app: Express) {
   app.post("/api/contact", async (req, res) => {
@@ -43,6 +43,29 @@ export async function registerRoutes(app: Express) {
       }
 
       res.json(application);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        res.status(400).json({
+          message: fromZodError(error).message,
+        });
+      } else {
+        console.error('Server error:', error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  });
+
+  app.post("/api/starter-form", async (req, res) => {
+    try {
+      const data = starterFormSchema.parse(req.body);
+      // Send email notification
+      const emailSent = await sendStarterFormEmail(data);
+      if (!emailSent) {
+        console.error("Failed to send email notification");
+        return res.status(500).json({ message: "Failed to send email notification" });
+      }
+
+      res.json({ message: "Starter form submitted successfully" });
     } catch (error) {
       if (error instanceof ZodError) {
         res.status(400).json({
