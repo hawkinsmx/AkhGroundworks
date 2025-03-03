@@ -47,7 +47,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <img 
-          src="spliced_26980x7400.png"
+          src="/assets/spliced_26980x7400.png"
           alt="Hero background"
           className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => {
