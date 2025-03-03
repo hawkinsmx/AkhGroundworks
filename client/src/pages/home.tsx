@@ -47,14 +47,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
         <div 
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(/attached_assets/spliced_26980x7400.png)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            width: '100%',
-            height: '100%'
           }}
         />
         <div className="absolute inset-0 bg-black/50 z-[1]" />
