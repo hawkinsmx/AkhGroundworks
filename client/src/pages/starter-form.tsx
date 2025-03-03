@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { starterFormSchema, type StarterFormData } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
@@ -58,6 +58,11 @@ export default function StarterForm() {
     },
   });
 
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "qualifications",
+  });
+
   const handleNext = async () => {
     let isValid = false;
 
@@ -78,7 +83,13 @@ export default function StarterForm() {
     }
   };
 
-  const handleSubmit = async (data: StarterFormData) => {
+  const handleBack = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
+
+  const onSubmit = async (data: StarterFormData) => {
     try {
       console.log('Submitting form data:', { ...data, accountNumber: '****' });
 
@@ -112,32 +123,18 @@ export default function StarterForm() {
     }
   };
 
-  const handleBack = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
-
   const addQualification = () => {
-    const currentQualifications = form.getValues("qualifications");
-    form.setValue("qualifications", [
-      ...currentQualifications,
-      {
-        type: "",
-        qualification: "",
-        registrationNumber: "",
-        expiryDate: "",
-        photo: null,
-      }
-    ]);
+    append({
+      type: "",
+      qualification: "",
+      registrationNumber: "",
+      expiryDate: "",
+      photo: null,
+    });
   };
 
   const removeQualification = (index: number) => {
-    const currentQualifications = form.getValues("qualifications");
-    form.setValue(
-      "qualifications",
-      currentQualifications.filter((_, i) => i !== index)
-    );
+    remove(index);
   };
 
   const updateQualification = (index: number, field: string, value: string | File | null) => {
@@ -167,10 +164,7 @@ export default function StarterForm() {
                   ))}
                 </div>
 
-                <form
-                  onSubmit={form.handleSubmit((data) => step === 3 ? handleSubmit(data) : handleNext())}
-                  className="space-y-6"
-                >
+                <form onSubmit={form.handleSubmit(step === 3 ? onSubmit : handleNext)} className="space-y-6">
                   {step === 1 && (
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
@@ -183,58 +177,37 @@ export default function StarterForm() {
                         name="name"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel htmlFor="name" className="flex gap-1">
-                              Full Name
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
+                            <FormLabel>Full Name</FormLabel>
                             <FormControl>
-                              <Input
-                                id="name"
-                                {...field}
-                                required
-                              />
+                              <Input {...field} placeholder="Enter your full name" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel htmlFor="email" className="flex gap-1">
-                              Email Address
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input
-                                id="email"
-                                type="email"
-                                {...field}
-                                required
-                              />
+                              <Input {...field} type="email" placeholder="your@email.com" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
                         name="phone"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel htmlFor="phone" className="flex gap-1">
-                              Phone Number
-                              <span className="text-destructive">*</span>
-                            </FormLabel>
+                            <FormLabel>Phone Number</FormLabel>
                             <FormControl>
-                              <Input
-                                id="phone"
-                                type="tel"
-                                {...field}
-                                required
-                              />
+                              <Input {...field} type="tel" placeholder="Your phone number" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -307,8 +280,8 @@ export default function StarterForm() {
                           </Button>
                         </div>
 
-                        {form.watch("qualifications").map((qual, index) => (
-                          <div key={index} className="space-y-4 p-4 border rounded-lg relative">
+                        {fields.map((qual, index) => (
+                          <div key={qual.id} className="space-y-4 p-4 border rounded-lg relative">
                             <Button
                               type="button"
                               variant="ghost"
@@ -527,7 +500,7 @@ export default function StarterForm() {
                       </Button>
                     )}
                     <Button 
-                      type="submit" 
+                      type="submit"
                       className={step === 1 ? 'w-full' : ''}
                     >
                       {step === 3 ? "Submit" : "Continue"}
@@ -547,9 +520,7 @@ export default function StarterForm() {
                 We're processing your details and will be in touch shortly.
               </p>
               <Link href="/">
-                <Button className="mx-auto">
-                  Return to Home
-                </Button>
+                <Button className="mx-auto">Return to Home</Button>
               </Link>
             </motion.div>
           )}
