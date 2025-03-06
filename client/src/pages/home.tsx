@@ -110,31 +110,18 @@ export default function Home() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-                        {service.images && service.images[0] && (
-                          <div className="relative h-48 overflow-hidden">
-                            <img
-                              src={service.images[0]}
-                              alt={service.title}
-                              className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                          </div>
+                      <div className="bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 p-6 h-[250px]">
+                        <h3 className="text-xl font-semibold mb-4 text-primary">{service.title}</h3>
+                        {service.services && (
+                          <ul className="space-y-3">
+                            {service.services.map((item, idx) => (
+                              <li key={idx} className="flex items-center text-muted-foreground">
+                                <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                                <span className="text-sm">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
                         )}
-                        <div className="p-6">
-                          <h3 className="text-xl font-semibold mb-2 text-primary">{service.title}</h3>
-                          <p className="text-muted-foreground text-sm line-clamp-2">{service.description}</p>
-                          {service.services && (
-                            <ul className="mt-4 space-y-2">
-                              {service.services.slice(0, 3).map((item, idx) => (
-                                <li key={idx} className="flex items-center text-sm text-muted-foreground">
-                                  <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
                       </div>
                     </motion.div>
                   ))}
