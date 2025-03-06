@@ -4,9 +4,26 @@ import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { motion } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import { useLocation } from "wouter";
 
 export default function Services() {
+  const [location] = useLocation();
+
+  // Scroll to the selected service when the page loads
+  useEffect(() => {
+    const hash = window.location.hash.slice(1); // Remove the # from the hash
+    if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        // Add a small delay to ensure smooth scroll after page transition
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
+
   const ServiceImageCarousel = ({ images }: { images: string[] }) => {
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
@@ -73,8 +90,14 @@ export default function Services() {
 
           <div className="space-y-16">
             {SERVICES.map((service, index) => (
-              <ScrollReveal key={index} delay={index * 0.1}>
-                <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center`}>
+              <ScrollReveal 
+                key={index} 
+                delay={index * 0.1}
+              >
+                <div 
+                  id={service.title.toLowerCase().replace(/\s+/g, '-')}
+                  className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center scroll-mt-24`}
+                >
                   <motion.div
                     className="w-full md:w-1/2"
                     whileHover={{ y: -5 }}
@@ -91,7 +114,6 @@ export default function Services() {
                     transition={{ duration: 0.5 }}
                   >
                     <div className="bg-gradient-to-br from-card to-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 relative group">
-                      {/* Content */}
                       <div className="relative z-10">
                         <h3 className="text-2xl font-semibold text-primary mb-4 group-hover:translate-x-1 transition-transform duration-300">
                           {service.title}

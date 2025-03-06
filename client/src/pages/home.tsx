@@ -36,10 +36,13 @@ const CompanyLogo = memo(({ company }: { company: typeof COMPANY_COLLABORATIONS[
 ));
 
 // Memoized service card component
-const ServiceCard = memo(({ service, onClick }: { service: typeof SERVICES[0], onClick: () => void }) => (
+const ServiceCard = memo(({ service, onClick }: { 
+  service: typeof SERVICES[0], 
+  onClick: (title: string) => void 
+}) => (
   <motion.div
     className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
-    onClick={onClick}
+    onClick={() => onClick(service.title)}
     whileHover={{ scale: 1.02 }}
     transition={{ duration: 0.2 }}
   >
@@ -104,8 +107,10 @@ export default function Home() {
     containScroll: 'trimSnaps'
   });
 
-  const handleServiceClick = useCallback(() => {
-    setLocation('/services');
+  const handleServiceClick = useCallback((title: string) => {
+    // Convert title to kebab case for the URL
+    const anchor = title.toLowerCase().replace(/\s+/g, '-');
+    setLocation(`/services#${anchor}`);
   }, [setLocation]);
 
   return (
