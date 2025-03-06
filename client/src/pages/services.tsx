@@ -3,7 +3,7 @@ import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { motion } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { useCallback } from "react";
 
 export default function Services() {
@@ -93,9 +93,12 @@ export default function Services() {
                     <h3 className="text-2xl font-semibold text-primary mb-4">{service.title}</h3>
                     <p className="text-muted-foreground text-lg leading-relaxed mb-4">{service.description}</p>
                     {service.services && (
-                      <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+                      <ul className="space-y-2">
                         {service.services.map((item, idx) => (
-                          <li key={idx} className="text-lg">{item}</li>
+                          <li key={idx} className="flex items-center text-muted-foreground">
+                            <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                            <span className="text-lg">{item}</span>
+                          </li>
                         ))}
                       </ul>
                     )}
