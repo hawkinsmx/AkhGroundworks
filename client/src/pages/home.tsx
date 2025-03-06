@@ -225,25 +225,25 @@ export default function Home() {
                   icon: Clock,
                   title: "30+ Years Experience",
                   description: "Decades of expertise in groundworks and civil engineering projects.",
-                  points: ["Professional project delivery", "Industry expertise"]
+                  services: ["Professional project delivery", "Industry expertise"]
                 },
                 {
                   icon: Users,
                   title: "Qualified Professionals",
                   description: "Expert team of certified and skilled construction specialists.",
-                  points: ["Certified team members", "Ongoing training"]
+                  services: ["Certified team members", "Ongoing training"]
                 },
                 {
                   icon: Award,
                   title: "Quality Guaranteed",
                   description: "Commitment to excellence with industry-leading standards.",
-                  points: ["Quality assurance", "Regular inspections"]
+                  services: ["Quality assurance", "Regular inspections"]
                 },
                 {
                   icon: Users,
                   title: "Friendly Team",
                   description: "A dedicated team that combines expertise with a friendly, approachable service.",
-                  points: ["Excellent communication", "Customer satisfaction"]
+                  services: ["Excellent communication", "Customer satisfaction"]
                 }
               ].map((item, index) => (
                 <ScrollReveal key={index} delay={index * 0.2}>
@@ -256,14 +256,16 @@ export default function Home() {
                     <item.icon className="h-12 w-12 text-primary mb-4" />
                     <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                     <p className="text-muted-foreground text-sm flex-grow">{item.description}</p>
-                    <ul className="mt-4 space-y-2">
-                      {item.points.map((point, i) => (
-                        <li key={i} className="flex items-center text-sm text-muted-foreground">
-                          <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    {item.services && (
+                      <ul className="mt-4 space-y-2">
+                        {item.services.map((item, i) => (
+                          <li key={i} className="flex items-center text-sm text-muted-foreground">
+                            <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </motion.div>
                 </ScrollReveal>
               ))}
