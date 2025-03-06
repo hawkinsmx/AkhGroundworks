@@ -225,7 +225,7 @@ export default function Home() {
                   icon: Clock,
                   title: "30+ Years Experience",
                   description: "Decades of expertise in groundworks and civil engineering projects.",
-                  points: ["Complex project delivery", "Industry expertise"]
+                  points: ["Professional project delivery", "Industry expertise"]
                 },
                 {
                   icon: Users,
@@ -240,20 +240,20 @@ export default function Home() {
                   points: ["Quality assurance", "Regular inspections"]
                 },
                 {
-                  icon: Banknote,
-                  title: "Cost-Effective Solutions",
-                  description: "Optimized pricing and transparent cost structures for maximum value.",
-                  points: ["Best price guarantee", "Flexible payment terms"]
+                  icon: Users,
+                  title: "Friendly Team",
+                  description: "A dedicated team that combines expertise with a friendly, approachable service.",
+                  points: ["Excellent communication", "Customer satisfaction"]
                 }
               ].map((item, index) => (
                 <ScrollReveal key={index} delay={index * 0.2}>
                   <motion.div
-                    className="relative overflow-hidden rounded-xl bg-background p-6 shadow-sm border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-[280px] flex flex-col"
+                    className="relative overflow-hidden rounded-xl bg-background p-6 shadow-sm border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-[320px] flex flex-col"
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
                     <div className="absolute top-0 right-0 w-20 h-20 -mt-10 -mr-10 bg-primary/10 rounded-full" />
-                    <item.icon className="h-10 w-10 text-primary mb-4" />
+                    <item.icon className="h-12 w-12 text-primary mb-4" />
                     <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                     <p className="text-muted-foreground text-sm flex-grow">{item.description}</p>
                     <ul className="mt-4 space-y-2">
