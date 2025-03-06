@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { SERVICES, COMPANY_COLLABORATIONS } from "@/lib/constants";
@@ -9,6 +9,68 @@ import { ScrollIndicator } from "@/components/ui/scroll-indicator";
 import { motion } from "framer-motion";
 import useEmblaCarousel from 'embla-carousel-react';
 
+// Memoized company logo component
+const CompanyLogo = memo(({ company }: { company: typeof COMPANY_COLLABORATIONS[0] }) => (
+  <motion.div
+    className="flex items-center justify-center px-4"
+    whileHover={{ 
+      scale: 1.2,
+      zIndex: 10,
+      transition: { duration: 0.2 }
+    }}
+  >
+    <img
+      src={company.logo}
+      alt={`${company.name} logo`}
+      className="max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+      loading="lazy"
+      style={{
+        objectFit: 'contain',
+        maxHeight: '40px',
+        width: 'auto',
+        filter: 'none',
+        backgroundColor: 'transparent'
+      }}
+    />
+  </motion.div>
+));
+
+// Memoized service card component
+const ServiceCard = memo(({ service, onClick }: { service: typeof SERVICES[0], onClick: () => void }) => (
+  <motion.div
+    className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
+    onClick={onClick}
+    whileHover={{ scale: 1.02 }}
+    transition={{ duration: 0.2 }}
+  >
+    <div className="bg-gradient-to-br from-card to-background rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 p-6 h-[250px] relative group cursor-pointer">
+      <div className="relative z-10">
+        <h3 className="text-xl font-semibold mb-6 text-primary group-hover:translate-x-1 transition-transform duration-300">
+          {service.title}
+        </h3>
+        {service.services && (
+          <ul className="space-y-3">
+            {service.services.map((item, idx) => (
+              <motion.li 
+                key={idx} 
+                className="flex items-center text-muted-foreground group-hover:translate-x-1 transition-transform duration-300"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.1 }}
+              >
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                  <Check className="h-3 w-3 text-primary" />
+                </div>
+                <span className="text-sm">{item}</span>
+              </motion.li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </motion.div>
+));
+
 export default function Home() {
   const [, setLocation] = useLocation();
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
@@ -16,15 +78,15 @@ export default function Home() {
     dragFree: true
   });
 
-  // Auto-rotation setup
+  // Auto-rotation setup with cleanup
   useEffect(() => {
-    if (emblaApi) {
-      const intervalId = setInterval(() => {
-        emblaApi.scrollNext();
-      }, 3000); // Rotate every 3 seconds
+    if (!emblaApi) return;
 
-      return () => clearInterval(intervalId);
-    }
+    const intervalId = setInterval(() => {
+      emblaApi.scrollNext();
+    }, 3000);
+
+    return () => clearInterval(intervalId);
   }, [emblaApi]);
 
   const scrollPrev = useCallback(() => {
@@ -36,11 +98,15 @@ export default function Home() {
   }, [emblaApi]);
 
   // Companies carousel for mobile
-  const [companiesRef, companiesApi] = useEmblaCarousel({
+  const [companiesRef] = useEmblaCarousel({
     loop: true,
     dragFree: true,
     containScroll: 'trimSnaps'
   });
+
+  const handleServiceClick = useCallback(() => {
+    setLocation('/services');
+  }, [setLocation]);
 
   return (
     <PageTransition>
@@ -50,6 +116,7 @@ export default function Home() {
           src="/assets/spliced_26980x7400.png"
           alt="Hero background"
           className="absolute inset-0 w-full h-full object-cover"
+          priority="true"
           onError={(e) => {
             console.error(`Failed to load image: ${e.currentTarget.src}`);
             e.currentTarget.src = '/placeholder.jpg';
@@ -88,7 +155,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Carousel */}
+      {/* Services Section */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <ScrollReveal>
@@ -103,40 +170,11 @@ export default function Home() {
               <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
                   {SERVICES.map((service, index) => (
-                    <motion.div
+                    <ServiceCard
                       key={index}
-                      className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
-                      onClick={() => setLocation('/services')}
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="bg-gradient-to-br from-card to-background rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 p-6 h-[250px] relative group cursor-pointer">
-                        {/* Content */}
-                        <div className="relative z-10">
-                          <h3 className="text-xl font-semibold mb-6 text-primary group-hover:translate-x-1 transition-transform duration-300">
-                            {service.title}
-                          </h3>
-                          {service.services && (
-                            <ul className="space-y-3">
-                              {service.services.map((item, idx) => (
-                                <motion.li 
-                                  key={idx} 
-                                  className="flex items-center text-muted-foreground group-hover:translate-x-1 transition-transform duration-300"
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: idx * 0.1 }}
-                                >
-                                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                                    <Check className="h-3 w-3 text-primary" />
-                                  </div>
-                                  <span className="text-sm">{item}</span>
-                                </motion.li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
+                      service={service}
+                      onClick={handleServiceClick}
+                    />
                   ))}
                 </div>
               </div>
@@ -144,6 +182,7 @@ export default function Home() {
               <button
                 className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background transition-colors shadow-lg"
                 onClick={scrollPrev}
+                aria-label="Previous service"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -151,6 +190,7 @@ export default function Home() {
               <button
                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background transition-colors shadow-lg"
                 onClick={scrollNext}
+                aria-label="Next service"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
@@ -159,7 +199,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Companies We've Worked With */}
+      {/* Companies Section */}
       <section className="py-20 bg-muted overflow-hidden">
         <div className="container mx-auto px-4">
           <ScrollReveal>
@@ -171,28 +211,7 @@ export default function Home() {
           >
             <div className="flex items-center justify-between h-full">
               {COMPANY_COLLABORATIONS.map((company, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center justify-center px-4"
-                  whileHover={{ 
-                    scale: 1.2,
-                    zIndex: 10,
-                    transition: { duration: 0.2 }
-                  }}
-                >
-                  <img
-                    src={company.logo}
-                    alt={`${company.name} logo`}
-                    className="max-w-[120px] h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
-                    style={{
-                      objectFit: 'contain',
-                      maxHeight: '40px',
-                      width: 'auto',
-                      filter: 'none',
-                      backgroundColor: 'transparent'
-                    }}
-                  />
-                </motion.div>
+                <CompanyLogo key={index} company={company} />
               ))}
             </div>
           </motion.div>
@@ -210,6 +229,7 @@ export default function Home() {
                         src={company.logo}
                         alt={`${company.name} logo`}
                         className="max-w-full h-auto"
+                        loading="lazy"
                         style={{
                           objectFit: 'contain',
                           maxHeight: '30px',
@@ -271,7 +291,6 @@ export default function Home() {
                     whileHover={{ scale: 1.02 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="absolute top-0 right-0 w-20 h-20 -mt-10 -mr-10 bg-primary/10 rounded-full" />
                     <item.icon className="h-12 w-12 text-primary mb-4" />
                     <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                     <p className="text-muted-foreground text-sm flex-grow">{item.description}</p>
