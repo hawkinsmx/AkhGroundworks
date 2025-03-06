@@ -112,18 +112,24 @@ export default function Home() {
     <PageTransition>
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
-        {/* Background image */}
+        <div className="absolute inset-0 bg-muted/50" /> {/* Initial background color */}
         <img 
-          src="/assets/hero.png"
-          alt="Hero background showing construction site"
-          className="absolute inset-0 w-full h-full object-cover"
+          src="/assets/spliced_26980x7400.png"
+          alt="Hero background"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
           fetchPriority="high"
+          loading="eager"
+          onLoad={(e) => {
+            // Add fade-in effect when image loads
+            e.currentTarget.style.opacity = "1";
+          }}
+          style={{ opacity: 0 }} // Start invisible
+          onError={(e) => {
+            console.error(`Failed to load image: ${e.currentTarget.src}`);
+            e.currentTarget.src = '/placeholder.jpg';
+          }}
         />
-
-        {/* Overlay for text contrast */}
         <div className="absolute inset-0 bg-black/50 z-[1]" />
-
-        {/* Content section */}
         <div className="container mx-auto px-4 relative z-10">
           <motion.h1 
             className="text-4xl md:text-6xl font-bold text-white mb-6"
