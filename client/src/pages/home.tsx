@@ -169,8 +169,8 @@ export default function Home() {
                       objectFit: 'contain',
                       maxHeight: '40px',
                       width: 'auto',
-                      filter: company.name === "Persimmon" ? 'brightness(1) contrast(0.8)' : 'none',
-                      backgroundColor: company.name === "Persimmon" ? 'transparent' : 'transparent'
+                      filter: 'none',
+                      backgroundColor: 'transparent'
                     }}
                   />
                 </motion.div>
