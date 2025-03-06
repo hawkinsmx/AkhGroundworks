@@ -221,55 +221,52 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              {
-                icon: Clock,
-                title: "30+ Years Experience",
-                description: "Decades of expertise in groundworks and civil engineering projects."
-              },
-              {
-                icon: Users,
-                title: "Qualified Professionals",
-                description: "Expert team of certified and skilled construction specialists."
-              },
-              {
-                icon: Award,
-                title: "Quality Guaranteed",
-                description: "Commitment to excellence with industry-leading standards."
-              },
-              {
-                icon: Banknote,
-                title: "Competitive Pricing",
-                description: "Transparent and fair pricing for all our services."
-              }
-            ].map((item, index) => (
-              <ScrollReveal key={index} delay={index * 0.2}>
-                <motion.div
-                  className="relative overflow-hidden rounded-xl bg-background p-6 shadow-sm border transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="absolute top-0 right-0 w-20 h-20 -mt-10 -mr-10 bg-primary/10 rounded-full" />
-                  <item.icon className="h-10 w-10 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm">{item.description}</p>
-                  <ul className="mt-4 space-y-2">
-                    {[1, 2].map((_, i) => (
-                      <li key={i} className="flex items-center text-sm text-muted-foreground">
-                        <Check className="h-4 w-4 text-primary mr-2" />
-                        <span>{item.title === "30+ Years Experience" ? 
-                          ["Complex project delivery", "Industry expertise"][i] :
-                          item.title === "Qualified Professionals" ?
-                          ["Certified team members", "Ongoing training"][i] :
-                          item.title === "Quality Guaranteed" ?
-                          ["Quality assurance", "Regular inspections"][i] :
-                          ["No hidden costs", "Flexible payment options"][i]
-                        }</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              </ScrollReveal>
-            ))}
+                {
+                  icon: Clock,
+                  title: "30+ Years Experience",
+                  description: "Decades of expertise in groundworks and civil engineering projects.",
+                  points: ["Complex project delivery", "Industry expertise"]
+                },
+                {
+                  icon: Users,
+                  title: "Qualified Professionals",
+                  description: "Expert team of certified and skilled construction specialists.",
+                  points: ["Certified team members", "Ongoing training"]
+                },
+                {
+                  icon: Award,
+                  title: "Quality Guaranteed",
+                  description: "Commitment to excellence with industry-leading standards.",
+                  points: ["Quality assurance", "Regular inspections"]
+                },
+                {
+                  icon: Banknote,
+                  title: "Cost-Effective Solutions",
+                  description: "Optimized pricing and transparent cost structures for maximum value.",
+                  points: ["Best price guarantee", "Flexible payment terms"]
+                }
+              ].map((item, index) => (
+                <ScrollReveal key={index} delay={index * 0.2}>
+                  <motion.div
+                    className="relative overflow-hidden rounded-xl bg-background p-6 shadow-sm border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 h-[280px] flex flex-col"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="absolute top-0 right-0 w-20 h-20 -mt-10 -mr-10 bg-primary/10 rounded-full" />
+                    <item.icon className="h-10 w-10 text-primary mb-4" />
+                    <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                    <p className="text-muted-foreground text-sm flex-grow">{item.description}</p>
+                    <ul className="mt-4 space-y-2">
+                      {item.points.map((point, i) => (
+                        <li key={i} className="flex items-center text-sm text-muted-foreground">
+                          <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </ScrollReveal>
+              ))}
           </div>
         </div>
       </section>
