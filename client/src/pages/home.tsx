@@ -110,18 +110,35 @@ export default function Home() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 p-6 h-[250px]">
-                        <h3 className="text-xl font-semibold mb-4 text-primary">{service.title}</h3>
-                        {service.services && (
-                          <ul className="space-y-3">
-                            {service.services.map((item, idx) => (
-                              <li key={idx} className="flex items-center text-muted-foreground">
-                                <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                                <span className="text-sm">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                      <div className="bg-gradient-to-br from-card to-background rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 p-6 h-[250px] relative group cursor-pointer">
+                        {/* Decorative accent */}
+                        <div className="absolute top-0 right-0 w-24 h-24 -mt-12 -mr-12 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
+                        <div className="absolute bottom-0 left-0 w-16 h-16 -mb-8 -ml-8 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
+
+                        {/* Content */}
+                        <div className="relative z-10">
+                          <h3 className="text-xl font-semibold mb-6 text-primary group-hover:translate-x-1 transition-transform duration-300">
+                            {service.title}
+                          </h3>
+                          {service.services && (
+                            <ul className="space-y-3">
+                              {service.services.map((item, idx) => (
+                                <motion.li 
+                                  key={idx} 
+                                  className="flex items-center text-muted-foreground group-hover:translate-x-1 transition-transform duration-300"
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: idx * 0.1 }}
+                                >
+                                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                                    <Check className="h-3 w-3 text-primary" />
+                                  </div>
+                                  <span className="text-sm">{item}</span>
+                                </motion.li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
                       </div>
                     </motion.div>
                   ))}
