@@ -111,7 +111,7 @@ export const COMPANY_COLLABORATIONS = [
     logo: "/company-logos/Redrow_plc_Logo.svg.png",
   },
   {
-    name: "Bloor Homes",
-    logo: "/company-logos/bloor-homes-transparent-logo.png",
+    name: "Wates Group",
+    logo: "/attached_assets/Wates_Group.svg.png",
   },
 ];
