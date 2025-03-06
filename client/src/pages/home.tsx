@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { SERVICES, COMPANY_COLLABORATIONS } from "@/lib/constants";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Award, Clock, Users, Banknote, Check } from "lucide-react";
 import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { ScrollIndicator } from "@/components/ui/scroll-indicator";
@@ -209,25 +209,64 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 bg-muted">
+      <section className="py-20 bg-gradient-to-b from-background to-muted">
         <div className="container mx-auto px-4">
           <ScrollReveal>
-            <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
+            <h2 className="text-3xl font-bold text-center mb-4">Why Choose Us</h2>
+            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
+              With over three decades of experience in groundworks and civil engineering,
+              we deliver excellence in every project.
+            </p>
           </ScrollReveal>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              "30+ Years Experience",
-              "Qualified Professionals",
-              "Quality Guaranteed",
-              "Competitive Pricing"
+              {
+                icon: Clock,
+                title: "30+ Years Experience",
+                description: "Decades of expertise in groundworks and civil engineering projects."
+              },
+              {
+                icon: Users,
+                title: "Qualified Professionals",
+                description: "Expert team of certified and skilled construction specialists."
+              },
+              {
+                icon: Award,
+                title: "Quality Guaranteed",
+                description: "Commitment to excellence with industry-leading standards."
+              },
+              {
+                icon: Banknote,
+                title: "Competitive Pricing",
+                description: "Transparent and fair pricing for all our services."
+              }
             ].map((item, index) => (
               <ScrollReveal key={index} delay={index * 0.2}>
                 <motion.div
-                  className="text-center p-6 bg-background rounded-lg shadow-sm"
-                  whileHover={{ y: -5 }}
+                  className="relative overflow-hidden rounded-xl bg-background p-6 shadow-sm border transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                  whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <h3 className="text-xl font-semibold mb-2">{item}</h3>
+                  <div className="absolute top-0 right-0 w-20 h-20 -mt-10 -mr-10 bg-primary/10 rounded-full" />
+                  <item.icon className="h-10 w-10 text-primary mb-4" />
+                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm">{item.description}</p>
+                  <ul className="mt-4 space-y-2">
+                    {[1, 2].map((_, i) => (
+                      <li key={i} className="flex items-center text-sm text-muted-foreground">
+                        <Check className="h-4 w-4 text-primary mr-2" />
+                        <span>{item.title === "30+ Years Experience" ? 
+                          ["Complex project delivery", "Industry expertise"][i] :
+                          item.title === "Qualified Professionals" ?
+                          ["Certified team members", "Ongoing training"][i] :
+                          item.title === "Quality Guaranteed" ?
+                          ["Quality assurance", "Regular inspections"][i] :
+                          ["No hidden costs", "Flexible payment options"][i]
+                        }</span>
+                      </li>
+                    ))}
+                  </ul>
                 </motion.div>
               </ScrollReveal>
             ))}
