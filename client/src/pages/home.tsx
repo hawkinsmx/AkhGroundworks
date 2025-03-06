@@ -112,18 +112,13 @@ export default function Home() {
     <PageTransition>
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
-        <div className="absolute inset-0 bg-muted/50" /> {/* Initial background color */}
+        <div className="absolute inset-0 bg-muted/50" />
         <img 
           src="/assets/spliced_26980x7400.png"
           alt="Hero background"
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+          className="absolute inset-0 w-full h-full object-cover"
           fetchPriority="high"
           loading="eager"
-          onLoad={(e) => {
-            // Add fade-in effect when image loads
-            e.currentTarget.style.opacity = "1";
-          }}
-          style={{ opacity: 0 }} // Start invisible
           onError={(e) => {
             console.error(`Failed to load image: ${e.currentTarget.src}`);
             e.currentTarget.src = '/placeholder.jpg';
