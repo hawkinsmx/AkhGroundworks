@@ -148,7 +148,7 @@ export default function Home() {
           </ScrollReveal>
           {/* Desktop View */}
           <motion.div 
-            className="relative h-[80px] bg-background/50 backdrop-blur-sm rounded-xl p-6 hidden md:block"
+            className="relative h-[80px] bg-background rounded-xl p-6 hidden md:block"
           >
             <div className="flex items-center justify-between h-full">
               {COMPANY_COLLABORATIONS.map((company, index) => (
@@ -186,7 +186,7 @@ export default function Home() {
                     key={index}
                     className="flex-[0_0_50%] min-w-0 px-4 flex items-center justify-center"
                   >
-                    <div className="bg-background/50 backdrop-blur-sm rounded-xl p-4 w-full flex items-center justify-center">
+                    <div className="bg-background rounded-xl p-4 w-full flex items-center justify-center">
                       <img
                         src={company.logo}
                         alt={`${company.name} logo`}
@@ -195,8 +195,8 @@ export default function Home() {
                           objectFit: 'contain',
                           maxHeight: '30px',
                           width: 'auto',
-                          filter: company.name === "Persimmon" ? 'brightness(1) contrast(0.8)' : 'none',
-                          backgroundColor: company.name === "Persimmon" ? 'transparent' : 'transparent'
+                          filter: 'none',
+                          backgroundColor: 'transparent'
                         }}
                       />
                     </div>

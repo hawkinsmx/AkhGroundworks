@@ -90,9 +90,6 @@ export const PORTFOLIO_IMAGES = [
   }
 ];
 
-export const COMPANY_LOGO = "/logo.png";
-export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354604-1653aa90e34e";
-
 export const COMPANY_COLLABORATIONS = [
   {
     name: "Taylor Wimpey",
@@ -112,6 +109,9 @@ export const COMPANY_COLLABORATIONS = [
   },
   {
     name: "Wates Group",
-    logo: "/attached_assets/Wates_Group.svg.png",
+    logo: "/company-logos/Wates_Group.svg.png", 
   },
 ];
+
+export const COMPANY_LOGO = "/logo.png";
+export const HERO_IMAGE = "https://images.unsplash.com/photo-1489514354604-1653aa90e34e";
