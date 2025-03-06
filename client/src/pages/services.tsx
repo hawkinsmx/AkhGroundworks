@@ -84,24 +84,45 @@ export default function Services() {
                   </motion.div>
 
                   <motion.div
-                    className="w-full md:w-1/2 p-6 bg-card rounded-lg"
+                    className="w-full md:w-1/2"
                     initial={{ opacity: 0, x: index % 2 === 0 ? 20 : -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                   >
-                    <h3 className="text-2xl font-semibold text-primary mb-4">{service.title}</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed mb-4">{service.description}</p>
-                    {service.services && (
-                      <ul className="space-y-2">
-                        {service.services.map((item, idx) => (
-                          <li key={idx} className="flex items-center text-muted-foreground">
-                            <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                            <span className="text-lg">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <div className="bg-gradient-to-br from-card to-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 relative group">
+                      {/* Decorative accents */}
+                      <div className="absolute top-0 right-0 w-32 h-32 -mt-16 -mr-16 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
+                      <div className="absolute bottom-0 left-0 w-24 h-24 -mb-12 -ml-12 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
+
+                      {/* Content */}
+                      <div className="relative z-10">
+                        <h3 className="text-2xl font-semibold text-primary mb-4 group-hover:translate-x-1 transition-transform duration-300">
+                          {service.title}
+                        </h3>
+                        <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                          {service.description}
+                        </p>
+                        {service.services && (
+                          <ul className="space-y-3">
+                            {service.services.map((item, idx) => (
+                              <motion.li 
+                                key={idx} 
+                                className="flex items-center text-muted-foreground group-hover:translate-x-1 transition-transform duration-300"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                              >
+                                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                                  <Check className="h-3 w-3 text-primary" />
+                                </div>
+                                <span className="text-lg">{item}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
                   </motion.div>
                 </div>
               </ScrollReveal>
