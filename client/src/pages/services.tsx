@@ -91,10 +91,6 @@ export default function Services() {
                     transition={{ duration: 0.5 }}
                   >
                     <div className="bg-gradient-to-br from-card to-background rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 relative group">
-                      {/* Decorative accents */}
-                      <div className="absolute top-0 right-0 w-32 h-32 -mt-16 -mr-16 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
-                      <div className="absolute bottom-0 left-0 w-24 h-24 -mb-12 -ml-12 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
-
                       {/* Content */}
                       <div className="relative z-10">
                         <h3 className="text-2xl font-semibold text-primary mb-4 group-hover:translate-x-1 transition-transform duration-300">

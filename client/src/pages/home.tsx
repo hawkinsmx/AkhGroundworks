@@ -111,10 +111,6 @@ export default function Home() {
                       transition={{ duration: 0.2 }}
                     >
                       <div className="bg-gradient-to-br from-card to-background rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 p-6 h-[250px] relative group cursor-pointer">
-                        {/* Decorative accent */}
-                        <div className="absolute top-0 right-0 w-24 h-24 -mt-12 -mr-12 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
-                        <div className="absolute bottom-0 left-0 w-16 h-16 -mb-8 -ml-8 bg-primary/5 rounded-full transition-transform duration-300 group-hover:scale-110" />
-
                         {/* Content */}
                         <div className="relative z-10">
                           <h3 className="text-xl font-semibold mb-6 text-primary group-hover:translate-x-1 transition-transform duration-300">
