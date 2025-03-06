@@ -112,36 +112,13 @@ export default function Home() {
     <PageTransition>
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center">
-        {/* Initial background with blur-up effect */}
-        <div className="absolute inset-0 bg-card/90 transition-opacity duration-500" />
-
-        {/* Optimized hero image loading */}
-        <picture>
-          {/* Fallback/placeholder image */}
-          <source
-            srcSet="/assets/hero-placeholder.png"
-            type="image/png"
-          />
-          {/* High quality image */}
-          <img 
-            src="/assets/hero.png"
-            alt="Hero background showing construction site"
-            className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700"
-            fetchPriority="high"
-            decoding="async"
-            onLoad={(e) => {
-              // Smooth fade in when the main image loads
-              requestAnimationFrame(() => {
-                e.currentTarget.style.opacity = "1";
-              });
-            }}
-            style={{ opacity: 0 }}
-            onError={(e) => {
-              console.error(`Failed to load image: ${e.currentTarget.src}`);
-              e.currentTarget.style.opacity = "0";
-            }}
-          />
-        </picture>
+        {/* Background image */}
+        <img 
+          src="/assets/hero.png"
+          alt="Hero background showing construction site"
+          className="absolute inset-0 w-full h-full object-cover"
+          fetchPriority="high"
+        />
 
         {/* Overlay for text contrast */}
         <div className="absolute inset-0 bg-black/50 z-[1]" />
