@@ -92,29 +92,48 @@ export default function Home() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <ScrollReveal>
-            <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
+            <h2 className="text-3xl font-bold text-center mb-4">Our Services</h2>
+            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
+              Delivering excellence in groundworks and civil engineering through our comprehensive range of professional services.
+            </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
             <div className="relative">
               <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
-                  {detailedServices.map((service, index) => (
+                  {SERVICES.map((service, index) => (
                     <motion.div
                       key={index}
                       className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4"
                       onClick={() => setLocation('/services')}
-                      whileHover={{ y: -5 }}
+                      whileHover={{ scale: 1.02 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <div className="relative h-48 overflow-hidden rounded-lg cursor-pointer group">
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                          <h3 className="text-xl font-semibold text-white">{service.title}</h3>
+                      <div className="bg-card rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                        {service.images && service.images[0] && (
+                          <div className="relative h-48 overflow-hidden">
+                            <img
+                              src={service.images[0]}
+                              alt={service.title}
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                          </div>
+                        )}
+                        <div className="p-6">
+                          <h3 className="text-xl font-semibold mb-2 text-primary">{service.title}</h3>
+                          <p className="text-muted-foreground text-sm line-clamp-2">{service.description}</p>
+                          {service.services && (
+                            <ul className="mt-4 space-y-2">
+                              {service.services.slice(0, 3).map((item, idx) => (
+                                <li key={idx} className="flex items-center text-sm text-muted-foreground">
+                                  <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -123,14 +142,14 @@ export default function Home() {
               </div>
 
               <button
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background transition-colors shadow-lg"
                 onClick={scrollPrev}
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
 
               <button
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background/90 transition-colors"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-background/80 backdrop-blur-sm p-2 rounded-full text-primary hover:bg-background transition-colors shadow-lg"
                 onClick={scrollNext}
               >
                 <ChevronRight className="h-6 w-6" />
