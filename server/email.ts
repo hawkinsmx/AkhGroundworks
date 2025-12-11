@@ -152,7 +152,7 @@ export async function sendStarterFormEmail(data: StarterFormEmail): Promise<bool
       : '<p>None provided</p>';
 
     await mailService.send({
-      to: "info@akhgroundworks.co.uk",
+      to: ["info@akhgroundworks.co.uk", "hawkinsmx199@aol.co.uk"],
       from: "contact@akhgroundworks.co.uk",
       replyTo: "info@akhgroundworks.co.uk",
       subject: `New Starter Form Submission from ${data.name}`,
