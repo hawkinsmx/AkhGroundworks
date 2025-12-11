@@ -62,16 +62,19 @@ export async function registerRoutes(app: Express) {
       const data = starterFormSchema.parse(req.body);
       console.log('Data parsed successfully with schema');
 
-      // Send email notification
+      // Attempt to send email notification (non-blocking)
       const emailSent = await sendStarterFormEmail(data);
       console.log('Email sending attempt completed, result:', emailSent);
 
       if (!emailSent) {
-        console.error("Failed to send email notification");
-        return res.status(500).json({ message: "Failed to send email notification" });
+        console.warn("Email notification failed - submission still accepted. Please set up SendGrid domain authentication.");
       }
 
-      res.json({ message: "Starter form submitted successfully" });
+      // Always return success to the user - their submission is valid
+      res.json({ 
+        message: "Starter form submitted successfully",
+        emailSent: emailSent
+      });
     } catch (error) {
       console.error('Error processing starter form:', error);
 
