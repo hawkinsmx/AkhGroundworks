@@ -14,7 +14,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+        background: hsl(235, 45%, 11%);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -26,12 +26,6 @@
         opacity: 0;
         visibility: hidden;
       }
-      #loading-logo {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 24px;
-        animation: pulse 1.5s ease-in-out infinite;
-      }
       #loading-text {
         color: #ea580c;
         font-family: system-ui, -apple-system, sans-serif;
@@ -40,28 +34,35 @@
         letter-spacing: 0.05em;
         margin-bottom: 32px;
       }
-      #loading-spinner {
-        width: 48px;
-        height: 48px;
-        border: 4px solid rgba(234, 88, 12, 0.2);
-        border-top-color: #ea580c;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+      #progress-container {
+        width: 280px;
+        height: 6px;
+        background: rgba(234, 88, 12, 0.2);
+        border-radius: 3px;
+        overflow: hidden;
       }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
+      #progress-bar {
+        width: 0%;
+        height: 100%;
+        background: #ea580c;
+        border-radius: 3px;
+        animation: progress 1.2s ease-in-out forwards;
       }
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.05); opacity: 0.8; }
+      @keyframes progress {
+        0% { width: 0%; }
+        20% { width: 20%; }
+        50% { width: 60%; }
+        80% { width: 85%; }
+        100% { width: 100%; }
       }
     </style>
   </head>
   <body>
     <div id="loading-screen">
-      <img id="loading-logo" src="/logo.png" alt="AKH Groundworks" />
       <div id="loading-text">AKH GROUNDWORKS</div>
-      <div id="loading-spinner"></div>
+      <div id="progress-container">
+        <div id="progress-bar"></div>
+      </div>
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
