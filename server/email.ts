@@ -52,7 +52,8 @@ export async function sendContactFormEmail(data: ContactFormEmail): Promise<bool
   try {
     await mailService.send({
       to: "contact@akhgroundworks.co.uk",
-      from: "info@akhgroundworks.co.uk",
+      from: "contact@akhgroundworks.co.uk",
+      replyTo: "info@akhgroundworks.co.uk",
       subject: `New Contact Form Submission from ${data.name}`,
       text: `
 Name: ${data.name}
@@ -89,7 +90,8 @@ export async function sendJobApplicationEmail(data: JobApplicationEmail): Promis
 
     await mailService.send({
       to: "contact@akhgroundworks.co.uk",
-      from: "info@akhgroundworks.co.uk",
+      from: "contact@akhgroundworks.co.uk",
+      replyTo: "info@akhgroundworks.co.uk",
       subject: `New Job Application from ${data.name}`,
       text: `
 New Job Application Received
@@ -151,7 +153,8 @@ export async function sendStarterFormEmail(data: StarterFormEmail): Promise<bool
 
     await mailService.send({
       to: "info@akhgroundworks.co.uk",
-      from: "info@akhgroundworks.co.uk",
+      from: "contact@akhgroundworks.co.uk",
+      replyTo: "info@akhgroundworks.co.uk",
       subject: `New Starter Form Submission from ${data.name}`,
       text: `
 New Starter Form Submission
