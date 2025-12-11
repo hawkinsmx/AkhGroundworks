@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 import Home from "@/pages/home";
 import Services from "@/pages/services";
 import Gallery from "@/pages/gallery";
@@ -32,6 +33,21 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    // Hide loading screen once app is mounted
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+      // Small delay to ensure content is rendered
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+          loadingScreen.remove();
+        }, 500);
+      }, 300);
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="flex flex-col min-h-screen">
