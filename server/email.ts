@@ -72,8 +72,11 @@ ${data.message}
       `,
     });
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('SendGrid email error:', error);
+    if (error.response?.body?.errors) {
+      console.error('SendGrid error details:', JSON.stringify(error.response.body.errors, null, 2));
+    }
     return false;
   }
 }
@@ -118,8 +121,11 @@ ${qualificationsText}
       `,
     });
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('SendGrid email error:', error);
+    if (error.response?.body?.errors) {
+      console.error('SendGrid error details:', JSON.stringify(error.response.body.errors, null, 2));
+    }
     return false;
   }
 }
@@ -185,8 +191,11 @@ ${qualificationsHtml}
     });
     console.log('Successfully sent starter form email');
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('SendGrid email error:', error);
+    if (error.response?.body?.errors) {
+      console.error('SendGrid error details:', JSON.stringify(error.response.body.errors, null, 2));
+    }
     return false;
   }
 }
