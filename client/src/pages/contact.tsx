@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -20,8 +21,17 @@ import { PageTransition } from "@/components/animations/page-transition";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { motion } from "framer-motion";
 
+declare global {
+  interface Window {
+    hcaptcha?: any;
+  }
+}
+
 export default function Contact() {
   const { toast } = useToast();
+  const captchaContainerRef = useRef<HTMLDivElement>(null);
+  const captchaRef = useRef<any>(null);
+  
   const form = useForm<InsertContactMessage>({
     resolver: zodResolver(insertContactMessageSchema),
     defaultValues: {
@@ -29,8 +39,27 @@ export default function Contact() {
       email: "",
       phone: "",
       message: "",
+      hcaptchaToken: "",
     },
   });
+
+  useEffect(() => {
+    if (captchaContainerRef.current && !captchaRef.current) {
+      const hcaptchaScript = document.createElement('script');
+      hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js';
+      hcaptchaScript.async = true;
+      hcaptchaScript.defer = true;
+      document.head.appendChild(hcaptchaScript);
+      hcaptchaScript.onload = () => {
+        if (window.hcaptcha && captchaContainerRef.current) {
+          captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
+            sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
+            theme: 'light'
+          });
+        }
+      };
+    }
+  }, []);
 
   const mutation = useMutation({
     mutationFn: async (data: InsertContactMessage) => {
@@ -42,6 +71,9 @@ export default function Contact() {
         description: "We'll get back to you as soon as possible.",
       });
       form.reset();
+      if (window.hcaptcha && captchaRef.current) {
+        window.hcaptcha.reset(captchaRef.current);
+      }
     },
     onError: () => {
       toast({
@@ -69,7 +101,16 @@ export default function Contact() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit((data) => {
-                    mutation.mutate(data);
+                    const token = window.hcaptcha?.getResponse(captchaRef.current)?.response;
+                    if (!token) {
+                      toast({
+                        title: "Error",
+                        description: "Please complete the hCaptcha verification",
+                        variant: "destructive",
+                      });
+                      return;
+                    }
+                    mutation.mutate({ ...data, hcaptchaToken: token });
                   })}
                   className="space-y-6"
                 >
@@ -156,6 +197,13 @@ export default function Contact() {
                       )}
                     />
                   </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.65 }}
+                    ref={captchaContainerRef}
+                  />
 
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}

@@ -1,18 +1,17 @@
 import {
   type ContactMessage,
-  type InsertContactMessage,
   type JobApplication,
   type InsertJobApplication,
 } from "@shared/schema";
 
 export interface IStorage {
-  createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
+  createContactMessage(message: { name: string; email: string; phone: string; message: string }): Promise<ContactMessage>;
   getContactMessages(): Promise<ContactMessage[]>;
   createJobApplication(application: InsertJobApplication): Promise<JobApplication>;
 }
 
 export class MemStorage implements IStorage {
-  private messages: Map<number, ContactMessage>;
+  private messages: Map<number, Omit<ContactMessage, 'id'> & { id: number }>;
   private applications: Map<number, JobApplication>;
   private currentMessageId: number;
   private currentApplicationId: number;
@@ -24,7 +23,7 @@ export class MemStorage implements IStorage {
     this.currentApplicationId = 1;
   }
 
-  async createContactMessage(message: InsertContactMessage): Promise<ContactMessage> {
+  async createContactMessage(message: { name: string; email: string; phone: string; message: string }): Promise<ContactMessage> {
     const id = this.currentMessageId++;
     const contactMessage: ContactMessage = {
       ...message,

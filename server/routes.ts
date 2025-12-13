@@ -6,17 +6,17 @@ import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { sendContactFormEmail, sendJobApplicationEmail, sendStarterFormEmail } from "./email";
 
-async function verifyRecaptcha(token: string): Promise<boolean> {
+async function verifyHCaptcha(token: string): Promise<boolean> {
   try {
-    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    const response = await fetch('https://hcaptcha.com/siteverify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`
+      body: `secret=${process.env.HCAPTCHA_SECRET_KEY}&response=${token}`
     });
     const data = await response.json();
-    return data.success && (data.score >= 0.5);
+    return data.success;
   } catch (error) {
-    console.error('reCAPTCHA verification error:', error);
+    console.error('hCaptcha verification error:', error);
     return false;
   }
 }
@@ -24,7 +24,18 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 export async function registerRoutes(app: Express) {
   app.post("/api/contact", async (req, res) => {
     try {
-      const data = insertContactMessageSchema.parse(req.body);
+      const { hcaptchaToken, ...formData } = req.body;
+      
+      if (!hcaptchaToken) {
+        return res.status(400).json({ message: "hCaptcha verification is required" });
+      }
+      
+      const isValidCaptcha = await verifyHCaptcha(hcaptchaToken);
+      if (!isValidCaptcha) {
+        return res.status(400).json({ message: "hCaptcha verification failed. Please try again." });
+      }
+      
+      const data = insertContactMessageSchema.omit({ hcaptchaToken: true }).parse(formData);
       const message = await storage.createContactMessage(data);
 
       // Send email
@@ -72,9 +83,20 @@ export async function registerRoutes(app: Express) {
 
   app.post("/api/starter-form", async (req, res) => {
     try {
-      console.log('Received starter form data:', { ...req.body, accountNumber: '****' });
+      const { hcaptchaToken, ...formData } = req.body;
+      
+      if (!hcaptchaToken) {
+        return res.status(400).json({ message: "hCaptcha verification is required" });
+      }
+      
+      const isValidCaptcha = await verifyHCaptcha(hcaptchaToken);
+      if (!isValidCaptcha) {
+        return res.status(400).json({ message: "hCaptcha verification failed. Please try again." });
+      }
+      
+      console.log('Received starter form data:', { ...formData, accountNumber: '****' });
 
-      const data = starterFormSchema.parse(req.body);
+      const data = starterFormSchema.omit({ hcaptchaToken: true }).parse(formData);
       console.log('Data parsed successfully with schema');
 
       // Attempt to send email notification (non-blocking)

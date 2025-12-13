@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "wouter";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,11 +28,37 @@ import { format } from "date-fns";
 import { CalendarIcon, Plus, Trash2, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 
+declare global {
+  interface Window {
+    hcaptcha?: any;
+  }
+}
+
 const roles = ["Groundworker", "Plant Operator", "Supervisor", "Other"] as const;
 
 export default function StarterForm() {
   const [step, setStep] = useState(1);
   const { toast } = useToast();
+  const captchaContainerRef = useRef<HTMLDivElement>(null);
+  const captchaRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (step === 3 && captchaContainerRef.current && !captchaRef.current) {
+      const hcaptchaScript = document.createElement('script');
+      hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js';
+      hcaptchaScript.async = true;
+      hcaptchaScript.defer = true;
+      document.head.appendChild(hcaptchaScript);
+      hcaptchaScript.onload = () => {
+        if (window.hcaptcha && captchaContainerRef.current) {
+          captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
+            sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
+            theme: 'light'
+          });
+        }
+      };
+    }
+  }, [step]);
 
   const form = useForm<StarterFormData>({
     resolver: zodResolver(starterFormSchema),
@@ -54,6 +80,7 @@ export default function StarterForm() {
       sortCode: "",
       accountNumber: "",
       niNumber: "",
+      hcaptchaToken: "",
     },
   });
 
@@ -71,7 +98,7 @@ export default function StarterForm() {
           fieldsToValidate = ['name', 'email', 'phone'];
           break;
         case 2:
-          fieldsToValidate = ['role']; // Only validate role, qualifications are optional
+          fieldsToValidate = ['role'];
           break;
         case 3:
           fieldsToValidate = ['cisNumber', 'accountName', 'sortCode', 'accountNumber', 'niNumber'];
@@ -112,14 +139,25 @@ export default function StarterForm() {
     }
 
     try {
-      console.log('Submitting form data:', { ...data, accountNumber: '****' });
+      const token = window.hcaptcha?.getResponse(captchaRef.current)?.response;
+      if (!token) {
+        toast({
+          title: "Error",
+          description: "Please complete the hCaptcha verification",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const submitData = { ...data, hcaptchaToken: token };
+      console.log('Submitting form data:', { ...submitData, accountNumber: '****' });
 
       const response = await fetch('/api/starter-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(submitData),
       });
 
       if (!response.ok) {
@@ -533,6 +571,13 @@ export default function StarterForm() {
                             <FormMessage />
                           </FormItem>
                         )}
+                      />
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.5 }}
+                        ref={captchaContainerRef}
                       />
                     </motion.div>
                   )}
