@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { insertContactMessageSchema, type InsertContactMessage } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -23,7 +22,6 @@ import { motion } from "framer-motion";
 
 export default function Contact() {
   const { toast } = useToast();
-  const { executeRecaptcha } = useGoogleReCaptcha();
   const form = useForm<InsertContactMessage>({
     resolver: zodResolver(insertContactMessageSchema),
     defaultValues: {
@@ -31,7 +29,6 @@ export default function Contact() {
       email: "",
       phone: "",
       message: "",
-      recaptchaToken: "",
     },
   });
 
@@ -71,17 +68,8 @@ export default function Contact() {
             <ScrollReveal delay={0.2}>
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(async (data) => {
-                    if (!executeRecaptcha) {
-                      toast({
-                        title: "Error",
-                        description: "reCAPTCHA is not loaded. Please refresh and try again.",
-                        variant: "destructive",
-                      });
-                      return;
-                    }
-                    const token = await executeRecaptcha("contact_form");
-                    mutation.mutate({ ...data, recaptchaToken: token });
+                  onSubmit={form.handleSubmit((data) => {
+                    mutation.mutate(data);
                   })}
                   className="space-y-6"
                 >

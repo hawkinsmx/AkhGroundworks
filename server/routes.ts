@@ -24,19 +24,7 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
 export async function registerRoutes(app: Express) {
   app.post("/api/contact", async (req, res) => {
     try {
-      const { recaptchaToken, ...formData } = req.body;
-      
-      if (!recaptchaToken) {
-        return res.status(400).json({ message: "reCAPTCHA verification is required" });
-      }
-      
-      const isValidCaptcha = await verifyRecaptcha(recaptchaToken);
-      
-      if (!isValidCaptcha) {
-        return res.status(400).json({ message: "reCAPTCHA verification failed. Please try again." });
-      }
-      
-      const data = insertContactMessageSchema.omit({ recaptchaToken: true }).parse(formData);
+      const data = insertContactMessageSchema.parse(req.body);
       const message = await storage.createContactMessage(data);
 
       // Send email
@@ -84,16 +72,9 @@ export async function registerRoutes(app: Express) {
 
   app.post("/api/starter-form", async (req, res) => {
     try {
-      const { recaptchaToken, ...formData } = req.body;
-      const isValidCaptcha = await verifyRecaptcha(recaptchaToken);
-      
-      if (!isValidCaptcha) {
-        return res.status(400).json({ message: "reCAPTCHA verification failed. Please try again." });
-      }
-      
-      console.log('Received starter form data:', { ...formData, accountNumber: '****' });
+      console.log('Received starter form data:', { ...req.body, accountNumber: '****' });
 
-      const data = starterFormSchema.omit({ recaptchaToken: true }).parse(formData);
+      const data = starterFormSchema.parse(req.body);
       console.log('Data parsed successfully with schema');
 
       // Attempt to send email notification (non-blocking)

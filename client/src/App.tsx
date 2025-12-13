@@ -1,7 +1,6 @@
 import { Switch, Route, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -50,18 +49,16 @@ function App() {
   }, []);
 
   return (
-    <GoogleReCaptchaProvider reCaptchaKey="6LdzfSosAAAAAGd6F6AMq7qPdp92K32Mi3zpwOG6">
-      <QueryClientProvider client={queryClient}>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-1">
-            <Router />
-          </main>
-          <Footer />
-        </div>
-        <Toaster />
-      </QueryClientProvider>
-    </GoogleReCaptchaProvider>
+    <QueryClientProvider client={queryClient}>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-1">
+          <Router />
+        </main>
+        <Footer />
+      </div>
+      <Toaster />
+    </QueryClientProvider>
   );
 }
 

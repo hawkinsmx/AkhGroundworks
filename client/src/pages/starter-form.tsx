@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { starterFormSchema, type StarterFormData } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -34,7 +33,6 @@ const roles = ["Groundworker", "Plant Operator", "Supervisor", "Other"] as const
 export default function StarterForm() {
   const [step, setStep] = useState(1);
   const { toast } = useToast();
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const form = useForm<StarterFormData>({
     resolver: zodResolver(starterFormSchema),
@@ -56,7 +54,6 @@ export default function StarterForm() {
       sortCode: "",
       accountNumber: "",
       niNumber: "",
-      recaptchaToken: "",
     },
   });
 
@@ -115,25 +112,14 @@ export default function StarterForm() {
     }
 
     try {
-      if (!executeRecaptcha) {
-        toast({
-          title: "Error",
-          description: "reCAPTCHA is not loaded. Please refresh and try again.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      const token = await executeRecaptcha("starter_form");
-      const submitData = { ...data, recaptchaToken: token };
-      console.log('Submitting form data:', { ...submitData, accountNumber: '****' });
+      console.log('Submitting form data:', { ...data, accountNumber: '****' });
 
       const response = await fetch('/api/starter-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(submitData),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
