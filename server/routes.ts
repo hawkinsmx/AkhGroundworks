@@ -14,6 +14,7 @@ async function verifyHCaptcha(token: string): Promise<boolean> {
       body: `secret=${process.env.HCAPTCHA_SECRET_KEY}&response=${token}`
     });
     const data = await response.json();
+    console.log('hCaptcha verification response:', { success: data.success, token: token.substring(0, 20) + '...' });
     return data.success;
   } catch (error) {
     console.error('hCaptcha verification error:', error);
@@ -27,13 +28,17 @@ export async function registerRoutes(app: Express) {
       const { hcaptchaToken, ...formData } = req.body;
       
       if (!hcaptchaToken) {
+        console.log('Contact form: No hCaptcha token provided');
         return res.status(400).json({ message: "hCaptcha verification is required" });
       }
       
+      console.log('Contact form: Verifying token', hcaptchaToken.substring(0, 20) + '...');
       const isValidCaptcha = await verifyHCaptcha(hcaptchaToken);
       if (!isValidCaptcha) {
+        console.log('Contact form: hCaptcha verification failed');
         return res.status(400).json({ message: "hCaptcha verification failed. Please try again." });
       }
+      console.log('Contact form: hCaptcha verification passed');
       
       const data = insertContactMessageSchema.omit({ hcaptchaToken: true }).parse(formData);
       const message = await storage.createContactMessage(data);
@@ -86,13 +91,17 @@ export async function registerRoutes(app: Express) {
       const { hcaptchaToken, ...formData } = req.body;
       
       if (!hcaptchaToken) {
+        console.log('Starter form: No hCaptcha token provided');
         return res.status(400).json({ message: "hCaptcha verification is required" });
       }
       
+      console.log('Starter form: Verifying token', hcaptchaToken.substring(0, 20) + '...');
       const isValidCaptcha = await verifyHCaptcha(hcaptchaToken);
       if (!isValidCaptcha) {
+        console.log('Starter form: hCaptcha verification failed');
         return res.status(400).json({ message: "hCaptcha verification failed. Please try again." });
       }
+      console.log('Starter form: hCaptcha verification passed');
       
       console.log('Received starter form data:', { ...formData, accountNumber: '****' });
 

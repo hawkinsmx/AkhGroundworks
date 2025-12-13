@@ -139,7 +139,7 @@ export default function StarterForm() {
     }
 
     try {
-      const token = window.hcaptcha?.getResponse(captchaRef.current)?.response;
+      const token = window.hcaptcha?.getResponse(captchaRef.current);
       if (!token) {
         toast({
           title: "Error",

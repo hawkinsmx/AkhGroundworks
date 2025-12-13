@@ -101,7 +101,7 @@ export default function Contact() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit((data) => {
-                    const token = window.hcaptcha?.getResponse(captchaRef.current)?.response;
+                    const token = window.hcaptcha?.getResponse(captchaRef.current);
                     if (!token) {
                       toast({
                         title: "Error",
