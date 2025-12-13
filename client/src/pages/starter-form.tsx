@@ -36,7 +36,7 @@ declare global {
 }
 
 const roles = ["Groundworker", "Plant Operator", "Supervisor", "Other"] as const;
-const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001';
+const HCAPTCHA_SITE_KEY = '530c5682-aa50-41e2-885a-25345aa89174';
 
 export default function StarterForm() {
   const [step, setStep] = useState(1);
