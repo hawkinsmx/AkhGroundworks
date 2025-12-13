@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -24,13 +24,17 @@ import { motion } from "framer-motion";
 declare global {
   interface Window {
     hcaptcha?: any;
+    onHCaptchaLoad?: () => void;
   }
 }
+
+const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001';
 
 export default function Contact() {
   const { toast } = useToast();
   const captchaContainerRef = useRef<HTMLDivElement>(null);
-  const captchaRef = useRef<any>(null);
+  const [widgetId, setWidgetId] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string>("");
   
   const form = useForm<InsertContactMessage>({
     resolver: zodResolver(insertContactMessageSchema),
@@ -43,27 +47,44 @@ export default function Contact() {
     },
   });
 
+  const renderCaptcha = useCallback(() => {
+    if (captchaContainerRef.current && window.hcaptcha && widgetId === null) {
+      const id = window.hcaptcha.render(captchaContainerRef.current, {
+        sitekey: HCAPTCHA_SITE_KEY,
+        theme: 'light',
+        callback: (token: string) => {
+          setCaptchaToken(token);
+        },
+        'expired-callback': () => {
+          setCaptchaToken("");
+        }
+      });
+      setWidgetId(id);
+    }
+  }, [widgetId]);
+
   useEffect(() => {
-    const loadHCaptcha = () => {
-      if (captchaContainerRef.current && !captchaRef.current && window.hcaptcha) {
-        captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
-          sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
-          theme: 'light'
-        });
+    const existingScript = document.querySelector('script[src*="hcaptcha.com"]');
+    if (existingScript) {
+      if (window.hcaptcha) {
+        renderCaptcha();
       }
+      return;
+    }
+
+    window.onHCaptchaLoad = () => {
+      renderCaptcha();
     };
 
-    if (!window.hcaptcha) {
-      const hcaptchaScript = document.createElement('script');
-      hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js?render=explicit';
-      hcaptchaScript.async = true;
-      hcaptchaScript.defer = true;
-      hcaptchaScript.onload = loadHCaptcha;
-      document.head.appendChild(hcaptchaScript);
-    } else {
-      loadHCaptcha();
-    }
-  }, []);
+    const script = document.createElement('script');
+    script.src = 'https://js.hcaptcha.com/1/api.js?onload=onHCaptchaLoad&render=explicit';
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      window.onHCaptchaLoad = undefined;
+    };
+  }, [renderCaptcha]);
 
   const mutation = useMutation({
     mutationFn: async (data: InsertContactMessage) => {
@@ -75,8 +96,9 @@ export default function Contact() {
         description: "We'll get back to you as soon as possible.",
       });
       form.reset();
-      if (window.hcaptcha && captchaRef.current) {
-        window.hcaptcha.reset(captchaRef.current);
+      setCaptchaToken("");
+      if (window.hcaptcha && widgetId !== null) {
+        window.hcaptcha.reset(widgetId);
       }
     },
     onError: () => {
@@ -105,11 +127,7 @@ export default function Contact() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit((data) => {
-                    const token = window.hcaptcha?.getResponse(captchaRef.current);
-                    console.log('Token captured:', token ? 'YES' : 'NO', token?.substring(0, 20) || 'empty');
-                    console.log('Captcha ref:', captchaRef.current);
-                    console.log('Window hcaptcha:', !!window.hcaptcha);
-                    if (!token) {
+                    if (!captchaToken) {
                       toast({
                         title: "Error",
                         description: "Please complete the hCaptcha verification",
@@ -117,7 +135,7 @@ export default function Contact() {
                       });
                       return;
                     }
-                    mutation.mutate({ ...data, hcaptchaToken: token });
+                    mutation.mutate({ ...data, hcaptchaToken: captchaToken });
                   })}
                   className="space-y-6"
                 >

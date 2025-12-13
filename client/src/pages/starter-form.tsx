@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { Link } from "wouter";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,40 +31,60 @@ import { motion } from "framer-motion";
 declare global {
   interface Window {
     hcaptcha?: any;
+    onHCaptchaLoadStarter?: () => void;
   }
 }
 
 const roles = ["Groundworker", "Plant Operator", "Supervisor", "Other"] as const;
+const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001';
 
 export default function StarterForm() {
   const [step, setStep] = useState(1);
   const { toast } = useToast();
   const captchaContainerRef = useRef<HTMLDivElement>(null);
-  const captchaRef = useRef<any>(null);
+  const [widgetId, setWidgetId] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string>("");
+
+  const renderCaptcha = useCallback(() => {
+    if (step === 3 && captchaContainerRef.current && window.hcaptcha && widgetId === null) {
+      const id = window.hcaptcha.render(captchaContainerRef.current, {
+        sitekey: HCAPTCHA_SITE_KEY,
+        theme: 'light',
+        callback: (token: string) => {
+          setCaptchaToken(token);
+        },
+        'expired-callback': () => {
+          setCaptchaToken("");
+        }
+      });
+      setWidgetId(id);
+    }
+  }, [step, widgetId]);
 
   useEffect(() => {
-    const loadHCaptcha = () => {
-      if (step === 3 && captchaContainerRef.current && !captchaRef.current && window.hcaptcha) {
-        captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
-          sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
-          theme: 'light'
-        });
+    if (step !== 3) return;
+
+    const existingScript = document.querySelector('script[src*="hcaptcha.com"]');
+    if (existingScript) {
+      if (window.hcaptcha) {
+        renderCaptcha();
       }
+      return;
+    }
+
+    window.onHCaptchaLoadStarter = () => {
+      renderCaptcha();
     };
 
-    if (step === 3) {
-      if (!window.hcaptcha) {
-        const hcaptchaScript = document.createElement('script');
-        hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js?render=explicit';
-        hcaptchaScript.async = true;
-        hcaptchaScript.defer = true;
-        hcaptchaScript.onload = loadHCaptcha;
-        document.head.appendChild(hcaptchaScript);
-      } else {
-        loadHCaptcha();
-      }
-    }
-  }, [step]);
+    const script = document.createElement('script');
+    script.src = 'https://js.hcaptcha.com/1/api.js?onload=onHCaptchaLoadStarter&render=explicit';
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      window.onHCaptchaLoadStarter = undefined;
+    };
+  }, [step, renderCaptcha]);
 
   const form = useForm<StarterFormData>({
     resolver: zodResolver(starterFormSchema),
@@ -145,8 +165,7 @@ export default function StarterForm() {
     }
 
     try {
-      const token = window.hcaptcha?.getResponse(captchaRef.current);
-      if (!token) {
+      if (!captchaToken) {
         toast({
           title: "Error",
           description: "Please complete the hCaptcha verification",
@@ -155,8 +174,7 @@ export default function StarterForm() {
         return;
       }
 
-      const submitData = { ...data, hcaptchaToken: token };
-      console.log('Submitting form data:', { ...submitData, accountNumber: '****' });
+      const submitData = { ...data, hcaptchaToken: captchaToken };
 
       const response = await fetch('/api/starter-form', {
         method: 'POST',
@@ -177,6 +195,10 @@ export default function StarterForm() {
       });
 
       form.reset();
+      setCaptchaToken("");
+      if (window.hcaptcha && widgetId !== null) {
+        window.hcaptcha.reset(widgetId);
+      }
       setStep(4);
     } catch (error) {
       console.error('Error submitting form:', error);
