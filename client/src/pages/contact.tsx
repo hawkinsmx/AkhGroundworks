@@ -44,20 +44,24 @@ export default function Contact() {
   });
 
   useEffect(() => {
-    if (captchaContainerRef.current && !captchaRef.current) {
+    const loadHCaptcha = () => {
+      if (captchaContainerRef.current && !captchaRef.current && window.hcaptcha) {
+        captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
+          sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
+          theme: 'light'
+        });
+      }
+    };
+
+    if (!window.hcaptcha) {
       const hcaptchaScript = document.createElement('script');
-      hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js';
+      hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js?render=explicit';
       hcaptchaScript.async = true;
       hcaptchaScript.defer = true;
+      hcaptchaScript.onload = loadHCaptcha;
       document.head.appendChild(hcaptchaScript);
-      hcaptchaScript.onload = () => {
-        if (window.hcaptcha && captchaContainerRef.current) {
-          captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
-            sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
-            theme: 'light'
-          });
-        }
-      };
+    } else {
+      loadHCaptcha();
     }
   }, []);
 

@@ -43,20 +43,26 @@ export default function StarterForm() {
   const captchaRef = useRef<any>(null);
 
   useEffect(() => {
-    if (step === 3 && captchaContainerRef.current && !captchaRef.current) {
-      const hcaptchaScript = document.createElement('script');
-      hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js';
-      hcaptchaScript.async = true;
-      hcaptchaScript.defer = true;
-      document.head.appendChild(hcaptchaScript);
-      hcaptchaScript.onload = () => {
-        if (window.hcaptcha && captchaContainerRef.current) {
-          captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
-            sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
-            theme: 'light'
-          });
-        }
-      };
+    const loadHCaptcha = () => {
+      if (step === 3 && captchaContainerRef.current && !captchaRef.current && window.hcaptcha) {
+        captchaRef.current = window.hcaptcha.render(captchaContainerRef.current, {
+          sitekey: import.meta.env.VITE_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001',
+          theme: 'light'
+        });
+      }
+    };
+
+    if (step === 3) {
+      if (!window.hcaptcha) {
+        const hcaptchaScript = document.createElement('script');
+        hcaptchaScript.src = 'https://js.hcaptcha.com/1/api.js?render=explicit';
+        hcaptchaScript.async = true;
+        hcaptchaScript.defer = true;
+        hcaptchaScript.onload = loadHCaptcha;
+        document.head.appendChild(hcaptchaScript);
+      } else {
+        loadHCaptcha();
+      }
     }
   }, [step]);
 
