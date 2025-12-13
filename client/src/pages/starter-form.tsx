@@ -67,7 +67,7 @@ export default function StarterForm() {
 
   const handleNext = async () => {
     try {
-      let fieldsToValidate: string[] = [];
+      let fieldsToValidate: Array<keyof StarterFormData> = [];
 
       switch (step) {
         case 1:
@@ -172,8 +172,8 @@ export default function StarterForm() {
     remove(index);
   };
 
-  const updateQualification = (index: number, field: string, value: string | File | null) => {
-    form.setValue(`qualifications.${index}.${field}`, value);
+  const updateQualification = (index: number, field: 'type' | 'qualification' | 'registrationNumber' | 'expiryDate' | 'photo', value: string | File | null) => {
+    form.setValue(`qualifications.${index}.${field}` as any, value);
   };
 
   const handlePhotoChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {

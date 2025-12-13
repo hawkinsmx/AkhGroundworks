@@ -25,6 +25,11 @@ export async function registerRoutes(app: Express) {
   app.post("/api/contact", async (req, res) => {
     try {
       const { recaptchaToken, ...formData } = req.body;
+      
+      if (!recaptchaToken) {
+        return res.status(400).json({ message: "reCAPTCHA verification is required" });
+      }
+      
       const isValidCaptcha = await verifyRecaptcha(recaptchaToken);
       
       if (!isValidCaptcha) {
