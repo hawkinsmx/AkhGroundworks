@@ -51,7 +51,7 @@ interface StarterFormEmail {
 export async function sendContactFormEmail(data: ContactFormEmail): Promise<boolean> {
   try {
     await mailService.send({
-      to: "contact@akhgroundworks.co.uk",
+      to: "info@akhgroundworks.co.uk",
       from: "contact@akhgroundworks.co.uk",
       replyTo: "info@akhgroundworks.co.uk",
       subject: `New Contact Form Submission from ${data.name}`,
@@ -89,7 +89,7 @@ export async function sendJobApplicationEmail(data: JobApplicationEmail): Promis
       .join('\n');
 
     await mailService.send({
-      to: "contact@akhgroundworks.co.uk",
+      to: "info@akhgroundworks.co.uk",
       from: "contact@akhgroundworks.co.uk",
       replyTo: "info@akhgroundworks.co.uk",
       subject: `New Job Application from ${data.name}`,
