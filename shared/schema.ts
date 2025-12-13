@@ -20,6 +20,7 @@ export const insertContactMessageSchema = createInsertSchema(contactMessages).pi
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(10, "Please enter a valid phone number"),
   message: z.string().min(10, "Message must be at least 10 characters"),
+  recaptchaToken: z.string().min(1, "reCAPTCHA verification is required"),
 });
 
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;
@@ -78,7 +79,8 @@ export const starterFormSchema = z.object({
   accountName: z.string().min(1, "Account name is required"),
   sortCode: z.string().min(1, "Sort code is required"),
   accountNumber: z.string().min(1, "Account number is required"),
-  niNumber: z.string().min(1, "National Insurance Number is required")
+  niNumber: z.string().min(1, "National Insurance Number is required"),
+  recaptchaToken: z.string().min(1, "reCAPTCHA verification is required")
 });
 
 export type StarterFormData = z.infer<typeof starterFormSchema>;
