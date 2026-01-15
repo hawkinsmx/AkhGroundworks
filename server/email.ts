@@ -12,6 +12,7 @@ interface ContactFormEmail {
   name: string;
   email: string;
   phone: string;
+  service: string;
   message: string;
 }
 
@@ -54,11 +55,12 @@ export async function sendContactFormEmail(data: ContactFormEmail): Promise<bool
       to: "info@akhgroundworks.co.uk",
       from: "contact@akhgroundworks.co.uk",
       replyTo: "info@akhgroundworks.co.uk",
-      subject: `New Contact Form Submission from ${data.name}`,
+      subject: `New Contact Form Submission from ${data.name} - ${data.service}`,
       text: `
 Name: ${data.name}
 Email: ${data.email}
 Phone: ${data.phone}
+Service Required: ${data.service}
 
 Message:
 ${data.message}
@@ -68,6 +70,7 @@ ${data.message}
 <p><strong>Name:</strong> ${data.name}</p>
 <p><strong>Email:</strong> ${data.email}</p>
 <p><strong>Phone:</strong> ${data.phone}</p>
+<p><strong>Service Required:</strong> ${data.service}</p>
 <h3>Message:</h3>
 <p>${data.message}</p>
       `,

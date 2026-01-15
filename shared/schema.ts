@@ -7,18 +7,34 @@ export const contactMessages = pgTable("contact_messages", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
+  service: text("service").notNull(),
   message: text("message").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const contactServiceOptions = [
+  "Groundworks",
+  "Civil Engineering", 
+  "Deep Drainage",
+  "Slabbing",
+  "Fencing",
+  "Landscaping",
+  "Drainage",
+  "Block Paving",
+  "Driveways",
+  "Other"
+] as const;
 
 export const insertContactMessageSchema = createInsertSchema(contactMessages).pick({
   name: true,
   email: true,
   phone: true,
+  service: true,
   message: true,
 }).extend({
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().min(10, "Please enter a valid phone number"),
+  service: z.string().min(1, "Please select a service"),
   message: z.string().min(10, "Message must be at least 10 characters"),
   hcaptchaToken: z.string().optional(),
 });
