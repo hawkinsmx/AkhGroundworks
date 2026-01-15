@@ -74,7 +74,9 @@ export const SERVICES = [
       "Fencing",
       "Landscaping",
       "Block Paving",
-      "Driveways"
+      "Driveways",
+      "Foundations",
+      "Home Extensions"
     ],
     images: []
   }
