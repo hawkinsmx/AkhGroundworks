@@ -64,7 +64,7 @@ export const SERVICES = [
       "Drainage Systems",
       "Public Works"
     ],
-    images: []
+    images: ["/images/infrastructure-development/infrastructure-1.jpg", "/images/infrastructure-development/infrastructure-2.jpg", "/images/infrastructure-development/infrastructure-3.jpg"]
   },
   {
     title: "Small Works",
