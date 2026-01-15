@@ -5,7 +5,8 @@ import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { motion } from "framer-motion";
 import { COMPANY_LOGO } from "@/lib/constants";
 import { 
-  ArrowRight, 
+  ArrowRight,
+  ArrowLeft, 
   Layers, 
   TreePine, 
   Droplets, 
@@ -235,6 +236,7 @@ export default function SmallWorks() {
                       <Button size="lg" className="w-full text-lg">
                         <ArrowRight className="mr-2 h-5 w-5" />
                         Get in Touch
+                        <ArrowLeft className="ml-2 h-5 w-5" />
                       </Button>
                     </Link>
                   </div>
