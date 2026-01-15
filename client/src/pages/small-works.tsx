@@ -29,7 +29,7 @@ const smallWorksServices = [
     title: "Landscaping",
     description: "Transform your outdoor space with our comprehensive landscaping and fencing services.",
     icon: TreePine,
-    features: ["Garden Design", "Turfing", "Planting", "Retaining Walls", "Gate Installation", "Panel Fencing"]
+    features: ["Garden Design", "Turfing", "Retaining Walls", "Gate Installation", "Panel Fencing"]
   },
   {
     title: "Drainage",
