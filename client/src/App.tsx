@@ -13,6 +13,7 @@ import Apply from "@/pages/apply";
 import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
 import StarterForm from "@/pages/starter-form";
+import SmallWorks from "@/pages/small-works";
 
 function Router() {
   const [location] = useLocation();
@@ -26,6 +27,7 @@ function Router() {
         <Route path="/apply" component={Apply} />
         <Route path="/contact" component={Contact} />
         <Route path="/starter-form" component={StarterForm} />
+        <Route path="/small-works" component={SmallWorks} />
         <Route component={NotFound} />
       </Switch>
     </AnimatePresence>
