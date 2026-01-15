@@ -87,7 +87,7 @@ export default function SmallWorks() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              <span className="inline-block px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-semibold mb-6 border border-primary/30">
+              <span className="inline-block px-4 py-2 bg-primary/20 text-primary rounded-full text-sm mb-6 border border-primary/30 font-ethnocentric">
                 Small Works Division
               </span>
             </motion.div>
