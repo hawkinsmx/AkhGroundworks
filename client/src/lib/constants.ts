@@ -20,7 +20,7 @@ export const SERVICES = [
       "Balancing Ponds",
       "Pumping Stations"
     ],
-    images: []
+    images: ["/images/civil-engineering/civil-engineering-1.jpg", "/images/civil-engineering/civil-engineering-2.jpg", "/images/civil-engineering/civil-engineering-3.jpg"]
   },
   {
     title: "Deep Drainage",
