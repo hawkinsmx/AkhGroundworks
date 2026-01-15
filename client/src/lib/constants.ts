@@ -28,7 +28,8 @@ export const SERVICES = [
     services: [
       "Deep Drainage",
       "Manhole Installation",
-      "Benching"
+      "Benching",
+      "Ground Stabilisation"
     ],
     images: ["/images/IMG_012799.png", "/images/999.png", "/images/46ED5F4B-1ED0-4F22-A41A-691919DD2391.jpg", "/images/5580763D-7A05-4AF6-B4ED-B71DDDBA212B.jpg"]
   },
