@@ -7,7 +7,6 @@ import { COMPANY_LOGO } from "@/lib/constants";
 import { 
   ArrowRight, 
   Layers, 
-  Fence, 
   TreePine, 
   Droplets, 
   LayoutGrid, 
@@ -28,16 +27,10 @@ const smallWorksServices = [
     features: ["Patio Installation", "Pathway Design", "Natural Stone", "Concrete Slabs"]
   },
   {
-    title: "Fencing",
-    description: "Secure and stylish fencing solutions for residential and commercial properties.",
-    icon: Fence,
-    features: ["Panel Fencing", "Close Board", "Post & Rail", "Gate Installation"]
-  },
-  {
     title: "Landscaping",
-    description: "Transform your outdoor space with our comprehensive landscaping services.",
+    description: "Transform your outdoor space with our comprehensive landscaping and fencing services.",
     icon: TreePine,
-    features: ["Garden Design", "Turfing", "Planting", "Retaining Walls"]
+    features: ["Garden Design", "Turfing", "Planting", "Retaining Walls", "Gate Installation", "Panel Fencing"]
   },
   {
     title: "Drainage",
@@ -206,8 +199,7 @@ export default function SmallWorks() {
                 <div className="space-y-4">
                   {[
                     "Slabbing & Patio Installation",
-                    "Fencing & Gate Installation",
-                    "Landscaping & Garden Design",
+                    "Landscaping & Fencing",
                     "Drainage Solutions",
                     "Block Paving",
                     "Driveway Installation",
