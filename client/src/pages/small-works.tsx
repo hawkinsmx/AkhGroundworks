@@ -224,13 +224,10 @@ export default function SmallWorks() {
                 <div className="relative bg-card border border-border rounded-3xl p-8 md:p-12">
                   <div className="text-center">
                     <img 
-                      src={COMPANY_LOGO} 
-                      alt="AKH Groundworks" 
-                      className="h-20 w-auto mx-auto mb-4"
+                      src="/attached_assets/Vector_file_transparent_1768485236545.png" 
+                      alt="AKH Groundworks Small Works Division" 
+                      className="h-32 w-auto mx-auto mb-6"
                     />
-                    <span className="inline-block text-lg mb-4 font-ethnocentric tracking-wide" style={{ color: '#929497' }}>
-                      Small Works Division
-                    </span>
                     <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
                     <p className="text-muted-foreground mb-8">
                       Contact our small works team today for a free consultation and quote.
