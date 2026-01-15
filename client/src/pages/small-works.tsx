@@ -224,7 +224,7 @@ export default function SmallWorks() {
                 <div className="relative bg-card border border-border rounded-3xl p-8 md:p-12">
                   <div className="text-center">
                     <img 
-                      src="/attached_assets/Vector_file_transparent_1768485236545.png" 
+                      src="/small-works-logo.png" 
                       alt="AKH Groundworks Small Works Division" 
                       className="h-32 w-auto mx-auto mb-6"
                     />
