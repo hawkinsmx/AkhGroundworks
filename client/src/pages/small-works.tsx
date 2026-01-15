@@ -259,7 +259,7 @@ export default function SmallWorks() {
             <div className="flex flex-col sm:flex-row gap-6">
               <div>
                 <h3 className="text-xl font-bold text-primary-foreground mb-4">Why Choose Us</h3>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {[
                     "Free, no-obligation quotes",
                     "Fully insured and certified",
@@ -268,8 +268,8 @@ export default function SmallWorks() {
                     "Competitive pricing"
                   ].map((item, index) => (
                     <div key={index} className="flex items-center gap-2 text-primary-foreground">
-                      <CheckCircle2 className="h-4 w-4 flex-shrink-0" style={{ color: '#6B7B8C' }} />
-                      <span className="text-sm">{item}</span>
+                      <CheckCircle2 className="h-5 w-5 flex-shrink-0" style={{ color: '#6B7B8C' }} />
+                      <span>{item}</span>
                     </div>
                   ))}
                 </div>
