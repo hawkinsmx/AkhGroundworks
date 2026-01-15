@@ -191,11 +191,12 @@ export default function SmallWorks() {
                 </p>
                 <div className="space-y-4">
                   {[
-                    "Free, no-obligation quotes",
-                    "Fully insured and certified",
-                    "Quality materials guaranteed",
-                    "Clean and tidy workmanship",
-                    "Competitive pricing"
+                    "Slabbing & Patio Installation",
+                    "Fencing & Gate Installation",
+                    "Landscaping & Garden Design",
+                    "Drainage Solutions",
+                    "Block Paving",
+                    "Driveway Installation"
                   ].map((item, index) => (
                     <motion.div 
                       key={index}
@@ -256,15 +257,14 @@ export default function SmallWorks() {
           
           <div className="flex flex-col md:flex-row items-start justify-between gap-8">
             <div className="flex-1">
-              <h3 className="text-xl font-bold text-primary-foreground mb-4">Works We Perform</h3>
+              <h3 className="text-xl font-bold text-primary-foreground mb-4">Why Choose Us</h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {[
-                  "Slabbing & Patio Installation",
-                  "Fencing & Gate Installation",
-                  "Landscaping & Garden Design",
-                  "Drainage Solutions",
-                  "Block Paving",
-                  "Driveway Installation"
+                  "Free, no-obligation quotes",
+                  "Fully insured and certified",
+                  "Quality materials guaranteed",
+                  "Clean and tidy workmanship",
+                  "Competitive pricing"
                 ].map((item, index) => (
                   <div key={index} className="flex items-center gap-2 text-primary-foreground">
                     <CheckCircle2 className="h-4 w-4 flex-shrink-0" />
