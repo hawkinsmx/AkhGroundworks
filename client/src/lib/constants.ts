@@ -82,7 +82,25 @@ export const SERVICES = [
   }
 ];
 
-export const PORTFOLIO_IMAGES: { src: string; alt: string; title: string }[] = [];
+export const PORTFOLIO_IMAGES: { src: string; alt: string; title: string }[] = [
+  { src: "/images/groundworks/groundworks-1.jpg", alt: "Groundworks project", title: "Groundworks" },
+  { src: "/images/groundworks/groundworks-2.jpg", alt: "Groundworks project", title: "Groundworks" },
+  { src: "/images/groundworks/groundworks-3.jpg", alt: "Groundworks project", title: "Groundworks" },
+  { src: "/images/groundworks/groundworks-4.jpg", alt: "Groundworks project", title: "Groundworks" },
+  { src: "/images/groundworks/groundworks-5.jpg", alt: "Groundworks project", title: "Groundworks" },
+  { src: "/images/civil-engineering/civil-engineering-1.jpg", alt: "Civil engineering project", title: "Civil Engineering" },
+  { src: "/images/civil-engineering/civil-engineering-2.jpg", alt: "Civil engineering project", title: "Civil Engineering" },
+  { src: "/images/civil-engineering/civil-engineering-3.jpg", alt: "Civil engineering project", title: "Civil Engineering" },
+  { src: "/images/deep-drainage/deep-drainage-1.jpg", alt: "Deep drainage installation", title: "Deep Drainage" },
+  { src: "/images/deep-drainage/deep-drainage-2.jpg", alt: "Deep drainage installation", title: "Deep Drainage" },
+  { src: "/images/deep-drainage/deep-drainage-3.jpg", alt: "Deep drainage installation", title: "Deep Drainage" },
+  { src: "/images/site-preparation/site-preparation-1.jpg", alt: "Site preparation work", title: "Site Preparation" },
+  { src: "/images/site-preparation/site-preparation-2.jpg", alt: "Site preparation work", title: "Site Preparation" },
+  { src: "/images/infrastructure-development/infrastructure-1.jpg", alt: "Infrastructure development", title: "Infrastructure Development" },
+  { src: "/images/infrastructure-development/infrastructure-2.jpg", alt: "Infrastructure development", title: "Infrastructure Development" },
+  { src: "/images/infrastructure-development/infrastructure-3.jpg", alt: "Infrastructure development", title: "Infrastructure Development" },
+  { src: "/images/infrastructure-development/infrastructure-4.jpg", alt: "Infrastructure development", title: "Infrastructure Development" }
+];
 
 export const COMPANY_COLLABORATIONS = [
   {
