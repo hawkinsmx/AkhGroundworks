@@ -42,7 +42,7 @@ export const SERVICES = [
       "Soil Stabilization",
       "Environmental Protection"
     ],
-    images: []
+    images: ["/images/site-preparation/site-preparation-1.jpg", "/images/site-preparation/site-preparation-2.jpg"]
   },
   {
     title: "Foundation Work",
