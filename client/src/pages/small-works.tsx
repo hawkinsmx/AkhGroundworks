@@ -87,7 +87,7 @@ export default function SmallWorks() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              <span className="inline-block text-sm mb-6 font-ethnocentric" style={{ color: '#929497' }}>
+              <span className="inline-block text-2xl md:text-3xl mb-6 font-ethnocentric tracking-wide" style={{ color: '#929497' }}>
                 Small Works Division
               </span>
             </motion.div>
