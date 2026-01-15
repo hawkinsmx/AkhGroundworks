@@ -246,49 +246,51 @@ export default function SmallWorks() {
 
       <section className="py-16 bg-primary">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
-              Transform Your Outdoor Space
-            </h2>
-            <p className="text-primary-foreground/80 text-lg">
-              Get in touch for a free quote on your next project
-            </p>
-          </div>
-          
           <div className="flex flex-col md:flex-row items-start justify-between gap-8">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold text-primary-foreground mb-4">Why Choose Us</h3>
-              <div className="space-y-2">
-                {[
-                  "Free, no-obligation quotes",
-                  "Fully insured and certified",
-                  "Quality materials guaranteed",
-                  "Clean and tidy workmanship",
-                  "Competitive pricing"
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-2 text-primary-foreground">
-                    <CheckCircle2 className="h-4 w-4 flex-shrink-0" style={{ color: '#6B7B8C' }} />
-                    <span className="text-sm">{item}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="text-left">
+              <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
+                Transform Your Outdoor Space
+              </h2>
+              <p className="text-primary-foreground/80 text-lg">
+                Get in touch for a free quote on your next project
+              </p>
             </div>
             
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center md:text-left">
-              <h3 className="text-xl font-bold text-primary-foreground mb-4">Contact Us</h3>
-              <div className="space-y-3">
-                <a href="tel:07904952238" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
-                  <Phone className="h-5 w-5" />
-                  <span>07904 952238</span>
-                </a>
-                <a href="mailto:info@akhgroundworks.co.uk" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
-                  <Mail className="h-5 w-5" />
-                  <span>info@akhgroundworks.co.uk</span>
-                </a>
-                <a href="https://www.akhgroundworks.co.uk" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
-                  <Globe className="h-5 w-5" />
-                  <span>www.akhgroundworks.co.uk</span>
-                </a>
+            <div className="flex flex-col sm:flex-row gap-6">
+              <div>
+                <h3 className="text-xl font-bold text-primary-foreground mb-4">Why Choose Us</h3>
+                <div className="space-y-2">
+                  {[
+                    "Free, no-obligation quotes",
+                    "Fully insured and certified",
+                    "Quality materials guaranteed",
+                    "Clean and tidy workmanship",
+                    "Competitive pricing"
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center gap-2 text-primary-foreground">
+                      <CheckCircle2 className="h-4 w-4 flex-shrink-0" style={{ color: '#6B7B8C' }} />
+                      <span className="text-sm">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center md:text-left">
+                <h3 className="text-xl font-bold text-primary-foreground mb-4">Contact Us</h3>
+                <div className="space-y-3">
+                  <a href="tel:07904952238" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
+                    <Phone className="h-5 w-5" />
+                    <span>07904 952238</span>
+                  </a>
+                  <a href="mailto:info@akhgroundworks.co.uk" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
+                    <Mail className="h-5 w-5" />
+                    <span>info@akhgroundworks.co.uk</span>
+                  </a>
+                  <a href="https://www.akhgroundworks.co.uk" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
+                    <Globe className="h-5 w-5" />
+                    <span>www.akhgroundworks.co.uk</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
