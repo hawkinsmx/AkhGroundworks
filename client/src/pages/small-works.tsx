@@ -246,7 +246,7 @@ export default function SmallWorks() {
 
       <section className="py-16 bg-primary">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-start justify-between gap-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-left">
               <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-2">
                 Transform Your Outdoor Space
