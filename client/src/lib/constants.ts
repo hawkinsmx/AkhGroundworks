@@ -64,6 +64,18 @@ export const SERVICES = [
       "Public Works"
     ],
     images: ["/images/698C53A0-5177-49D6-8AE7-4572754DE6C5.jpg", "/images/614289E3-D42D-4E47-92B2-7CB0C6373D7F.jpg", "/images/IMG_2320.jpg"]
+  },
+  {
+    title: "Small Works",
+    description: "Our dedicated small works division delivers the same professional quality for residential projects. From garden transformations to driveway installations, we bring expertise to every job.",
+    services: [
+      "Slabbing & Patios",
+      "Fencing",
+      "Landscaping",
+      "Block Paving",
+      "Driveways"
+    ],
+    images: []
   }
 ];
 
