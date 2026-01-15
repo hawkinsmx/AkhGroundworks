@@ -257,7 +257,7 @@ export default function SmallWorks() {
           <div className="flex flex-col md:flex-row items-start justify-between gap-8">
             <div className="flex-1">
               <h3 className="text-xl font-bold text-primary-foreground mb-4">Works We Perform</h3>
-              <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {[
                   "Slabbing & Patio Installation",
                   "Fencing & Gate Installation",
