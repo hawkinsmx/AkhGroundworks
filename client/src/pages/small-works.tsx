@@ -15,7 +15,6 @@ import {
   CheckCircle2,
   Mail,
   Globe,
-  Hammer,
   Home
 } from "lucide-react";
 
@@ -51,16 +50,10 @@ const smallWorksServices = [
     features: ["Tarmac", "Gravel", "Concrete", "Block Paved"]
   },
   {
-    title: "Foundations",
-    description: "Solid foundation work for garden buildings, extensions and outbuildings.",
-    icon: Hammer,
-    features: ["Strip Foundations", "Pad Foundations", "Raft Foundations", "Ground Beams"]
-  },
-  {
     title: "Home Extensions",
-    description: "Professional groundwork preparation for home extension projects.",
+    description: "Professional groundwork and foundation preparation for home extension projects.",
     icon: Home,
-    features: ["Extension Foundations", "Drainage", "Utility Connections", "Ground Preparation"]
+    features: ["Strip Foundations", "Pad Foundations", "Drainage", "Utility Connections", "Ground Preparation"]
   }
 ];
 
@@ -203,8 +196,7 @@ export default function SmallWorks() {
                     "Drainage Solutions",
                     "Block Paving",
                     "Driveway Installation",
-                    "Foundations",
-                    "Home Extensions"
+                    "Home Extensions & Foundations"
                   ].map((item, index) => (
                     <motion.div 
                       key={index}
