@@ -196,7 +196,8 @@ export default function SmallWorks() {
                     "Drainage Solutions",
                     "Block Paving",
                     "Driveway Installation",
-                    "Home Extensions & Foundations"
+                    "Home Extensions & Foundations",
+                    "Retaining Walls"
                   ].map((item, index) => (
                     <motion.div 
                       key={index}
