@@ -95,7 +95,6 @@ export default function SmallWorks() {
 
           <ScrollReveal delay={0.3}>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              <span className="text-foreground">Quality </span>
               <span className="text-primary">Small Works</span>
               <br />
               <span className="text-foreground">Big Results</span>
