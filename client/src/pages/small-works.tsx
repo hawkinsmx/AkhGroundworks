@@ -231,12 +231,12 @@ export default function SmallWorks() {
                     <p className="text-muted-foreground mb-4">
                       Contact our small works team today for a free consultation and quote.
                     </p>
-                    <a href="tel:07904952238">
+                    <Link href="/contact">
                       <Button size="lg" className="w-full text-lg">
-                        <Phone className="mr-2 h-5 w-5" />
-                        07904 952238
+                        <ArrowRight className="mr-2 h-5 w-5" />
+                        Get in Touch
                       </Button>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
