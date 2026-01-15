@@ -230,13 +230,12 @@ export default function SmallWorks() {
                     <p className="text-muted-foreground mb-8">
                       Contact our small works team today for a free consultation and quote.
                     </p>
-                    <Link href="/contact">
-                      <Button size="lg" className="w-full text-lg group">
+                    <a href="tel:07904952238">
+                      <Button size="lg" className="w-full text-lg">
                         <Phone className="mr-2 h-5 w-5" />
-                        Contact Us Today
-                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                        07904 952238
                       </Button>
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -256,12 +255,18 @@ export default function SmallWorks() {
                 Get in touch for a free quote on your next project
               </p>
             </div>
-            <Link href="/contact">
-              <Button size="lg" variant="secondary" className="text-lg px-8 group">
-                Get Your Free Quote
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center md:text-left">
+              <h3 className="text-xl font-bold text-primary-foreground mb-4">Contact Us</h3>
+              <div className="space-y-3">
+                <a href="tel:07904952238" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
+                  <Phone className="h-5 w-5" />
+                  <span>07904 952238</span>
+                </a>
+                <a href="mailto:info@akhgroundworks.co.uk" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
+                  <span>info@akhgroundworks.co.uk</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
