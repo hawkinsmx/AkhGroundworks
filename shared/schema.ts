@@ -16,12 +16,7 @@ export const contactServiceOptions = [
   "Groundworks",
   "Civil Engineering", 
   "Deep Drainage",
-  "Slabbing",
-  "Fencing",
-  "Landscaping",
-  "Drainage",
-  "Block Paving",
-  "Driveways",
+  "Small Works",
   "Other"
 ] as const;
 
