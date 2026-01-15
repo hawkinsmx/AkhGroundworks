@@ -9,7 +9,7 @@ export const SERVICES = [
       "Oversites",
       "External Drainage"
     ],
-    images: ["/images/groundworks/groundworks-1.jpg", "/images/groundworks/groundworks-2.jpg", "/images/groundworks/groundworks-3.jpg", "/images/groundworks/groundworks-4.jpg", "/images/groundworks/groundworks-5.jpg"]
+    images: ["/images/groundworks/groundworks-1.jpg", "/images/groundworks/groundworks-2.jpg", "/images/groundworks/groundworks-3.jpg", "/images/groundworks/groundworks-4.jpg", "/images/groundworks/groundworks-5.jpg", "/images/groundworks/groundworks-6.jpg", "/images/groundworks/groundworks-7.jpg"]
   },
   {
     title: "Civil Engineering",
@@ -88,6 +88,8 @@ export const PORTFOLIO_IMAGES: { src: string; alt: string; title: string }[] = [
   { src: "/images/groundworks/groundworks-3.jpg", alt: "Groundworks project", title: "Groundworks" },
   { src: "/images/groundworks/groundworks-4.jpg", alt: "Groundworks project", title: "Groundworks" },
   { src: "/images/groundworks/groundworks-5.jpg", alt: "Groundworks project", title: "Groundworks" },
+  { src: "/images/groundworks/groundworks-6.jpg", alt: "Groundworks project", title: "Groundworks" },
+  { src: "/images/groundworks/groundworks-7.jpg", alt: "Groundworks project", title: "Groundworks" },
   { src: "/images/civil-engineering/civil-engineering-1.jpg", alt: "Civil engineering project", title: "Civil Engineering" },
   { src: "/images/civil-engineering/civil-engineering-2.jpg", alt: "Civil engineering project", title: "Civil Engineering" },
   { src: "/images/civil-engineering/civil-engineering-3.jpg", alt: "Civil engineering project", title: "Civil Engineering" },
