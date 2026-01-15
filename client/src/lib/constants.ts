@@ -31,7 +31,7 @@ export const SERVICES = [
       "Benching",
       "Ground Stabilisation"
     ],
-    images: []
+    images: ["/images/deep-drainage/deep-drainage-1.jpg"]
   },
   {
     title: "Site Preparation",
