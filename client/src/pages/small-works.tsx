@@ -179,9 +179,6 @@ export default function SmallWorks() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <ScrollReveal>
               <div>
-                <span className="inline-block px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-semibold mb-4">
-                  Why Choose Us
-                </span>
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
                   Professional Service,
                   <br />
@@ -220,16 +217,16 @@ export default function SmallWorks() {
 
             <ScrollReveal delay={0.2}>
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/5 rounded-3xl blur-2xl" />
-                <div className="relative bg-card border border-border rounded-3xl p-8 md:p-12">
+                <img 
+                  src="/small-works-logo.png" 
+                  alt="AKH Groundworks Small Works Division" 
+                  className="h-40 w-auto mx-auto mb-8"
+                />
+                <div className="absolute inset-0 top-48 bg-gradient-to-br from-primary/30 to-primary/5 rounded-3xl blur-2xl" />
+                <div className="relative bg-card border border-border rounded-3xl p-6 md:p-8">
                   <div className="text-center">
-                    <img 
-                      src="/small-works-logo.png" 
-                      alt="AKH Groundworks Small Works Division" 
-                      className="h-32 w-auto mx-auto mb-6"
-                    />
-                    <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
-                    <p className="text-muted-foreground mb-8">
+                    <h3 className="text-2xl font-bold mb-3">Ready to Get Started?</h3>
+                    <p className="text-muted-foreground mb-4">
                       Contact our small works team today for a free consultation and quote.
                     </p>
                     <a href="tel:07904952238">
