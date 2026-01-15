@@ -13,7 +13,9 @@ import {
   LayoutGrid, 
   Car,
   Phone,
-  CheckCircle2
+  CheckCircle2,
+  Mail,
+  Globe
 } from "lucide-react";
 
 const smallWorksServices = [
@@ -224,8 +226,11 @@ export default function SmallWorks() {
                     <img 
                       src={COMPANY_LOGO} 
                       alt="AKH Groundworks" 
-                      className="h-20 w-auto mx-auto mb-6"
+                      className="h-20 w-auto mx-auto mb-4"
                     />
+                    <span className="inline-block text-lg mb-4 font-ethnocentric tracking-wide" style={{ color: '#929497' }}>
+                      Small Works Division
+                    </span>
                     <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
                     <p className="text-muted-foreground mb-8">
                       Contact our small works team today for a free consultation and quote.
@@ -263,7 +268,12 @@ export default function SmallWorks() {
                   <span>07904 952238</span>
                 </a>
                 <a href="mailto:info@akhgroundworks.co.uk" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
+                  <Mail className="h-5 w-5" />
                   <span>info@akhgroundworks.co.uk</span>
+                </a>
+                <a href="https://www.akhgroundworks.co.uk" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground hover:text-white transition-colors">
+                  <Globe className="h-5 w-5" />
+                  <span>www.akhgroundworks.co.uk</span>
                 </a>
               </div>
             </div>
